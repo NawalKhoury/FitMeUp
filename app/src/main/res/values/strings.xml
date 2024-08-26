@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FitMeUp</string>
+    <string name="toolbar_home_description">Home</string>
+    <string name="toolbar_profile_description">Profile</string>
+    <string name="toolbar_target_description">Target</string>
+    <string name="toolbar_exercise_description">Exercise</string>
+    <string name="toolbar_handshake_description">Handshake</string>
+
+
 </resources>
