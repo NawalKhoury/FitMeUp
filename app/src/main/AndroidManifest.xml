@@ -52,6 +52,12 @@
             android:name=".community_activity"
             android:exported="false" />
         <activity
+            android:name=".workOutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReminderPage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
