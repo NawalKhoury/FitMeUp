@@ -40,6 +40,18 @@
             android:name=".HomePage"
             android:exported="false" />
         <activity
+            android:name=".HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".Statistics_activity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".community_activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
