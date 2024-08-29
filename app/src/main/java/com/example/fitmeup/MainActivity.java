@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
+Button b=findViewById(R.id.button);  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -35,5 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 .asGif()
                 .load(R.drawable.logo)  // Ensure the logo.gif is correctly placed in res/drawable
                 .into(imageView);
+
+
     }
 }
