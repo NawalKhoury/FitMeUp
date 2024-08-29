@@ -2,8 +2,15 @@ package com.example.fitmeup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.Button;
+
+import android.view.View;
+import android.widget.Button;
+
+import android.widget.ImageView;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +20,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 
+
+import com.bumptech.glide.Glide;
+
 public class MainActivity extends AppCompatActivity {
 
-Button b=findViewById(R.id.button);  @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
+        // Set the content view
         setContentView(R.layout.activity_main);
+
+
 
 
         ImageView imageView = findViewById(R.id.imageView);
@@ -30,12 +43,20 @@ Button b=findViewById(R.id.button);  @Override
             return insets;
         });
 
+
         // Load GIF using Glide
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.logo)  // Ensure the logo.gif is correctly placed in res/drawable
                 .into(imageView);
 
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);
     }
 }
