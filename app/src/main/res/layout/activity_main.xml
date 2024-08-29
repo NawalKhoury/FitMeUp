@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="397dp"
@@ -20,3 +21,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
