@@ -37,6 +37,9 @@
 
         <!-- MainActivity is the entry point of the application -->
         <activity
+            android:name=".HomePage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
