@@ -2,22 +2,16 @@ package com.example.fitmeup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
-import android.view.View;
-import android.widget.Button;
-
+import android.os.Handler;
 import android.widget.ImageView;
 
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
                 .asGif()
                 .load(R.drawable.logo)  // Ensure the logo.gif is correctly placed in res/drawable
                 .into(imageView);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);
     }
-
-
-
-
-
 }

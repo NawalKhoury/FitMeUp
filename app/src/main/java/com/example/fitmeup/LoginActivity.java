@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (user != null) {
                         // Credentials are correct, open HomeActivity
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, HomePage.class);
                         startActivity(intent);
                         finish(); // Optional: Close LoginActivity
                     } else {

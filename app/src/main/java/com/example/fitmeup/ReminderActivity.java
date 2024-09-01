@@ -81,7 +81,7 @@ public class ReminderActivity extends AppCompatActivity {
         EditText reminderDetails = new EditText(this);
         reminderDetails.setHint("Enter Reminder Details");
         reminderDetails.setTextSize(15);
-        reminderDetails.setTextColor(getResources().getColor(R.color.gray));
+        reminderDetails.setTextColor(getResources().getColor(R.color.black));
         LinearLayout.LayoutParams detailParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         reminderDetails.setLayoutParams(detailParams);
         detailsLayout.addView(reminderDetails);
