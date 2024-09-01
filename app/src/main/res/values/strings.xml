@@ -1,5 +1,23 @@
 <resources>
+
     <string name="app_name">FitMeUp</string>
+    <string-array name="gender_options">
+
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="security_questions">
+        <item>What is your favorite food?</item>
+        <item>What is the name of your favorite movie?</item>
+        <item>Where did you go on your first vacation?</item>
+        <item>What was the name of your first teacher?</item>
+        <item>What is the name of your first pet?</item>
+    </string-array>
+    <string-array name="health_problems_options">
+        <item>Select an option</item>
+        <item>I have health problems</item>
+        <item>I do not have health problems</item>
+    </string-array>
 
     <string name="toolbar_home_description">Home</string>
     <string name="toolbar_profile_description">Profile</string>
