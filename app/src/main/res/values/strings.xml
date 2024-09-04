@@ -27,6 +27,7 @@
     <string name="waterText">Water</string>
     <string name="waterlogo">waterLogo</string>
 
+
     <string name="number_picker_formatter">%02d</string>
 
 </resources>
