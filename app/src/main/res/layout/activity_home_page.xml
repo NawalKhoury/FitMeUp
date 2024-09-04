@@ -22,7 +22,7 @@
             android:background="@color/white_transparent_50">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/rll0xw0yndu"
+                android:id="@+id/ProfilePhoto"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="9dp"
@@ -32,7 +32,7 @@
 
 
             <LinearLayout
-                android:id="@+id/rtwkgarb78ak"
+                android:id="@+id/NameandDate"
                 android:layout_width="224dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/r505jbcu2pvs"
+                    android:id="@+id/Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
@@ -51,7 +51,7 @@
                     android:textSize="17sp" />
 
                 <TextView
-                    android:id="@+id/roor5j85rpt"
+                    android:id="@+id/Date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sun, 18 Apr 2024"
@@ -85,7 +85,7 @@
 
                 <!-- First Section: Date (April 2024) -->
                 <LinearLayout
-                    android:id="@+id/rgi3b81i1dap"
+                    android:id="@+id/dateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="22dp"
@@ -93,7 +93,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/r81wbf8icggw"
+                        android:id="@+id/dateText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -104,7 +104,7 @@
 
                 <!-- Second Section: Weekdays -->
                 <LinearLayout
-                    android:id="@+id/rkzh2e2m9nma"
+                    android:id="@+id/days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -113,7 +113,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/r2hwtc0bhlrg"
+                        android:id="@+id/Sunday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S"
@@ -127,7 +127,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/rc2ux2k6r5z"
+                        android:id="@+id/Monday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="M"
@@ -142,7 +142,7 @@
 
                     <!-- More TextViews for the rest of the weekdays -->
                     <TextView
-                        android:id="@+id/rvyofzyx75h"
+                        android:id="@+id/Tuesday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="T"
@@ -155,7 +155,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/rakwteczvsnq"
+                        android:id="@+id/Wednesday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="W"
@@ -168,7 +168,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/r0ecmff1r06l"
+                        android:id="@+id/Thursday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="T"
@@ -181,7 +181,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/r70vrfag5pfc"
+                        android:id="@+id/Friday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="F"
@@ -194,7 +194,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/rs5yh4hq2pp"
+                        android:id="@+id/Sat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S"
@@ -203,95 +203,289 @@
                 </LinearLayout>
 
                 <!-- Third Section: ProgressBars -->
-                <LinearLayout
-                    android:id="@+id/r0ciif7pi1n7"
+
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:scrollbars="none">
 
-                    <!-- ProgressBars inside the LinearLayout -->
-                    <ProgressBar
-                        android:id="@+id/progressBar1"
-                        style="?android:attr/progressBarStyle"
+                    <LinearLayout
+                        android:id="@+id/r0ciif7pi1n7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <!-- ProgressBars inside the LinearLayout -->
+                        <ProgressBar
+                            android:id="@+id/progressBar1"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <!-- More ProgressBars -->
-                    <ProgressBar
-                        android:id="@+id/progressBar8"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <!-- More ProgressBars -->
+                        <ProgressBar
+                            android:id="@+id/progressBar2"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar3"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <ProgressBar
+                            android:id="@+id/progressBar3"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar4"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <ProgressBar
+                            android:id="@+id/progressBar4"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar5"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <ProgressBar
+                            android:id="@+id/progressBar5"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar6"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        <ProgressBar
+                            android:id="@+id/progressBar6"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar7"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar7"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar8"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar9"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar10"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar11"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar12"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar13"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar14"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar15"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar16"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar17"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar18"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar19"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar20"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar21"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="8dp"
+                            android:layout_weight="1" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar22"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+
+
 
                 <!-- Fourth Section: Daily Walking Info -->
 
@@ -409,7 +603,7 @@
                             android:layout_weight="1" />
 
                         <ProgressBar
-                            android:id="@+id/progressBar2"
+                            android:id="@+id/BigprogressBar"
                             style="?android:attr/progressBarStyle"
                             android:layout_width="157dp"
                             android:layout_height="195dp"
