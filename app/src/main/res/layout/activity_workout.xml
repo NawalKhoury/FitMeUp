@@ -12,20 +12,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingBottom="16dp">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="8dp"
-            app:tint="#1E90FF" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Workout"
+            android:text="                         Select Workout"
             android:textColor="#111111"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -44,6 +39,7 @@
 
         <!-- Running -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_running"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -77,6 +73,7 @@
 
         <!-- Core Training -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_core_training"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -110,6 +107,7 @@
 
         <!-- Pool Swim -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_pool_swim"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -143,6 +141,7 @@
 
         <!-- Martial Arts -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_martial_arts"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -176,6 +175,7 @@
 
         <!-- Yoga -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_yoga"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -209,6 +209,7 @@
 
         <!-- Cycling -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_cycling"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
