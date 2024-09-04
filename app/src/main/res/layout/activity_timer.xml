@@ -62,12 +62,12 @@
                         android:clipToPadding="false">
 
                         <ImageView
-                            android:id="@+id/r93r83kv3xk"
-                            android:layout_width="16dp"
-                            android:layout_height="13dp"
+                            android:id="@+id/backButton"
+                            android:layout_width="32dp"
+                            android:layout_height="27dp"
                             android:layout_alignParentBottom="true"
                             android:layout_marginStart="-3dp"
-                            android:layout_marginBottom="-6dp"
+                            android:layout_marginBottom="0dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/back" />
                     </RelativeLayout>
@@ -85,7 +85,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/rqaknpr9qy2"
+                android:id="@+id/workOutType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

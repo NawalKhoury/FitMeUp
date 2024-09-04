@@ -33,6 +33,7 @@ public class Timer_activity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private int pageCount = 2; // Set this to the number of pages you have
     private TextView workOutType;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,11 @@ public class Timer_activity extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
+        backButton = findViewById(R.id.backButton);
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(Timer_activity.this, community_activity.class)));
         home.setOnClickListener(v -> startActivity(new Intent(Timer_activity.this, HomePage.class)));
+        backButton.setOnClickListener(v -> startActivity(new Intent(this, WorkoutActivity.class)));
 
         viewPager = findViewById(R.id.viewPager);
         indicatorLayout = findViewById(R.id.indicatorLayout);
