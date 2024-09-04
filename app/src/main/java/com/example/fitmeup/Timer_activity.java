@@ -32,6 +32,7 @@ public class Timer_activity extends AppCompatActivity {
     private LinearLayout indicatorLayout;
     private ViewPager2 viewPager;
     private int pageCount = 2; // Set this to the number of pages you have
+    private TextView workOutType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,21 @@ public class Timer_activity extends AppCompatActivity {
 
         // Create indicator dots
         createIndicators(pageCount);
+        String workOutTypeText;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                workOutTypeText= null;
+            } else {
+                workOutTypeText= extras.getString("WORKOUT_TYPE");
+            }
+        } else {
+            workOutTypeText= (String) savedInstanceState.getSerializable("WORKOUT_TYPE");
+        }
+        workOutType = findViewById(R.id.workOutType);
+        workOutType.setText(workOutTypeText);
+
+
 
         // Register a callback for when the page changes
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

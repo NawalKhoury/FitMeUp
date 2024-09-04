@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.card.MaterialCardView;
-import com.example.fitmeup.R;
 
 public class WorkoutActivity extends AppCompatActivity {
 
@@ -37,10 +36,8 @@ public class WorkoutActivity extends AppCompatActivity {
         Toast.makeText(WorkoutActivity.this, "Selected Workout: " + workoutType, Toast.LENGTH_SHORT).show();
 
         // Uncomment this code if you want to navigate to a new activity in the future
-        /*
-        Intent intent = new Intent(WorkoutActivity.this, WorkoutDetailActivity.class);
+        Intent intent = new Intent(WorkoutActivity.this, Timer_activity.class);
         intent.putExtra("WORKOUT_TYPE", workoutType);
         startActivity(intent);
-        */
     }
 }
