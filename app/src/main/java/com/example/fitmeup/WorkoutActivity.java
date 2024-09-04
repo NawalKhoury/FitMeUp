@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import com.google.android.material.card.MaterialCardView;
 import com.example.fitmeup.R;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -14,13 +14,13 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
-        // Initialize CardViews
-        CardView cardRunning = findViewById(R.id.card_running);
-        CardView cardCoreTraining = findViewById(R.id.card_core_training);
-        CardView cardPoolSwim = findViewById(R.id.card_pool_swim);
-        CardView cardMartialArts = findViewById(R.id.card_martial_arts);
-        CardView cardYoga = findViewById(R.id.card_yoga);
-        CardView cardCycling = findViewById(R.id.card_cycling);
+        // Initialize MaterialCardViews
+        MaterialCardView cardRunning = findViewById(R.id.card_running);
+        MaterialCardView cardCoreTraining = findViewById(R.id.card_core_training);
+        MaterialCardView cardPoolSwim = findViewById(R.id.card_pool_swim);
+        MaterialCardView cardMartialArts = findViewById(R.id.card_martial_arts);
+        MaterialCardView cardYoga = findViewById(R.id.card_yoga);
+        MaterialCardView cardCycling = findViewById(R.id.card_cycling);
 
         // Set click listeners for each workout
         cardRunning.setOnClickListener(v -> navigateToWorkoutDetail("Running"));
