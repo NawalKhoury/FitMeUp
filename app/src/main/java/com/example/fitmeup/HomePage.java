@@ -27,6 +27,5 @@ public class HomePage extends AppCompatActivity {
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Timer_activity.class)));
-        home.setOnClickListener(v -> startActivity(new Intent(HomePage.this, HomePage.class)));
     }
 }
