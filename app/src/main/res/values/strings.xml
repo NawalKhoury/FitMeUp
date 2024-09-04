@@ -18,7 +18,6 @@
         <item>I have health problems</item>
         <item>I do not have health problems</item>
     </string-array>
-
     <string name="toolbar_home_description">Home</string>
     <string name="toolbar_profile_description">Profile</string>
     <string name="toolbar_target_description">Target</string>
@@ -28,5 +27,7 @@
     <string name="waterText">Water</string>
     <string name="waterlogo">waterLogo</string>
 
+
+    <string name="number_picker_formatter">%02d</string>
 
 </resources>

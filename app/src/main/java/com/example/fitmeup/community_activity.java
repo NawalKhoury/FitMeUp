@@ -1,5 +1,6 @@
 package com.example.fitmeup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,11 @@ public class community_activity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private EditText input;
     private ListView listView;
+    private ImageButton handshakeButton;
+    private ImageButton home;
+    private ImageButton workout;
+    private ImageButton profile;
+    private ImageButton training;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +35,19 @@ public class community_activity extends AppCompatActivity {
         initializeViews();
         setupListView();
         setupPostButton();
+        setupToolbarButtons();
     }
-
 
     private void initializeViews() {
         input = findViewById(R.id.text_input);
-        Button postButton = findViewById(R.id.Postbutton);
         listView = findViewById(R.id.listView);
+
+        // Initialize ImageButtons after setContentView
+        handshakeButton = findViewById(R.id.toolbar_handshake);
+        home = findViewById(R.id.toolbar_home);
+        workout = findViewById(R.id.toolbar_target);
+        profile = findViewById(R.id.toolbar_profile);
+        training = findViewById(R.id.toolbar_exercise);
 
         // Show keyboard when EditText is clicked
         input.setOnClickListener(v -> showKeyboard(input));
@@ -49,6 +62,29 @@ public class community_activity extends AppCompatActivity {
     private void setupPostButton() {
         Button postButton = findViewById(R.id.Postbutton);
         postButton.setOnClickListener(v -> handlePostButtonClick());
+    }
+
+    private void setupToolbarButtons() {
+        home.setOnClickListener(v -> {
+            Intent intent = new Intent(community_activity.this, HomePage.class);
+            startActivity(intent);
+        });
+
+        workout.setOnClickListener(v -> {
+            Intent intent = new Intent(community_activity.this, Timer_activity.class);
+            startActivity(intent);
+        });
+
+        // Uncomment and modify these as needed
+        // profile.setOnClickListener(v -> {
+        //     Intent intent = new Intent(community_activity.this, ProfileActivity.class);
+        //     startActivity(intent);
+        // });
+
+        // training.setOnClickListener(v -> {
+        //     Intent intent = new Intent(community_activity.this, TrainingActivity.class);
+        //     startActivity(intent);
+        // });
     }
 
     private void handlePostButtonClick() {
