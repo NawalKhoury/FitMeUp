@@ -24,9 +24,8 @@ public class HomePage extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
-
+//ij9o
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Timer_activity.class)));
-        home.setOnClickListener(v -> startActivity(new Intent(HomePage.this, HomePage.class)));
     }
 }
