@@ -10,6 +10,6 @@
     <color name="background_transparent_25">#40FAF0E6</color>
     <color name="button_background">#CC000000</color>
     <color name="background_color">#F5F5F5</color>
-
+    <color name="dark_blue">#003366</color>
 
 </resources>

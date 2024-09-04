@@ -32,17 +32,18 @@ android {
 }
 
 
+
 dependencies {
+    implementation("androidx.viewpager2:viewpager2:1.1.0") // Use the latest version available
+
     implementation("androidx.room:room-runtime:2.5.2")
     annotationProcessor("androidx.room:room-compiler:2.5.2")
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-
-    implementation (libs.glide)
-    annotationProcessor (libs.glide)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
