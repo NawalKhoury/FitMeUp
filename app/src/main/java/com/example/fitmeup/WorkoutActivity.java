@@ -36,9 +36,9 @@ public class WorkoutActivity extends AppCompatActivity {
         handshakeButton = findViewById(R.id.toolbar_handshake);
 
         // Set click listeners for toolbar buttons
-        homeScreenButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
-        exerciseButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
-        handshakeButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
+        handshakeButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, community_activity.class)));
+        homeScreenButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, HomePage.class)));
+
 
         // Set click listeners for each workout
         cardRunning.setOnClickListener(v -> navigateToWorkoutDetail("Running"));
