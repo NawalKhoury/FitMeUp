@@ -63,7 +63,7 @@ public class community_activity extends AppCompatActivity {
         Button postButton = findViewById(R.id.Postbutton);
         postButton.setOnClickListener(v -> handlePostButtonClick());
     }
-//rf
+
     private void setupToolbarButtons() {
         home.setOnClickListener(v -> {
             Intent intent = new Intent(community_activity.this, HomePage.class);
@@ -71,7 +71,7 @@ public class community_activity extends AppCompatActivity {
         });
 
         training.setOnClickListener(v -> {
-            Intent intent = new Intent(community_activity.this, Timer_activity.class);
+            Intent intent = new Intent(community_activity.this, RegisterActivity.Timer_activity.class);
             startActivity(intent);
 
         });

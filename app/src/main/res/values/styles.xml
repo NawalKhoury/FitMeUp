@@ -12,4 +12,8 @@
 <style name="cr50">
 		<item name="cornerSize">50dp</item>
 	</style>
+	<style name="cr10">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">10dp</item>
+	</style>
 </resources>
