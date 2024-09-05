@@ -77,8 +77,8 @@
                             android:layout_height="40dp"
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
-                            android:background="@drawable/s5e27fdsw1b1732a4"
-                            android:src="@drawable/pen" />
+                        android:background="@drawable/round_blue_shape"
+                        android:src="@drawable/pen"/>
                 </RelativeLayout>
 
                 <TextView

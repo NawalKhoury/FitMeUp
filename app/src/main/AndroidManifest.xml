@@ -23,7 +23,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".RegisterActivity$Timer_activity"
+            android:name=".Timer_activity"
             android:exported="false" />
 
         <activity
@@ -36,7 +36,7 @@
         <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
-
+       <!-- ForgotPasswordActivity -->
         <activity
             android:name=".ReminderActivity"
             android:exported="false" /> <!-- MainActivity is the entry point of the application -->
@@ -44,6 +44,10 @@
         <activity android:name=".ProfilePageActivity"
             android:exported="false"
         />
+        <activity android:name=".RegisterActivity$Timer_activity">
+            <!-- Intent filters, if any -->
+        </activity>
+
         <activity
             android:name=".SettingPage"
             android:exported="false"/>

@@ -71,7 +71,7 @@ public class community_activity extends AppCompatActivity {
         });
 
         training.setOnClickListener(v -> {
-            Intent intent = new Intent(community_activity.this, RegisterActivity.Timer_activity.class);
+            Intent intent = new Intent(community_activity.this, WorkoutActivity.class);
             startActivity(intent);
 
         });

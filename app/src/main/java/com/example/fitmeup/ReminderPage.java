@@ -3,6 +3,7 @@ package com.example.fitmeup;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -14,6 +15,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ReminderPage extends AppCompatActivity {
 
     private LinearLayout reminderContainer;
+    private ImageButton homeScreenButton;
+    private ImageButton profileButton;
+    private ImageButton targetButton;
+    private ImageButton exerciseButton;
+    private ImageButton handshakeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +28,17 @@ public class ReminderPage extends AppCompatActivity {
 
         // Get the container for the reminders
         reminderContainer = findViewById(R.id.reminderContainer);
-
+        homeScreenButton = findViewById(R.id.toolbar_home);
+        profileButton = findViewById(R.id.toolbar_profile);
+        targetButton = findViewById(R.id.toolbar_target);
+        exerciseButton = findViewById(R.id.toolbar_exercise);
+        handshakeButton = findViewById(R.id.toolbar_handshake);
         // Floating Action Button for adding reminders
         FloatingActionButton addReminderButton = findViewById(R.id.addReminderButton);
+        // Set click listeners for toolbar buttons
+        homeScreenButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
+        exerciseButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
+        handshakeButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
 
         // Set a click listener on the button to add a new reminder card
         addReminderButton.setOnClickListener(new View.OnClickListener() {
