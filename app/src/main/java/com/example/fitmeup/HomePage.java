@@ -19,13 +19,15 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
+//test
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
+
+        reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, RegisterActivity.Timer_activity.class)));
