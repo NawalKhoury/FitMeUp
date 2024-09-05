@@ -22,7 +22,7 @@ public class ToolBarService {
         Intent intent = new Intent(context, WorkoutActivity.class);
         context.startActivity(intent);
     }
-
+//2
     public static void navigateToCommunityScreen(Context context) {
         // Create an Intent to navigate to the CommunityActivity
         Intent intent = new Intent(context, community_activity.class);
