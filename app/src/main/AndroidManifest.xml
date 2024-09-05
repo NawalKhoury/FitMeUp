@@ -33,6 +33,7 @@
         <activity
             android:name=".HomePage"
             android:exported="false" />
+
         <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
@@ -44,10 +45,6 @@
         <activity android:name=".ProfilePageActivity"
             android:exported="false"
         />
-        <activity android:name=".RegisterActivity$Timer_activity">
-            <!-- Intent filters, if any -->
-        </activity>
-
         <activity
             android:name=".SettingPage"
             android:exported="false"/>
