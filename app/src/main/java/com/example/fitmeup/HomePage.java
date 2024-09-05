@@ -19,7 +19,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
+//test
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
         workout = findViewById(R.id.toolbar_target);
