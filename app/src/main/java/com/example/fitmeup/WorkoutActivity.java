@@ -2,12 +2,18 @@ package com.example.fitmeup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.card.MaterialCardView;
-import com.example.fitmeup.R;
 
 public class WorkoutActivity extends AppCompatActivity {
+
+    private ImageButton homeScreenButton;
+    private ImageButton profileButton;
+    private ImageButton targetButton;
+    private ImageButton exerciseButton;
+    private ImageButton handshakeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,18 @@ public class WorkoutActivity extends AppCompatActivity {
         MaterialCardView cardMartialArts = findViewById(R.id.card_martial_arts);
         MaterialCardView cardYoga = findViewById(R.id.card_yoga);
         MaterialCardView cardCycling = findViewById(R.id.card_cycling);
+
+        // Initialize toolbar buttons
+        homeScreenButton = findViewById(R.id.toolbar_home);
+        profileButton = findViewById(R.id.toolbar_profile);
+        targetButton = findViewById(R.id.toolbar_target);
+        exerciseButton = findViewById(R.id.toolbar_exercise);
+        handshakeButton = findViewById(R.id.toolbar_handshake);
+
+        // Set click listeners for toolbar buttons
+        homeScreenButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
+        exerciseButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
+        handshakeButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
 
         // Set click listeners for each workout
         cardRunning.setOnClickListener(v -> navigateToWorkoutDetail("Running"));
@@ -37,10 +55,8 @@ public class WorkoutActivity extends AppCompatActivity {
         Toast.makeText(WorkoutActivity.this, "Selected Workout: " + workoutType, Toast.LENGTH_SHORT).show();
 
         // Uncomment this code if you want to navigate to a new activity in the future
-        /*
-        Intent intent = new Intent(WorkoutActivity.this, WorkoutDetailActivity.class);
+        Intent intent = new Intent(WorkoutActivity.this, Timer_activity.class);
         intent.putExtra("WORKOUT_TYPE", workoutType);
         startActivity(intent);
-        */
     }
 }
