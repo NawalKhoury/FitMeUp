@@ -23,8 +23,7 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-        />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <!-- Title -->
         <TextView
@@ -68,7 +67,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -103,7 +102,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -138,7 +137,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -173,7 +172,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -208,7 +207,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -243,7 +242,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:background="@color/background_button"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
