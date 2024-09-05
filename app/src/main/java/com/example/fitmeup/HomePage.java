@@ -27,6 +27,7 @@ public class HomePage extends AppCompatActivity {
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
 
+        
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));

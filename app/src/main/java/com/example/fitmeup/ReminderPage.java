@@ -1,5 +1,6 @@
 package com.example.fitmeup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -36,9 +37,10 @@ public class ReminderPage extends AppCompatActivity {
         // Floating Action Button for adding reminders
         FloatingActionButton addReminderButton = findViewById(R.id.addReminderButton);
         // Set click listeners for toolbar buttons
-        homeScreenButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
-        exerciseButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
-        handshakeButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
+        handshakeButton.setOnClickListener(v -> startActivity(new Intent(ReminderPage.this, community_activity.class)));
+        homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ReminderPage.this, HomePage.class)));
+        exerciseButton.setOnClickListener(v -> startActivity(new Intent(ReminderPage.this, WorkoutActivity.class)));
+
 
         // Set a click listener on the button to add a new reminder card
         addReminderButton.setOnClickListener(new View.OnClickListener() {
