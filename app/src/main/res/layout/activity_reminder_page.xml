@@ -198,4 +198,62 @@
         android:contentDescription="Add a new reminder"
         android:src="@android:drawable/ic_input_add"
         android:tint="@android:color/white" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bottom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white_transparent_50"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            android:id="@+id/toolbar_home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/home"
+            android:contentDescription="@string/toolbar_home_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/profile"
+            android:contentDescription="@string/toolbar_profile_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_target"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/target"
+            android:contentDescription="@string/toolbar_target_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_exercise"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/exercise"
+            android:contentDescription="@string/toolbar_exercise_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_handshake"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/handshake"
+            android:contentDescription="@string/toolbar_handshake_description"
+            android:scaleType="fitXY" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 </LinearLayout>

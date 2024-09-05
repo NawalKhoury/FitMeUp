@@ -12,6 +12,7 @@ public class HomePage extends AppCompatActivity {
     private ImageButton workout;
     private ImageButton profile;
     private ImageButton training;
+    private ImageButton reminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,12 @@ public class HomePage extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
+        reminder = findViewById(R.id.reminderButton);
+
+        reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
+
 //ij9o
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
-        training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Timer_activity.class)));
+        training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
     }
 }
