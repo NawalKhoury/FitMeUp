@@ -26,7 +26,6 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <!-- Existing layout code -->
             <RelativeLayout
                 android:id="@+id/rfacddfkk3vn_rl"
                 android:layout_width="match_parent"
@@ -83,7 +82,6 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <!-- Horizontal layout for workout type and save button -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +90,6 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <!-- Workout type TextView -->
                 <TextView
                     android:id="@+id/workOutType"
                     android:layout_width="wrap_content"
@@ -102,7 +99,6 @@
                     android:textSize="24sp" />
             </LinearLayout>
 
-            <!-- ViewPager2 for horizontal scrolling between layouts -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
@@ -110,19 +106,14 @@
                 android:clipChildren="false"
                 android:clipToPadding="false" />
 
-            <!-- Indicator dots -->
             <LinearLayout
                 android:id="@+id/indicatorLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="16dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center" />
 
-                <!-- Indicator dots will be added here programmatically -->
-            </LinearLayout>
-
-            <!-- Save button under the indicator dots -->
             <ImageView
                 android:id="@+id/save_button"
                 android:layout_width="32dp"
@@ -135,7 +126,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Place Toolbar at the bottom of the screen -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bottom_toolbar"
         android:layout_width="match_parent"
@@ -143,10 +133,8 @@
         android:background="@color/white_transparent_50"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:layout_gravity="bottom"
-        tools:ignore="MissingConstraints">
+        android:layout_gravity="bottom">
 
-        <!-- Centered Image Button -->
         <ImageButton
             android:id="@+id/toolbar_home"
             android:layout_width="50dp"
@@ -195,7 +183,6 @@
             android:background="@drawable/handshake"
             android:contentDescription="@string/toolbar_handshake_description"
             android:scaleType="fitXY" />
-
     </androidx.appcompat.widget.Toolbar>
 
 </LinearLayout>
