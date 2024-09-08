@@ -36,6 +36,7 @@ public class Timer_activity extends AppCompatActivity {
     private TextView workOutType;
     private ImageView backButton;
     private ImageView saveButton; // Change to ImageView for save_button
+    private ImageView workoutImage; // ImageView for displaying the workout image
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class Timer_activity extends AppCompatActivity {
         training = findViewById(R.id.toolbar_exercise);
         backButton = findViewById(R.id.backButton);
         saveButton = findViewById(R.id.save_button); // Now it's an ImageView
+        workoutImage = findViewById(R.id.rfacddfkk3vn); // Reference to the workout image
 
         // Set toolbar button click listeners
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(Timer_activity.this, community_activity.class)));
@@ -67,6 +69,7 @@ public class Timer_activity extends AppCompatActivity {
         // Create indicator dots
         createIndicators(pageCount);
 
+        // Retrieve workout type from intent
         String workOutTypeText;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -80,6 +83,9 @@ public class Timer_activity extends AppCompatActivity {
         }
         workOutType = findViewById(R.id.workOutType);
         workOutType.setText(workOutTypeText);
+
+        // Set the workout image based on the workout type
+        setWorkoutImage(workOutTypeText, workoutImage);
 
         // Register a callback for when the page changes
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -145,6 +151,39 @@ public class Timer_activity extends AppCompatActivity {
         if (isRunning) {
             handler.postDelayed(runnable, 1000);
         }
+    }
+
+    // Set workout image based on workout type
+    private void setWorkoutImage(String workoutType, ImageView workoutImage) {
+        int imageResId;
+
+        // Choose image based on workout type
+        switch (workoutType) {
+            case "Running":
+                imageResId = R.drawable.runnn;
+                break;
+            case "Core Training":
+                imageResId = R.drawable.imageworkout;
+                break;
+            case "Pool Swim":
+              imageResId = R.drawable.swimingg;
+                break;
+            case "Martial Arts":
+               imageResId = R.drawable.artmat;
+                break;
+            case "Yoga":
+                imageResId = R.drawable.yogaaa;
+                break;
+            case "Cycling":
+                imageResId = R.drawable.cyc;
+                break;
+            default:
+                imageResId = R.drawable.imageworkout;
+                break;
+        }
+
+        // Set the image to the ImageView
+        workoutImage.setImageResource(imageResId);
     }
 
     private void toggleTimer() {
