@@ -2,6 +2,12 @@ package com.example.fitmeup;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -31,6 +37,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length (in meters) - adjust as needed
 
+public class HomePage extends AppCompatActivity {
+
+
     private ImageButton handshakeButton;
     private ImageButton home;
     private ImageButton workout;
@@ -55,11 +64,23 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         dateTextView = findViewById(R.id.Date);
         date_year = findViewById(R.id.dateText);
 
+     
 
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
+
+      
+        // Fetch the last workout type and time from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+
+        // Find and set the text in the record workout section
+        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+
 
         // Get the current date
         Calendar calendar1 = Calendar.getInstance();

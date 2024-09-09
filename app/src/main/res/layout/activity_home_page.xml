@@ -681,7 +681,7 @@
                         android:padding="16dp"
                         app:cornerRadius="16dp" />
 
-                    <!-- Barbell Icon for Record Workout -->
+
                     <ImageButton
                         android:id="@+id/barbell"
                         android:layout_width="57dp"
@@ -689,8 +689,8 @@
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
                         android:layout_gravity="start|center_vertical"
-                        android:layout_marginEnd="279dp"
-                        android:layout_marginBottom="35dp"
+                        android:layout_marginEnd="297dp"
+                        android:layout_marginBottom="22dp"
                         android:background="@drawable/barbel_purple"
                         android:scaleType="fitXY" />
 
@@ -714,9 +714,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
-                        android:layout_marginEnd="251dp"
-                        android:layout_marginBottom="13dp"
-                        android:text="Record Workout" />
+                        android:layout_marginEnd="75dp"
+                        android:layout_marginBottom="23dp"
+                        android:text="Record Workout"
+                        android:textSize="20sp" />
 
 
 
@@ -787,9 +788,5 @@
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
