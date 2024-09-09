@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HomePage extends AppCompatActivity {
     private ImageButton handshakeButton;
     private ImageButton home;
-    private ImageButton workout;
+    private ImageButton targetButton;
     private ImageButton profile;
     private ImageButton training;
     private ImageButton reminder;
@@ -22,7 +22,7 @@ public class HomePage extends AppCompatActivity {
 //test
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
-        workout = findViewById(R.id.toolbar_target);
+        targetButton = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
@@ -34,7 +34,7 @@ public class HomePage extends AppCompatActivity {
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, RegisterActivity.Timer_activity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
-
+        targetButton.setOnClickListener(v -> startActivity(new Intent(this, Model_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
 
     }
