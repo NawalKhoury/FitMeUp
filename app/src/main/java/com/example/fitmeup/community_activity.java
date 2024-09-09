@@ -26,6 +26,7 @@ public class community_activity extends AppCompatActivity {
     private ImageButton workout;
     private ImageButton profile;
     private ImageButton training;
+    private ImageButton reminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class community_activity extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
+        reminder = findViewById(R.id.reminderButton);
 
         // Show keyboard when EditText is clicked
         input.setOnClickListener(v -> showKeyboard(input));
@@ -65,27 +67,12 @@ public class community_activity extends AppCompatActivity {
     }
 
     private void setupToolbarButtons() {
-        home.setOnClickListener(v -> {
-            Intent intent = new Intent(community_activity.this, HomePage.class);
-            startActivity(intent);
-        });
+        home.setOnClickListener(v -> startActivity(new Intent(community_activity.this, HomePage.class)));
+        handshakeButton.setOnClickListener(v -> startActivity(new Intent(community_activity.this, community_activity.class)));
+        training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, RegisterActivity.Timer_activity.class)));
+        profile.setOnClickListener(v -> startActivity(new Intent(community_activity.this, ProfilePageActivity.class)));
+        training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, WorkoutActivity.class)));
 
-        training.setOnClickListener(v -> {
-            Intent intent = new Intent(community_activity.this, WorkoutActivity.class);
-            startActivity(intent);
-
-        });
-
-        // Uncomment and modify these as needed
-        // profile.setOnClickListener(v -> {
-        //     Intent intent = new Intent(community_activity.this, ProfileActivity.class);
-        //     startActivity(intent);
-        // });
-
-        // training.setOnClickListener(v -> {
-        //     Intent intent = new Intent(community_activity.this, TrainingActivity.class);
-        //     startActivity(intent);
-        // });
     }
 
     private void handlePostButtonClick() {
