@@ -23,8 +23,7 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-        />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <!-- Title -->
         <TextView
@@ -43,7 +42,7 @@
     <!-- Grid Layout for Workouts -->
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="515dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
@@ -65,10 +64,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -100,10 +99,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -135,10 +134,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -170,10 +169,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -205,10 +204,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -240,10 +239,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#E0E0E0"> <!-- Subtle gray background -->
+                android:padding="16dp"> <!-- Subtle gray background -->
 
                 <ImageView
                     android:layout_width="40dp"
@@ -266,8 +265,8 @@
     <!-- Bottom Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bottom_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="395dp"
+        android:layout_height="55dp"
         android:background="@color/white_transparent_50"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 

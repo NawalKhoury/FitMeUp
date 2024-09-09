@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- ARCore permissions -->
-    <!-- ARCore feature requirement -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+    <!--Request Permission to Access Storage (For Android 6.0 and above)-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
 
     <application
         android:allowBackup="true"
@@ -17,15 +22,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitMeUp"
         tools:targetApi="31">
-        <activity
 
+        <activity
             android:name=".ViewPagerAdapter"
             android:exported="false" />
 
         <activity
             android:name=".Timer_activity"
             android:exported="false" />
-
+        <activity android:name=".RegisterActivity$Timer_activity">
+            <!-- If needed, add intent-filters here -->
+        </activity>
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" /> <!-- HomeActivity -->
@@ -45,6 +52,7 @@
         <activity android:name=".ProfilePageActivity"
             android:exported="false"
         />
+
         <activity
             android:name=".SettingPage"
             android:exported="false"/>
@@ -59,6 +67,16 @@
         <activity
             android:name=".ReminderPage"
             android:exported="false" />
+        <activity
+            android:name=".ReviewPageActivity"
+            android:exported="false"  />
+        <activity android:name=".HelpSupportActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

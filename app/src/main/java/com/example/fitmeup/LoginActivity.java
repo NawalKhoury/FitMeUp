@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user != null) {
                         // Credentials are correct, open HomeActivity
                         Intent intent = new Intent(LoginActivity.this, HomePage.class);
+                        intent.putExtra("username", username); // Add the username to the Intent
                         startActivity(intent);
                         finish(); // Optional: Close LoginActivity
                     } else {
@@ -89,5 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             });
         });
+
+
     }
 }
