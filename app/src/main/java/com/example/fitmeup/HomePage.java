@@ -2,6 +2,12 @@ package com.example.fitmeup;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -31,7 +37,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private TextView stepCountTextView;
     private TextView distanceTextView;
     private int stepCount = 0;
-    private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length
+
+    private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length (in meters) - adjust as needed
+
     private ImageButton handshakeButton;
     private ImageButton home;
     private ImageButton workout;
@@ -40,14 +48,12 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private ImageButton reminder;
     private ImageView historyIcon;
     private TextView dateTextView;
-    private TextView dateYearTextView;
-
+    private TextView date_year;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        // Initialize buttons and views
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
         workout = findViewById(R.id.toolbar_target);
@@ -56,45 +62,48 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         reminder = findViewById(R.id.reminderButton);
         historyIcon = findViewById(R.id.historyic);
         stepCountTextView = findViewById(R.id.steps_counter);
-     //   distanceTextView = findViewById(R.id.distance_counter); // Ensure this ID matches your layout
+        distanceTextView = findViewById(R.id.rot6kqp9h3a9); // Ensure this id matches your layout
         dateTextView = findViewById(R.id.Date);
-        dateYearTextView = findViewById(R.id.dateText);
+        date_year = findViewById(R.id.dateText);
 
-        // Set click listeners
-        handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
-        profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
-        training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
+
+
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
-        historyIcon.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutHistory.class)));
+        handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
+        training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
+        profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
 
-        // Set the date and year text views
-        setCurrentDateAndYear();
 
-        // Initialize step counter
+        // Fetch the last workout type and time from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+
+        // Find and set the text in the record workout section
+        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+
+
+        // Get the current date
+        Calendar calendar1 = Calendar.getInstance();
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("E, d MMM yyyy", Locale.getDefault());
+        String currentDate = dateFormat1.format(calendar1.getTime());
+
+        // Set the formatted date to the TextView
+        dateTextView.setText(currentDate);
+
+        Calendar calendar2 = Calendar.getInstance();
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        String currentYearMonth = dateFormat2.format(calendar2.getTime());
+
+        // Set the formatted year and month to the TextView
+        date_year.setText(currentYearMonth);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         }
 
-        // Request permission for step counter
-        checkAndRequestPermissions();
-
-        // Display the last workout details
-        displayLastWorkoutDetails();
-    }
-
-    private void setCurrentDateAndYear() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat1 = new SimpleDateFormat("E, d MMM yyyy", Locale.getDefault());
-        String currentDate = dateFormat1.format(calendar.getTime());
-        dateTextView.setText(currentDate);
-
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        String currentYearMonth = dateFormat2.format(calendar.getTime());
-        dateYearTextView.setText(currentYearMonth);
-    }
-
-    private void checkAndRequestPermissions() {
+        // Request permission if not granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, PERMISSION_REQUEST_CODE);
         } else {
@@ -118,7 +127,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             stepCount = (int) event.values[0];
             stepCountTextView.setText("Steps: " + stepCount);
 
-            // Calculate and display the distance
+            // Calculate distance in kilometers
             float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
             float distanceInKilometers = distanceInMeters / 1000;
             distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
@@ -127,7 +136,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // No need to implement for step counter
     }
 
     @Override

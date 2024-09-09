@@ -492,14 +492,14 @@
                 <LinearLayout
                     android:id="@+id/r0t8ngc4hye38"
                     android:layout_width="365dp"
-                    android:layout_height="373dp"
+                    android:layout_height="370dp"
                     android:layout_gravity="start"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/cr30beff1f9"
                     android:orientation="vertical"
                     android:paddingHorizontal="21dp"
-                    android:paddingVertical="25dp">
+                    android:paddingVertical="18dp">
 
                     <LinearLayout
                         android:id="@+id/rqml5x1y02qc"
@@ -592,7 +592,7 @@
                                 android:id="@+id/rot6kqp9h3a9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0.69 KM"
+                                android:text="0 KM"
                                 android:textColor="#000000"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -672,7 +672,6 @@
                         android:id="@+id/record_workout"
                         android:layout_width="362dp"
                         android:layout_height="101dp"
-                        android:layout_alignTop="@+id/water"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="8dp"
@@ -682,16 +681,7 @@
                         android:padding="16dp"
                         app:cornerRadius="16dp" />
 
-                    <ImageButton
-                        android:id="@+id/back_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackgroundBorderless" />
-
-
-                    <!-- Last Workout Details -->
-
-
+                    <!-- Barbell Icon for Record Workout -->
                     <ImageButton
                         android:id="@+id/barbell"
                         android:layout_width="57dp"
@@ -699,11 +689,12 @@
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
                         android:layout_gravity="start|center_vertical"
-                        android:layout_marginEnd="284dp"
-                        android:layout_marginBottom="23dp"
+                        android:layout_marginEnd="297dp"
+                        android:layout_marginBottom="22dp"
                         android:background="@drawable/barbel_purple"
                         android:scaleType="fitXY" />
 
+                    <!-- EditText for Notes -->
                     <EditText
                         android:id="@+id/noteText"
                         android:layout_width="350dp"
@@ -716,16 +707,18 @@
                         android:hint="Tell us about your day!"
                         android:inputType="text" />
 
+                    <!-- TextView for Record Workout Label -->
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
-                        android:layout_marginEnd="53dp"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginEnd="75dp"
+                        android:layout_marginBottom="23dp"
                         android:text="Record Workout"
                         android:textSize="20sp" />
+
 
                     <ImageView
                         android:id="@+id/historyic"
