@@ -16,6 +16,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,11 @@ public class HomePage extends AppCompatActivity {
     private ImageButton reminder;
     private TextView dateTextView;
     private TextView date_year;
+    private ProgressBar progressBar;
+    private ImageButton increaseWater;
+    private ImageButton dicreaseWater;
+    int waterCount = 0;
+private  TextView waterText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,27 @@ public class HomePage extends AppCompatActivity {
         distanceTextView = findViewById(R.id.rot6kqp9h3a9); // Ensure this id matches your layout
         dateTextView = findViewById(R.id.Date);
         date_year = findViewById(R.id.dateText);
+         progressBar = findViewById(R.id.circularProgressBar);
+        increaseWater=findViewById(R.id.waterImageRight);
+        dicreaseWater=findViewById(R.id.waterImageLeft);
+        waterText=findViewById(R.id.waterText);
+            waterText.setText(waterCount + " Cups");
+            increaseWater.setOnClickListener(v -> {
+                // Increment the waterCount by 1
+                waterCount++;
+
+                // Update the waterText TextView with the new count
+                waterText.setText(waterCount + " Cups");
+            });
+
+        dicreaseWater.setOnClickListener(v -> {
+            // Increment the waterCount by 1
+            if(waterCount>0) {
+                waterCount--;
+            }
+            // Update the waterText TextView with the new count
+            waterText.setText(waterCount + " Cups");
+        });
 
      
 
@@ -109,18 +136,24 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            stepCount = (int) event.values[0];
-            stepCountTextView.setText("Steps: " + stepCount);
+@Override
+public void onSensorChanged(SensorEvent event) {
+    if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        stepCount = (int) event.values[0];
+        stepCountTextView.setText(stepCount+"/9000");
 
-            // Calculate distance in kilometers
-            float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
-            float distanceInKilometers = distanceInMeters / 1000;
-            distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
-        }
+        String stepText = stepCount + "/9000";
+        stepCountTextView.setText(stepText);
+        progressBar.setProgress(stepCount);
+
+
+        // Calculate distance in kilometers
+        float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
+        float distanceInKilometers = distanceInMeters / 1000;
+        distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
     }
+}
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
