@@ -2,15 +2,21 @@ package com.example.fitmeup;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.TextView;
+
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,12 +39,19 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private ImageButton handshakeButton;
     private ImageButton home;
-    private ImageButton workout;
+    private ImageButton targetButton;
     private ImageButton profile;
     private ImageButton training;
     private ImageButton reminder;
     private TextView dateTextView;
     private TextView date_year;
+    private ProgressBar progressBar;
+    private ImageButton increaseWater;
+    private ImageButton dicreaseWater;
+    private  TextView waterText;
+    private  TextView Name;
+    int waterCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +59,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
-        workout = findViewById(R.id.toolbar_target);
+        targetButton = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
@@ -54,12 +67,56 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         distanceTextView = findViewById(R.id.rot6kqp9h3a9); // Ensure this id matches your layout
         dateTextView = findViewById(R.id.Date);
         date_year = findViewById(R.id.dateText);
+         progressBar = findViewById(R.id.circularProgressBar);
+        increaseWater=findViewById(R.id.waterImageRight);
+        dicreaseWater=findViewById(R.id.waterImageLeft);
+        waterText=findViewById(R.id.waterText);
+        Name=findViewById(R.id.Name);
 
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+
+        if (username != null) {
+            Name.setText("Hello, " + username);
+        }
+
+            waterText.setText(waterCount + " Cups");
+            increaseWater.setOnClickListener(v -> {
+                // Increment the waterCount by 1
+                waterCount++;
+
+                // Update the waterText TextView with the new count
+                waterText.setText(waterCount + " Cups");
+            });
+
+        dicreaseWater.setOnClickListener(v -> {
+            // Increment the waterCount by 1
+            if(waterCount>0) {
+                waterCount--;
+            }
+            // Update the waterText TextView with the new count
+            waterText.setText(waterCount + " Cups");
+        });
+
+     
 
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
+        targetButton.setOnClickListener(v -> startActivity(new Intent(this, Model_activity.class)));
+      
+
+      
+        // Fetch the last workout type and time from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+
+        // Find and set the text in the record workout section
+        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+
 
         // Get the current date
         Calendar calendar1 = Calendar.getInstance();
@@ -88,18 +145,24 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            stepCount = (int) event.values[0];
-            stepCountTextView.setText("Steps: " + stepCount);
+@Override
+public void onSensorChanged(SensorEvent event) {
+    if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        stepCount = (int) event.values[0];
+        stepCountTextView.setText(stepCount+"/90000");
 
-            // Calculate distance in kilometers
-            float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
-            float distanceInKilometers = distanceInMeters / 1000;
-            distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
-        }
+        String stepText = stepCount + "/90000";
+        stepCountTextView.setText(stepText);
+        progressBar.setProgress(stepCount);
+
+
+        // Calculate distance in kilometers
+        float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
+        float distanceInKilometers = distanceInMeters / 1000;
+        distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
     }
+}
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

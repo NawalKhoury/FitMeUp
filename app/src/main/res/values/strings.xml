@@ -26,6 +26,18 @@
     <string name="reminderlogo">ReminderLogo</string>
     <string name="waterText">Water</string>
     <string name="waterlogo">waterLogo</string>
+    <string name="front_body_description">Front view of the body model</string>
     <string name="number_picker_formatter">%02d</string>
+    <string name="forearm">Forearm</string>
+    <string name="seven_packs">seven_packs</string>
+    <string name="legs">legs</string>
+    <string name="chest">chest</string>
+    <string name="back_hand">back_hand</string>
+    <string name="back">back</string>
+    <string name="shoulder">shoulder</string>
+
+    <string name="front_body">front body</string>
+    <string name="watch_video">Watch Video</string>
+    <string name="exercise_name">Exercise Name</string>
 
 </resources>

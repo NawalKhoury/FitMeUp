@@ -173,6 +173,13 @@ public class RegisterActivity extends AppCompatActivity {
                         selectedGender, selectedHealthProblems, selectedSecurityQuestion, securityAnswer, weight, height
                 );
 
+                Intent intent1 = new Intent(RegisterActivity.this, ProfilePageActivity.class);
+                intent1.putExtra("USER_HEIGHT", height);
+                intent1.putExtra("USER_WEIGHT", weight);
+                intent1.putExtra("USER_BIRTHDAY", birthDate);
+                intent1.putExtra("USER_NAME", username);
+                startActivity(intent1);
+
                 // Insert the user into the database using a separate thread
                 new Thread(() -> {
                     registerUserDao.insert(newUser);

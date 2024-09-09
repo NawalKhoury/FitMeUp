@@ -1,4 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Combined background color: Using the darker gray -->
     <solid android:color="@android:color/darker_gray"/>
-    <corners android:radius="24dp"/>
+
+    <!-- Rounded corners: Compromise between 12dp and 24dp radius -->
+    <corners android:radius="18dp"/>
+
+    <!-- Padding from Yasmin's version -->
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp"/>
 </shape>
