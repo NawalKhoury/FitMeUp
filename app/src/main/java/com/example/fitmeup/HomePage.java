@@ -39,7 +39,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private ImageButton handshakeButton;
     private ImageButton home;
-    private ImageButton workout;
+    private ImageButton targetButton;
     private ImageButton profile;
     private ImageButton training;
     private ImageButton reminder;
@@ -59,7 +59,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
-        workout = findViewById(R.id.toolbar_target);
+        targetButton = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
@@ -104,6 +104,8 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
+        targetButton.setOnClickListener(v -> startActivity(new Intent(this, Model_activity.class)));
+      
 
       
         // Fetch the last workout type and time from SharedPreferences

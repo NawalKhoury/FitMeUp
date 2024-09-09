@@ -59,6 +59,10 @@
         <activity
             android:name=".community_activity"
             android:exported="false" />
+        <activity android:name=".Model_activity"
+            android:exported="false"/>
+
+
 
         <activity
             android:name=".ReminderPage"

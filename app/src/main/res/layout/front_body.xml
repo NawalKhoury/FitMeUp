@@ -1,0 +1,57 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/front_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/front_body"
+        android:scaleType="centerInside"
+        android:src="@drawable/frontbody" />
+
+    <Button
+        android:id="@+id/button_Forearm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="230dp"
+        android:layout_marginTop="220dp"
+        android:background="@drawable/button_background"
+        android:text="@string/forearm"
+        android:textColor="#546E7A" />
+
+    <Button
+        android:id="@+id/button_seven_packs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="270dp"
+        android:background="@drawable/button_background"
+        android:text="@string/seven_packs"
+        android:textColor="#546E7A" />
+
+    <Button
+        android:id="@+id/button_legs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="400dp"
+        android:background="@drawable/button_background"
+        android:text="@string/legs"
+        android:textColor="#546E7A" />
+
+    <Button
+        android:id="@+id/chest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/button_background"
+        android:text="@string/chest"
+        android:textColor="#546E7A" />
+</FrameLayout>
