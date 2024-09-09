@@ -10,9 +10,9 @@ public class DailyWorkout {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private Date date;
-    private int calory;
+    private int calories;
     private int stepsCounter;
-    private int distans;
+    private int distance;
     private int waterCups;
     private int workoutTime;
     private String Description;
@@ -21,11 +21,11 @@ public class DailyWorkout {
     public DailyWorkout() {}
 
     // Parameterized constructor
-    public DailyWorkout(Date date, int calory, int stepsCounter, int distans, int waterCups, int workoutTime, String description) {
+    public DailyWorkout(Date date, int calories, int stepsCounter, int distance, int waterCups, int workoutTime, String description) {
         this.date = date;
-        this.calory = calory;
+        this.calories = calories;
         this.stepsCounter = stepsCounter;
-        this.distans = distans;
+        this.distance = distance;
         this.waterCups = waterCups;
         this.workoutTime = workoutTime;
         this.Description = description;
@@ -48,12 +48,12 @@ public class DailyWorkout {
         this.date = date;
     }
 
-    public int getCalory() {
-        return calory;
+    public int getCalories() {
+        return calories;
     }
 
-    public void setCalory(int calory) {
-        this.calory = calory;
+    public void setCalories(int calories) {
+        this.calories = calories;
     }
 
     public int getStepsCounter() {
@@ -64,12 +64,12 @@ public class DailyWorkout {
         this.stepsCounter = stepsCounter;
     }
 
-    public int getDistans() {
-        return distans;
+    public int getDistance() {
+        return distance;
     }
 
-    public void setDistans(int distans) {
-        this.distans = distans;
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getWaterCups() {
@@ -101,9 +101,9 @@ public class DailyWorkout {
         return "DailyWorkout{" +
                 "id=" + id +
                 ", date=" + date +
-                ", calory=" + calory +
+                ", calories=" + calories +
                 ", stepsCounter=" + stepsCounter +
-                ", distans=" + distans +
+                ", distance=" + distance +
                 ", waterCups=" + waterCups +
                 ", workoutTime=" + workoutTime +
                 ", Description='" + Description + '\'' +

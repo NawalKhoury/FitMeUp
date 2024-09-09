@@ -1,8 +1,14 @@
 package com.example.fitmeup;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity(tableName = "post")
 public class Post {
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private Date date;
     private String description;
