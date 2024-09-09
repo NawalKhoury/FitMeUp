@@ -1,20 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <View
-        android:id="@+id/backgroundView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FEFEFE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:clipToPadding="false"
+                android:id="@+id/rmr0feo0t62"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/background"
+                android:paddingTop="37dp"
+                android:paddingBottom="102dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/profilephoto"
+                        android:layout_width="244dp"
+                        android:layout_height="176dp"
+                        android:layout_marginHorizontal="100dp"
+                        android:layout_marginBottom="27dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/profileicon" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="190dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Dima Haj"
+                        />
+                    <TextView
+                        android:id="@+id/useremail"
+                        android:textColor="#4A4444"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="26dp"
+                        android:layout_marginStart="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="dimahaj1@gmail.com"
+                        />
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/userinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginHorizontal="45dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/userweight"
+                            android:layout_width="64dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:background="@drawable/skyblueborderbox"
+                            android:paddingVertical="10dp"
+                            android:elevation="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/userweightnum"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:text="53Kg"
+                                />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <LinearLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/userheight"
+                            android:layout_width="64dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:background="@drawable/greenborderbox"
+                            android:paddingVertical="10dp"
+                            android:elevation="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/userheightnum"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:text="1.65cm"
+                                />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <LinearLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/userage"
+                            android:layout_width="64dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:background="@drawable/pinkborderbox"
+                            android:paddingVertical="10dp"
+                            android:elevation="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/useragenum"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:text="23yrs"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/userinfotext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="81dp"
+                        android:layout_marginHorizontal="53dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/userweighttext"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Weight"
+                            />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <TextView
+                            android:id="@+id/userheighttext"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Height"
+                            />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <TextView
+                            android:id="@+id/useragetext"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Age"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/rv7wfq2bihi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="41dp"
+                        android:layout_marginHorizontal="12dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/weightbox"
+                            android:layout_width="130dp"
+                            android:layout_height="180dp"
+                            android:background="@drawable/skyblueborderbox"
+                            android:paddingVertical="9dp"
+                            android:elevation="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/r7kp8ju53d7p"
+                                android:layout_width="wrap_content"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginBottom="7dp"
+                                android:text="Weight"
+                                android:textColor="#000000"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:id="@+id/weightplotimage"
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginHorizontal="11dp"
+                                android:src="@drawable/weightplot"
+                                android:scaleType="fitXY"
+                                />
+
+                            <TextView
+                                android:id="@+id/rhxth4x9ttrt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_weight="1"
+                                android:text="53Kg\nLast update : 1d"
+                                android:textColor="#000000"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <LinearLayout
+                            android:id="@+id/rd355j8gq2yv"
+                            android:layout_width="130dp"
+                            android:layout_height="180dp"
+                            android:background="@drawable/greenborderbox"
+                            android:paddingVertical="8dp"
+                            android:elevation="4dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/rwj8feeaoqy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="26dp"
+                                android:layout_marginStart="33dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="Score"
+                                android:textColor="#000000"
+                                android:textSize="15sp" />
+
+                            <ImageView
+
+                                android:id="@+id/scoreimage"
+                                android:layout_width="match_parent"
+                                android:layout_height="71dp"
+                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginBottom="7dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/score" />
+
+                            <TextView
+                                android:id="@+id/rxu3ck2m5rmh"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="12dp"
+                                android:layout_weight="1"
+                                android:text="daily goal reached : 62%"
+                                android:textColor="#000000"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/rdhvoq0v8mss"
+                            android:layout_width="130dp"
+                            android:layout_height="180dp"
+                            android:background="@drawable/pinkborderbox"
+                            android:elevation="4dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="9dp">
+
+                            <TextView
+                                android:id="@+id/ronr395nopvf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="26dp"
+                                android:layout_marginStart="43dp"
+                                android:layout_marginBottom="8dp"
+                                android:text="BMI"
+                                android:textColor="#000000"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:id="@+id/bmiimage"
+                                android:layout_width="79dp"
+                                android:layout_height="73dp"
+                                android:layout_marginHorizontal="24dp"
+                                android:layout_marginBottom="16dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/bmi" />
+
+                            <TextView
+                                android:id="@+id/r9dtibagy8xp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="9dp"
+                                android:text="Status : On Average "
+                                android:textColor="#000000"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/r2ri1fewivrl"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:background="@drawable/orangeborderbox"
+                        android:elevation="5dp"
+                        android:orientation="vertical"
+                        android:paddingVertical="11dp">
+
+                        <ImageView
+                            android:id="@+id/communityicon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="170dp"
+                            android:layout_marginBottom="10dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/community" />
+
+                        <TextView
+                            android:id="@+id/rix758oha8r"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="120dp"
+                            android:text="Join Our Community"
+                            android:textColor="#000000"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -28,3 +369,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
