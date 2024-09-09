@@ -17,6 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class Timer_activity extends AppCompatActivity {
 
     private ImageButton handshakeButton;
@@ -32,16 +36,22 @@ public class Timer_activity extends AppCompatActivity {
     private TextView hoursTextView, minutesTextView, secondsTextView;
     private LinearLayout indicatorLayout;
     private ViewPager2 viewPager;
-    private int pageCount = 2; // Set this to the number of pages you have
+    private int pageCount = 2;
     private TextView workOutType;
     private ImageView backButton;
-    private ImageView saveButton; // Change to ImageView for save_button
-    private ImageView workoutImage; // ImageView for displaying the workout image
+    private ImageView saveButton;
+    private ImageView workoutImage;
+
+    private DailyWorkoutDao dailyWorkoutDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+
+        // Initialize Room database and DailyWorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+        dailyWorkoutDao = db.dailyWorkoutDao();  // Get DailyWorkoutDao instance
 
         // Initialize toolbar buttons
         handshakeButton = findViewById(R.id.toolbar_handshake);
@@ -50,8 +60,8 @@ public class Timer_activity extends AppCompatActivity {
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         backButton = findViewById(R.id.backButton);
-        saveButton = findViewById(R.id.save_button); // Now it's an ImageView
-        workoutImage = findViewById(R.id.rfacddfkk3vn); // Reference to the workout image
+        saveButton = findViewById(R.id.save_button);
+        workoutImage = findViewById(R.id.rfacddfkk3vn);
 
         // Set toolbar button click listeners
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(Timer_activity.this, community_activity.class)));
@@ -61,47 +71,46 @@ public class Timer_activity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         indicatorLayout = findViewById(R.id.indicatorLayout);
 
-        // Setup ViewPager2 and its adapter
         int[] layouts = {R.layout.layout_time1, R.layout.layout_time2};
         ViewPagerAdapter adapter = new ViewPagerAdapter(this, layouts);
         viewPager.setAdapter(adapter);
 
-        // Create indicator dots
         createIndicators(pageCount);
 
-        // Retrieve workout type from intent
-        String workOutTypeText;
+        // Safely initialize workOutTypeText
+        String workOutTypeText = null;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if (extras == null) {
-                workOutTypeText = null;
-            } else {
+            if (extras != null) {
                 workOutTypeText = extras.getString("WORKOUT_TYPE");
             }
         } else {
             workOutTypeText = (String) savedInstanceState.getSerializable("WORKOUT_TYPE");
         }
+
+        // Set a default value if workOutTypeText is null
+        if (workOutTypeText == null) {
+            workOutTypeText = "Default Workout";  // Provide a default workout type to prevent null
+        }
+
         workOutType = findViewById(R.id.workOutType);
         workOutType.setText(workOutTypeText);
 
-        // Set the workout image based on the workout type
+        // Safely pass workOutTypeText to setWorkoutImage
         setWorkoutImage(workOutTypeText, workoutImage);
 
-        // Register a callback for when the page changes
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 updateIndicators(position);
 
-                // Accessing Views in the currently displayed page
                 RecyclerView recyclerView = (RecyclerView) viewPager.getChildAt(0);
                 RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
 
                 if (viewHolder != null) {
                     View pageView = viewHolder.itemView;
 
-                    // Set up NumberPickers
                     NumberPicker numberPicker1 = pageView.findViewById(R.id.numberPicker1);
                     NumberPicker numberPicker2 = pageView.findViewById(R.id.numberPicker2);
 
@@ -116,7 +125,6 @@ public class Timer_activity extends AppCompatActivity {
                         numberPicker2.setValue(0);
                     }
 
-                    // Set up timer related views
                     startPauseButton = pageView.findViewById(R.id.start_pause_button);
                     hoursTextView = pageView.findViewById(R.id.hours);
                     minutesTextView = pageView.findViewById(R.id.minutes);
@@ -126,38 +134,29 @@ public class Timer_activity extends AppCompatActivity {
                         startPauseButton.setOnClickListener(v -> toggleTimer());
                     }
 
-                    // Update the UI if the timer is running
-                    if (isRunning && hoursTextView != null && minutesTextView != null && secondsTextView != null) {
-                        updateTime();  // Immediately update the UI with the current timer value
+                    if (isRunning) {
+                        updateTime();
                     }
                 }
             }
         });
 
-        // Save button click event
         saveButton.setOnClickListener(v -> {
-            // Get the workout type and time
             String workoutType = workOutType.getText().toString();
-
-            // Call the save method
             saveWorkoutToPreferences(workoutType);
-
-            // After saving, navigate to the HomePage and pass the total time
+            saveWorkoutToDatabase(workoutType);
             Intent intent = new Intent(Timer_activity.this, HomePage.class);
             startActivity(intent);
         });
 
-        // Continue running the timer if it was already started before
         if (isRunning) {
             handler.postDelayed(runnable, 1000);
         }
     }
 
-    // Set workout image based on workout type
     private void setWorkoutImage(String workoutType, ImageView workoutImage) {
         int imageResId;
 
-        // Choose image based on workout type
         switch (workoutType) {
             case "Running":
                 imageResId = R.drawable.runnn;
@@ -166,10 +165,10 @@ public class Timer_activity extends AppCompatActivity {
                 imageResId = R.drawable.imageworkout;
                 break;
             case "Pool Swim":
-              imageResId = R.drawable.swimingg;
+                imageResId = R.drawable.swimingg;
                 break;
             case "Martial Arts":
-               imageResId = R.drawable.artmat;
+                imageResId = R.drawable.artmat;
                 break;
             case "Yoga":
                 imageResId = R.drawable.yogaaa;
@@ -182,7 +181,6 @@ public class Timer_activity extends AppCompatActivity {
                 break;
         }
 
-        // Set the image to the ImageView
         workoutImage.setImageResource(imageResId);
     }
 
@@ -197,7 +195,7 @@ public class Timer_activity extends AppCompatActivity {
     private void startTimer() {
         isRunning = true;
         if (startPauseButton != null) {
-            startPauseButton.setImageResource(R.drawable.play); // Change to play
+            startPauseButton.setImageResource(R.drawable.play);
         }
         handler.postDelayed(runnable, 1000);
     }
@@ -205,41 +203,33 @@ public class Timer_activity extends AppCompatActivity {
     private void stopTimerSafely() {
         isRunning = false;
         if (startPauseButton != null) {
-            startPauseButton.setImageResource(R.drawable.pause); // Change to pause
+            startPauseButton.setImageResource(R.drawable.pause);
         }
         handler.removeCallbacks(runnable);
     }
 
     private void saveWorkoutToPreferences(String workoutType) {
-        // Get the current NumberPicker values from the displayed page
         int currentPage = viewPager.getCurrentItem();
         RecyclerView recyclerView = (RecyclerView) viewPager.getChildAt(0);
         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(currentPage);
 
         if (viewHolder != null) {
             View pageView = viewHolder.itemView;
-
-            // Retrieve the values from the NumberPickers
             NumberPicker numberPicker1 = pageView.findViewById(R.id.numberPicker1);
             NumberPicker numberPicker2 = pageView.findViewById(R.id.numberPicker2);
 
             int selectedHours = numberPicker1 != null ? numberPicker1.getValue() : 0;
             int selectedMinutes = numberPicker2 != null ? numberPicker2.getValue() : 0;
 
-            // Convert the selected time to seconds
             int selectedTotalSeconds = (selectedHours * 3600) + (selectedMinutes * 60);
-
-            // Add the timer seconds to the selected time
             int totalWorkoutSeconds = seconds + selectedTotalSeconds;
 
-            // Calculate the total time in hours, minutes, and seconds
             int totalHours = totalWorkoutSeconds / 3600;
             int totalMinutes = (totalWorkoutSeconds % 3600) / 60;
             int totalSeconds = totalWorkoutSeconds % 60;
 
             String totalTime = String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds);
 
-            // Save the workout type and total time in SharedPreferences
             SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -247,9 +237,74 @@ public class Timer_activity extends AppCompatActivity {
             editor.putString("LAST_WORKOUT_TIME", totalTime);
             editor.apply();
 
-            // Show a success message using Toast
             Toast.makeText(this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void saveWorkoutToDatabase(String workoutType) {
+        // Create a background executor
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        // Execute the database insertion on a background thread
+        executor.execute(() -> {
+            int currentPage = viewPager.getCurrentItem();
+            RecyclerView recyclerView = (RecyclerView) viewPager.getChildAt(0);
+            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(currentPage);
+
+            if (viewHolder != null) {
+                View pageView = viewHolder.itemView;
+
+                NumberPicker numberPicker1 = pageView.findViewById(R.id.numberPicker1);
+                NumberPicker numberPicker2 = pageView.findViewById(R.id.numberPicker2);
+
+                int selectedHours = numberPicker1 != null ? numberPicker1.getValue() : 0;
+                int selectedMinutes = numberPicker2 != null ? numberPicker2.getValue() : 0;
+
+                int selectedTotalSeconds = (selectedHours * 3600) + (selectedMinutes * 60);
+                int totalWorkoutSeconds = seconds + selectedTotalSeconds;
+
+                // Create a new DailyWorkout object
+                DailyWorkout workout = new DailyWorkout();
+                workout.workoutType = workoutType;
+                workout.date = new Date(); // Current date
+                workout.caloriesBurned = calculateCalories(workoutType, totalWorkoutSeconds); // Your calorie calculation method
+                workout.icon = "some_icon_name"; // You can modify this accordingly
+
+                // Insert the workout into the Room database
+                dailyWorkoutDao.insert(workout);
+
+                // Use runOnUiThread to show a Toast on the main thread
+                runOnUiThread(() -> Toast.makeText(Timer_activity.this, "Workout saved to database!", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+    private int calculateCalories(String workoutType, int totalSeconds) {
+        int calories = 0;
+        switch (workoutType) {
+            case "Running":
+                calories = totalSeconds / 10;
+                break;
+            case "Core Training":
+                calories = totalSeconds / 12;
+                break;
+            case "Pool Swim":
+                calories = totalSeconds / 8;
+                break;
+            case "Martial Arts":
+                calories = totalSeconds / 9;
+                break;
+            case "Yoga":
+                calories = totalSeconds / 15;
+                break;
+            case "Cycling":
+                calories = totalSeconds / 11;
+                break;
+            default:
+                calories = totalSeconds / 13;
+                break;
+        }
+        return calories;
     }
 
     private Runnable runnable = new Runnable() {

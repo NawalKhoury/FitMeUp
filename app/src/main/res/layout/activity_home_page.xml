@@ -592,7 +592,7 @@
                                 android:id="@+id/rot6kqp9h3a9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0 KM"
+                                android:text="0.69 KM"
                                 android:textColor="#000000"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -672,6 +672,7 @@
                         android:id="@+id/record_workout"
                         android:layout_width="362dp"
                         android:layout_height="101dp"
+                        android:layout_alignTop="@+id/water"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="8dp"
@@ -681,7 +682,16 @@
                         android:padding="16dp"
                         app:cornerRadius="16dp" />
 
-                    <!-- Barbell Icon for Record Workout -->
+                    <ImageButton
+                        android:id="@+id/back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless" />
+
+
+                    <!-- Last Workout Details -->
+
+
                     <ImageButton
                         android:id="@+id/barbell"
                         android:layout_width="57dp"
@@ -689,12 +699,11 @@
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
                         android:layout_gravity="start|center_vertical"
-                        android:layout_marginEnd="297dp"
-                        android:layout_marginBottom="22dp"
+                        android:layout_marginEnd="284dp"
+                        android:layout_marginBottom="23dp"
                         android:background="@drawable/barbel_purple"
                         android:scaleType="fitXY" />
 
-                    <!-- EditText for Notes -->
                     <EditText
                         android:id="@+id/noteText"
                         android:layout_width="350dp"
@@ -713,13 +722,23 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
-                        android:layout_marginEnd="75dp"
-                        android:layout_marginBottom="23dp"
+                        android:layout_marginEnd="53dp"
+                        android:layout_marginBottom="25dp"
                         android:text="Record Workout"
                         android:textSize="20sp" />
 
-
-
+                    <ImageView
+                        android:id="@+id/historyic"
+                        android:layout_width="25dp"
+                        android:layout_height="27dp"
+                        android:layout_alignStart="@+id/record_workout"
+                        android:layout_alignBottom="@+id/record_workout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="316dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginBottom="63dp"
+                        android:src="@drawable/history"
+                        app:tint="#9C82C9" />
 
                 </RelativeLayout>
 

@@ -1,27 +1,79 @@
 package com.example.fitmeup;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 
 public class TimerService extends Service {
 
-    private final IBinder binder = new LocalBinder();
-    private int seconds = 0;
-    private boolean isRunning = false;
-    private Handler handler = new Handler();
-    private TimerListener timerListener;
+    private final int NOTIFICATION_ID = 1;
+    private final String CHANNEL_ID = "TimerServiceChannel";
+    private final IBinder binder = new TimerBinder();
 
-    public class LocalBinder extends Binder {
+    private Handler handler = new Handler();
+    private long startTime;
+    private boolean isRunning = false;
+
+    public class TimerBinder extends Binder {
         public TimerService getService() {
             return TimerService.this;
         }
     }
 
-    public interface TimerListener {
-        void onTick(int hours, int minutes, int seconds);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        createNotificationChannel();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (!isRunning) {
+            startTime = SystemClock.elapsedRealtime(); // Save the start time
+            handler.postDelayed(timerRunnable, 1000); // Start the timer loop
+            isRunning = true;
+        }
+        return START_STICKY;
+    }
+
+    private Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            long elapsedTime = SystemClock.elapsedRealtime() - startTime;
+            int seconds = (int) (elapsedTime / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            // Update the notification with the elapsed time
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            handler.postDelayed(this, 1000); // Continue the timer loop
+        }
+    };
+
+    // Return the elapsed time in seconds
+    public long getElapsedTime() {
+        return SystemClock.elapsedRealtime() - startTime;
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Timer Service Channel",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
+        }
     }
 
     @Override
@@ -29,52 +81,9 @@ public class TimerService extends Service {
         return binder;
     }
 
-    public void startTimer() {
-        isRunning = true;
-        handler.postDelayed(runnable, 1000);
-    }
-
-    public void stopTimer() {
-        isRunning = false;
-        handler.removeCallbacks(runnable);
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public void setTimerListener(TimerListener listener) {
-        this.timerListener = listener;
-    }
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            seconds++;
-            if (timerListener != null) {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
-                timerListener.onTick(hours, minutes, secs);
-            }
-            if (isRunning) {
-                handler.postDelayed(this, 1000);
-            }
-        }
-    };
-
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // If the timer is not already running, start it
-        if (!isRunning) {
-            startTimer();
-        }
-
-        // Keep the service running until explicitly stopped
-        return START_STICKY;
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(timerRunnable);
     }
 }
