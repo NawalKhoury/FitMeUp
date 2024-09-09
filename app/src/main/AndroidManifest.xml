@@ -6,6 +6,11 @@
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+    <!--Request Permission to Access Storage (For Android 6.0 and above)-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
 
     <application
         android:allowBackup="true"
@@ -45,6 +50,7 @@
         <activity android:name=".ProfilePageActivity"
             android:exported="false"
         />
+
         <activity
             android:name=".SettingPage"
             android:exported="false"/>
@@ -55,6 +61,16 @@
         <activity
             android:name=".ReminderPage"
             android:exported="false" />
+        <activity
+            android:name=".ReviewPageActivity"
+            android:exported="false"  />
+        <activity android:name=".HelpSupportActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
