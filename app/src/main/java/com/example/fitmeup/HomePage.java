@@ -14,10 +14,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.widget.ImageButton;
+
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,9 +37,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length (in meters) - adjust as needed
 
-public class HomePage extends AppCompatActivity {
-
-
     private ImageButton handshakeButton;
     private ImageButton home;
     private ImageButton workout;
@@ -52,8 +48,10 @@ public class HomePage extends AppCompatActivity {
     private ProgressBar progressBar;
     private ImageButton increaseWater;
     private ImageButton dicreaseWater;
+    private  TextView waterText;
+    private  TextView Name;
     int waterCount = 0;
-private  TextView waterText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +71,15 @@ private  TextView waterText;
         increaseWater=findViewById(R.id.waterImageRight);
         dicreaseWater=findViewById(R.id.waterImageLeft);
         waterText=findViewById(R.id.waterText);
+        Name=findViewById(R.id.Name);
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+
+        if (username != null) {
+            Name.setText("Hello, " + username);
+        }
+
             waterText.setText(waterCount + " Cups");
             increaseWater.setOnClickListener(v -> {
                 // Increment the waterCount by 1
@@ -140,9 +147,9 @@ private  TextView waterText;
 public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
         stepCount = (int) event.values[0];
-        stepCountTextView.setText(stepCount+"/9000");
+        stepCountTextView.setText(stepCount+"/90000");
 
-        String stepText = stepCount + "/9000";
+        String stepText = stepCount + "/90000";
         stepCountTextView.setText(stepText);
         progressBar.setProgress(stepCount);
 
