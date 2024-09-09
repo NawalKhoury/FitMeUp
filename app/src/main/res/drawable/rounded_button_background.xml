@@ -7,5 +7,11 @@
             android:top="10dp"
             android:right="10dp"
             android:bottom="10dp" />
+
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <solid android:color="@android:color/darker_gray"/>
+        <corners android:radius="24dp"/>
+
     </shape>
+
 
