@@ -492,14 +492,14 @@
                 <LinearLayout
                     android:id="@+id/r0t8ngc4hye38"
                     android:layout_width="365dp"
-                    android:layout_height="373dp"
+                    android:layout_height="370dp"
                     android:layout_gravity="start"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/cr30beff1f9"
                     android:orientation="vertical"
                     android:paddingHorizontal="21dp"
-                    android:paddingVertical="25dp">
+                    android:paddingVertical="18dp">
 
                     <LinearLayout
                         android:id="@+id/rqml5x1y02qc"
@@ -557,7 +557,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"
-                                android:text="24/300 CAL"
+                                android:text="24/500 CAL"
                                 android:textColor="#000000"
                                 android:textSize="20sp" />
 
@@ -571,11 +571,11 @@
                                 android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/r7uqrk5ywnx5"
+                                android:id="@+id/steps_counter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"
-                                android:text="991"
+                                android:text="0/9000"
                                 android:textColor="#000000"
                                 android:textSize="20sp" />
 
@@ -592,7 +592,7 @@
                                 android:id="@+id/rot6kqp9h3a9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0.69 KM"
+                                android:text="0 KM"
                                 android:textColor="#000000"
                                 android:textSize="20sp" />
                         </LinearLayout>
@@ -615,41 +615,63 @@
                     android:layout_width="wrap_content"
                     android:layout_height="324dp">
 
-
-                    <Button
-                        android:id="@+id/water"
-                        android:layout_width="362dp"
-                        android:layout_height="101dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="9dp"
-                        android:backgroundTint="@color/background_button"
-                        android:padding="16dp"
-                        android:theme="@style/Widget.AppCompat.Button"
-                        app:cornerRadius="16dp" />
+                    <!-- TextView to Display Water Amount -->
 
 
-                    <ImageButton
-                        android:id="@+id/waterImage"
-                        android:layout_width="48dp"
-                        android:layout_height="52dp"
-                        android:layout_alignEnd="@+id/water"
-                        android:layout_alignBottom="@+id/water"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_marginEnd="294dp"
-                        android:layout_marginBottom="35dp"
-                        android:background="@drawable/water_dark"
-                        android:contentDescription="@string/waterlogo"
-                        android:scaleType="fitXY" />
+                    <!-- ImageButton for Water Icon -->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="11dp"
+                        android:background="@drawable/rounded_border"> <!-- Apply background to the parent layout -->
+
+                        <!-- Left ImageButton -->
+                        <ImageButton
+                            android:id="@+id/waterImageLeft"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/emptyglass"
+                            android:contentDescription="@string/waterlogo"
+                            android:scaleType="fitXY" />
+
+                        <!-- TextView for Cups -->
+                        <TextView
+                            android:id="@+id/waterText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="101dp"
+                            android:layout_toEndOf="@id/waterImageLeft"
+                            android:layout_toStartOf="@id/waterImageRight"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:text="0 Cups"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp"
+                            android:layout_centerVertical="true"/>
+
+                        <!-- Right ImageButton -->
+                        <ImageButton
+                            android:id="@+id/waterImageRight"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/fullglass"
+                            android:contentDescription="@string/waterlogo"
+                            android:scaleType="fitXY" />
+
+                    </RelativeLayout>
+
 
                     <Button
                         android:id="@+id/record_workout"
                         android:layout_width="362dp"
                         android:layout_height="101dp"
-                        android:layout_alignTop="@+id/water"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="8dp"
@@ -659,7 +681,6 @@
                         android:padding="16dp"
                         app:cornerRadius="16dp" />
 
-                    <!-- Last Workout Details -->
 
                     <ImageButton
                         android:id="@+id/barbell"
@@ -673,6 +694,7 @@
                         android:background="@drawable/barbel_purple"
                         android:scaleType="fitXY" />
 
+                    <!-- EditText for Notes -->
                     <EditText
                         android:id="@+id/noteText"
                         android:layout_width="350dp"
@@ -685,6 +707,7 @@
                         android:hint="Tell us about your day!"
                         android:inputType="text" />
 
+                    <!-- TextView for Record Workout Label -->
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
@@ -696,15 +719,8 @@
                         android:text="Record Workout"
                         android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/water"
-                        android:layout_alignBottom="@+id/water"
-                        android:layout_marginEnd="300dp"
-                        android:layout_marginBottom="13dp"
-                        android:text="@string/waterText" />
+
+
 
                 </RelativeLayout>
 
