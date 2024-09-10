@@ -1,319 +1,323 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
     <ScrollView
-        android:clipToPadding="false"
         android:id="@+id/r43nncgb7suz"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/sffffffsw1cr50bffffff"
+        android:clipToPadding="false"
         android:paddingBottom="126dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/rchd71eqnbp6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/s5e27fdsw1b1732a4"
-                android:paddingTop="37dp"
-                android:paddingBottom="76dp"
                 android:layout_marginBottom="66dp"
-                android:orientation="vertical">
+                android:background="@drawable/s5e27fdsw1b1732a4"
+                android:orientation="vertical"
+                android:paddingTop="37dp"
+                android:paddingBottom="76dp">
+
                 <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/ri9u927bfxl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="58dp"
                     android:layout_marginHorizontal="28dp"
+                    android:layout_marginBottom="58dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <ImageView
-                        android:id="@+id/r5fi6k83s4og"
-                        android:layout_width="16dp"
+                        android:id="@+id/backtoprofile1"
+                        android:layout_width="wrap_content"
                         android:layout_height="13dp"
                         android:layout_marginEnd="112dp"
-                        android:src="@drawable/arrowleft"
                         android:scaleType="fitXY"
-                        />
+                        android:src="@drawable/arrowleft" />
+
                     <TextView
                         android:id="@+id/rjcme2cpwgbj"
-                        android:textColor="#FFFEFE"
-                        android:textSize="18sp"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Settings"
-                        />
+                        android:textColor="#FFFEFE"
+                        android:textSize="18sp" />
                 </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/r2dkbb5ibtxr_rl"
                     android:layout_width="match_parent"
                     android:layout_height="118dp"
-                    android:layout_marginBottom="24dp"
                     android:layout_marginHorizontal="141dp"
-                    >
+                    android:layout_marginBottom="24dp">
+
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/r2dkbb5ibtxr"
+                        android:id="@+id/settings_profile_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="118dp"
-                        android:src="@drawable/profileframe"
                         android:scaleType="fitXY"
-                        />
+                        android:src="@drawable/profileframe" />
 
                     <ImageView
-                            android:id="@+id/pencil"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
+                        android:id="@+id/select_profile_image_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
                         android:background="@drawable/round_blue_shape"
-                        android:src="@drawable/pen"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/pen" />
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/rycon1235wc8"
-                    android:textColor="#FFFFFF"
-                    android:textSize="30sp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginStart="98dp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="98dp"
+                    android:layout_marginBottom="2dp"
                     android:text="Hey, Dima Haj"
-                    />
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp" />
+
                 <TextView
                     android:id="@+id/rttpgh07epdp"
-                    android:textColor="#FFFEFE"
-                    android:textSize="15sp"
-                    android:layout_marginStart="119dp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="119dp"
                     android:text="dimahaj1@gmail.com"
-                    />
+                    android:textColor="#FFFEFE"
+                    android:textSize="15sp" />
             </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/ruasmy5j4ks"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/privacypolicylayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="21dp"
                 android:layout_marginHorizontal="23dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="21dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
                 <ImageView
                     android:id="@+id/rqc6vqu7tq4"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="35dp"
-                    android:src="@drawable/privacyicon"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/privacyicon" />
+
                 <TextView
                     android:id="@+id/rw1kxx1bdrrq"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Privacy Policy"
-                    />
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/rvwsvske0d6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
+
                 <ImageView
                     android:id="@+id/rvpm1vkscii8"
                     android:layout_width="7dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/rightvector"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/rightvector" />
             </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/rdldgsuqjj5o"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/reviewbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="20dp"
                 android:layout_marginHorizontal="22dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
                 <ImageView
                     android:id="@+id/rqyc3qi9sih"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="36dp"
-                    android:src="@drawable/reviewicon"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/reviewicon" />
+
                 <TextView
                     android:id="@+id/rsvyuz2ouuv"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Review"
-                    />
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/rygj1mchmct"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
+
                 <ImageView
                     android:id="@+id/rkrtpmh5g7fh"
                     android:layout_width="7dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/rightvector"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/rightvector" />
             </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/rml93g0j2i7r"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="21dp"
                 android:layout_marginHorizontal="23dp"
+                android:layout_marginBottom="21dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/rifcgvbdkwbn"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="33dp"
-                    android:src="@drawable/resetpassicon"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/resetpassicon" />
+
                 <TextView
                     android:id="@+id/rvk3y1mo0f"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Reset Password"
-                    />
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/rgzva2mmr4vm"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
+
                 <ImageView
                     android:id="@+id/rfxhbhknntsl"
                     android:layout_width="7dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/rightvector"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/rightvector" />
             </LinearLayout>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/rqylcqpyve0g"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/helpsupportbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="18dp"
                 android:layout_marginHorizontal="23dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
                 <ImageView
                     android:id="@+id/r45uk3vu7e19"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="35dp"
-                    android:src="@drawable/helpicon"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/helpicon" />
+
                 <TextView
                     android:id="@+id/rua683piyx0f"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Help &amp; Support"
-                    />
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/rh447dwqldzm"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
+
                 <ImageView
                     android:id="@+id/rkf7hrjk4kk"
                     android:layout_width="7dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/rightvector"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/rightvector" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/rpvnco9srnsq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginHorizontal="24dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/rx3j3u0vjh6g"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="34dp"
-                    android:src="@drawable/logouticon"
                     android:scaleType="fitXY"
-                    />
+                    android:src="@drawable/logouticon" />
+
                 <TextView
                     android:id="@+id/rjbb8pfjn1go"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Logout"
-                    />
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/r8u1i522s2z9"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
 
                 <ImageView
                     android:id="@+id/r5dipmm7xkiu"

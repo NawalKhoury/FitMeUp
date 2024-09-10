@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Model_activity">
+
+    <!-- ViewPager for front and back body models -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/indicatorLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/front_body_description"
+        />
+
+    <!-- Indicator dots for ViewPager -->
+    <LinearLayout
+        android:id="@+id/indicatorLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Dots will be added dynamically -->
+    </LinearLayout>
+
+    <!-- Bottom Toolbar Section -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bottom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white_transparent_50"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Toolbar buttons -->
+        <ImageButton
+            android:id="@+id/toolbar_home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/home"
+            android:contentDescription="@string/toolbar_home_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/profile"
+            android:contentDescription="@string/toolbar_profile_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_target"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/target"
+            android:contentDescription="@string/toolbar_target_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_exercise"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/exercise"
+            android:contentDescription="@string/toolbar_exercise_description"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/toolbar_handshake"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/handshake"
+            android:contentDescription="@string/toolbar_handshake_description"
+            android:scaleType="fitXY" />
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,7 +37,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/r1yqdxvb4b1o"
+                    android:id="@+id/behind_three_dots"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="9dp"
@@ -54,7 +54,7 @@
                         android:layout_weight="1" />
 
                     <ImageView
-                        android:id="@+id/rk7kyita9y1"
+                        android:id="@+id/three_dots"
                         android:layout_width="wrap_content"
                         android:layout_height="6dp"
                         android:scaleType="fitXY"
@@ -68,7 +68,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/rh5jiv8vhh4t"
+                    android:id="@+id/profile_image_view"
                     android:layout_width="111dp"
                     android:layout_height="118dp"
                     android:layout_marginEnd="30dp"
@@ -86,10 +86,9 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/rwqg4jf4gjm9"
+                        android:id="@+id/usernameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dima Haj"
                         android:textColor="#000000"
                         android:textSize="32sp" />
 
@@ -111,11 +110,11 @@
                             android:textSize="16sp" />
 
                         <TextView
-                            android:id="@+id/rd24t617aakm"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/ageTextView"
+                            android:layout_width="32dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            android:text="24"
+                            android:text=""
                             android:textColor="#000000"
                             android:textSize="16sp" />
 
@@ -165,11 +164,11 @@
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
+                    <!-- Input for Weight -->
                     <TextView
-                        android:id="@+id/r3bdudmfdflm"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/weightTextView"
+                        android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:text="53"
                         android:textColor="#000000"
                         android:textSize="40sp" />
 
@@ -212,11 +211,10 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/rafzbfx5hp7"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/heightTextView"
+                        android:layout_width="51dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="163"
                         android:textColor="#000000"
                         android:textSize="40sp" />
 
@@ -275,7 +273,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/rzxkl3gyvxel"
+                        android:id="@+id/bmiStatusTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
@@ -382,7 +380,7 @@
                         android:id="@+id/rohvd9wouvvs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ON AVERAGE"
+                        android:text="BMI STATUS"
                         android:textColor="#1732A4"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -417,7 +415,7 @@
                         android:paddingBottom="36dp">
 
                         <TextView
-                            android:id="@+id/rkdqrc8csk2"
+                            android:id="@+id/bmiTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_gravity="end"
@@ -468,6 +466,64 @@
                     android:textSize="13sp" />
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/bottom_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/white_transparent_50"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <ImageButton
+                    android:id="@+id/toolbar_home"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/home"
+                    android:contentDescription="@string/toolbar_home_description"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_profile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/profile"
+                    android:contentDescription="@string/toolbar_profile_description"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_target"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/target"
+                    android:contentDescription="@string/toolbar_target_description"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_exercise"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/exercise"
+                    android:contentDescription="@string/toolbar_exercise_description"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_handshake"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/handshake"
+                    android:contentDescription="@string/toolbar_handshake_description"
+                    android:scaleType="fitXY" />
+
+            </androidx.appcompat.widget.Toolbar>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -15,7 +15,7 @@
     <color name="background_color">#F5F5F5</color>
     <color name="dark_blue">#003366</color>
     <color name="background_button">#EFF1F9</color>
-
+    <color name="primaryColor">#FF5722</color>
 
 
 </resources>

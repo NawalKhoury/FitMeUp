@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help and Support"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp" />
+
+    <!-- Contact Support Button -->
+    <Button
+        android:id="@+id/contact_support_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Support"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- FAQ Button -->
+    <Button
+        android:id="@+id/faq_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View FAQs"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Email Support Button -->
+    <Button
+        android:id="@+id/email_support_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email Support"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

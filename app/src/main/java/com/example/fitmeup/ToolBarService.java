@@ -11,11 +11,11 @@ public class ToolBarService {
         context.startActivity(intent);
     }
 
-/*    public static navigateToProfileScreen(Context context) {
+    public static void navigateToProfileScreen(Context context) {
         // Create an Intent to navigate to the ProfileActivity
-        Intent intent = new Intent(context, ProfileActivity);
+        Intent intent = new Intent(context, ProfilePageActivity.class);
         context.startActivity(intent);
-        }*/
+    }
 
     public static void navigateToWorkoutScreen(Context context) {
         // Create an Intent to navigate to the TargetActivity
@@ -26,6 +26,11 @@ public class ToolBarService {
     public static void navigateToCommunityScreen(Context context) {
         // Create an Intent to navigate to the CommunityActivity
         Intent intent = new Intent(context, community_activity.class);
+        context.startActivity(intent);
+    }
+    public static void navigateToModelScreen(Context context) {
+        // Create an Intent to navigate to the Model
+        Intent intent = new Intent(context, Model_activity.class);
         context.startActivity(intent);
     }
 
