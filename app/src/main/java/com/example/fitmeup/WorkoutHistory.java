@@ -1,6 +1,9 @@
 package com.example.fitmeup;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,7 +34,7 @@ public class WorkoutHistory extends AppCompatActivity {
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
         dailyWorkoutDao = db.dailyWorkoutDao();
 
-        // Load the workout history from the database using background thread
+        // Load the workout history from the database using a background thread
         loadWorkoutHistory();
     }
 
@@ -53,28 +56,52 @@ public class WorkoutHistory extends AppCompatActivity {
                     return;
                 }
 
-                // Display each workout
+                // Inflate and display each workout using your provided layout
+                LayoutInflater inflater = LayoutInflater.from(this);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
 
                 for (DailyWorkout workout : workoutList) {
-                    // Create a TextView for each workout entry
-                    TextView workoutTextView = new TextView(this);
-                    workoutTextView.setTextSize(18);
-                    workoutTextView.setTextColor(getResources().getColor(android.R.color.black));
+                    // Inflate the CardView layout
+                    View workoutCard = inflater.inflate(R.layout.workout_card, workoutListContainer, false);
 
-                    // Format the workout details into a string
-                    String workoutDetails = String.format(
-                            Locale.getDefault(),
-                            "%s - %s - %d calories",
-                            workout.workoutType,
-                            dateFormat.format(workout.date),
-                            workout.caloriesBurned
-                    );
+                    // Set workout details in the CardView
+                    TextView workoutType = workoutCard.findViewById(R.id.workout_type);
+                    workoutType.setText(workout.workoutType);
 
-                    workoutTextView.setText(workoutDetails);
-                    workoutListContainer.addView(workoutTextView); // Add the TextView to the container
+                    TextView caloriesInfo = workoutCard.findViewById(R.id.calories_info);
+                    caloriesInfo.setText(String.format(Locale.getDefault(), "%d Cal", workout.caloriesBurned));
+
+                    TextView workoutDate = workoutCard.findViewById(R.id.workout_type);
+                    workoutDate.setText(dateFormat.format(workout.date));
+
+                    // Dynamically set the workout icon
+                    ImageView workoutIcon = workoutCard.findViewById(R.id.workout_icon);
+                    workoutIcon.setImageResource(getWorkoutIcon(workout.workoutType));
+
+                    // Add the card to the container
+                    workoutListContainer.addView(workoutCard);
                 }
             });
         });
+    }
+
+    // Helper method to map workout type to corresponding icon
+    private int getWorkoutIcon(String workoutType) {
+        switch (workoutType.toLowerCase()) {
+            case "running":
+                return R.drawable.run;
+            case "core training":
+                return R.drawable.core;
+            case "pool swim":
+                return R.drawable.swim;
+            case "martial arts":
+                return R.drawable.art;
+            case "yoga":
+                return R.drawable.yoga;
+            case "cycling":
+                return R.drawable.bike;
+            default:
+                return R.drawable.run; // Fallback icon
+        }
     }
 }
