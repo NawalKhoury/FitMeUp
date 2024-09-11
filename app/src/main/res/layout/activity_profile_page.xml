@@ -167,10 +167,10 @@
                     <!-- Input for Weight -->
                     <TextView
                         android:id="@+id/weightTextView"
-                        android:layout_width="52dp"
+                        android:layout_width="75dp"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
-                        android:textSize="40sp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/rnkf9jwzaohq"
@@ -212,11 +212,11 @@
 
                     <TextView
                         android:id="@+id/heightTextView"
-                        android:layout_width="51dp"
+                        android:layout_width="62dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:textColor="#000000"
-                        android:textSize="40sp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/r3dsa2swxqgc"

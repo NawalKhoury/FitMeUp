@@ -1,6 +1,8 @@
 package com.example.fitmeup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -81,6 +83,11 @@ public class LoginActivity extends AppCompatActivity {
                         // Credentials are correct, open HomeActivity
                         Intent intent = new Intent(LoginActivity.this, HomePage.class);
                         intent.putExtra("username", username); // Add the username to the Intent
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("userId", user.getId() + "");
+                        editor.putString("username", user.getUsername());
+                        editor.apply();
                         startActivity(intent);
                         finish(); // Optional: Close LoginActivity
                     } else {
