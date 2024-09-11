@@ -3,14 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <!-- ARCore permissions -->
     <uses-feature
         android:name="android.hardware.camera.ar"
-        android:required="true" />
-    <!--Request Permission to Access Storage (For Android 6.0 and above)-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-
+        android:required="true" /> <!-- Notification permission -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -34,49 +31,15 @@
             <!-- If needed, add intent-filters here -->
         </activity>
         <activity
+            android:name=".Reminder3Activity"
+            android:exported="false" />
+<!-- ForgotPasswordActivity -->
+        <activity
             android:name=".ForgotPasswordActivity"
-            android:exported="false" /> <!-- HomeActivity -->
-
-        <activity
-            android:name=".HomePage"
-            android:exported="false" />
-
-        <activity
-            android:name=".WorkoutActivity"
-            android:exported="false" />
-       <!-- ForgotPasswordActivity -->
+            android:exported="false" /> <!-- ReminderActivity -->
         <activity
             android:name=".ReminderActivity"
             android:exported="false" /> <!-- MainActivity is the entry point of the application -->
-
-        <activity android:name=".ProfilePageActivity"
-            android:exported="false"
-        />
-
-        <activity
-            android:name=".SettingPage"
-            android:exported="false"/>
-        <activity
-            android:name=".community_activity"
-            android:exported="false" />
-        <activity android:name=".Model_activity"
-            android:exported="false"/>
-
-
-
-        <activity
-            android:name=".ReminderPage"
-            android:exported="false" />
-        <activity
-            android:name=".ReviewPageActivity"
-            android:exported="false"  />
-        <activity android:name=".HelpSupportActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".PrivacyPolicyActivity"
-            android:exported="false"/>
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -91,7 +54,11 @@
             android:exported="false" /> <!-- RegisterActivity -->
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- HomePage -->
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
