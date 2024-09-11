@@ -32,11 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Select Workout"
-            android:textColor="#111111"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp" />
+        android:textColor="#111111"
+        android:textSize="24sp"
+        android:gravity="center"/>
+
     </LinearLayout>
 
     <!-- Grid Layout for Workouts -->
@@ -67,7 +66,7 @@
                 android:background="@color/background_button"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"> <!-- Subtle gray background -->
+                android:padding="16dp">
 
                 <ImageView
                     android:layout_width="40dp"

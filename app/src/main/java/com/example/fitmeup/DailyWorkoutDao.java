@@ -20,12 +20,12 @@ public interface DailyWorkoutDao {
     @Delete
     void delete(DailyWorkout dailyWorkout);
 
-    @Query("SELECT * FROM daily_workouts WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM daily_workouts WHERE id = :id")
     DailyWorkout getWorkoutById(int id);
 
     @Query("SELECT * FROM daily_workouts ORDER BY date DESC")
     List<DailyWorkout> getAllWorkouts();
 
-    @Query("SELECT * FROM daily_workouts WHERE date = :date LIMIT 1")
-    DailyWorkout getWorkoutByDate(Date date);
+    @Query("SELECT * FROM daily_workouts WHERE date = :date")
+    List<DailyWorkout> getWorkoutsByDate(Date date);
 }
