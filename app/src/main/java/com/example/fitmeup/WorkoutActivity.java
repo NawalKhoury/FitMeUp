@@ -38,6 +38,8 @@ public class WorkoutActivity extends AppCompatActivity {
         // Set click listeners for toolbar buttons
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, community_activity.class)));
         homeScreenButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, HomePage.class)));
+        profileButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, ProfilePageActivity.class)));
+        targetButton.setOnClickListener(v -> startActivity(new Intent(WorkoutActivity.this, Model_activity.class)));
 
 
         // Set click listeners for each workout
