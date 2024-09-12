@@ -10,6 +10,7 @@
     android:layout_height="match_parent">
 
     <!-- Floating Action Button for Adding a Reminder -->
+
     <ScrollView
         android:id="@+id/reminderScrollView"
         android:layout_width="match_parent"
