@@ -48,14 +48,7 @@
             android:name=".HomePage"
             android:exported="false" />
 
-<<<<<<< Nawal
-=======
-        <activity android:name=".SettingPage"
-            android:exported="false">
 
-        </activity>
-        <!-- LoginActivity: User login -->
->>>>>>> master
         <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
@@ -79,9 +72,11 @@
 
 
 
-        <activity android:name=".WorkoutHistory" />
+        <activity android:name=".WorkoutHistory"
+            android:exported="false" />
+
         <activity
-            android:name=".ReminderPage"
+            android:name=".Reminder3Activity"
             android:exported="false" />
         <activity
             android:name=".ReviewPageActivity"
