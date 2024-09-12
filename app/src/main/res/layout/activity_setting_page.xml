@@ -76,7 +76,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/round_blue_shape"
+                        android:background="@color/white_transparent_50"
                         android:scaleType="centerCrop"
                         android:src="@drawable/pen" />
                 </RelativeLayout>
