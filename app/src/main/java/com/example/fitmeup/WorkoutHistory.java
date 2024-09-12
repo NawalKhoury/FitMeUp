@@ -74,8 +74,7 @@ public class WorkoutHistory extends AppCompatActivity {
     private void saveWorkoutWithCurrentDate() {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            Workout workout = new Workout("Running", new Date(), 300, "running_icon");
-            workoutDao.insert(workout);
+
         });
     }
 
