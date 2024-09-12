@@ -34,4 +34,10 @@ public class ToolBarService {
         context.startActivity(intent);
     }
 
+    public static void navigateToTimerScreen(Context context) {
+        // Create an Intent to navigate to the profile
+        Intent intent = new Intent(context, ProfilePageActivity.class);
+        context.startActivity(intent);
+    }
+
 }

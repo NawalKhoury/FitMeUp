@@ -76,27 +76,26 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/round_blue_shape"
+                        android:background="@color/white_transparent_50"
                         android:scaleType="centerCrop"
                         android:src="@drawable/pen" />
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/rycon1235wc8"
+                    android:id="@+id/namesetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="98dp"
                     android:layout_marginBottom="2dp"
-                    android:text="Hey, Dima Haj"
+                    android:text="Hey, "
                     android:textColor="#FFFFFF"
                     android:textSize="30sp" />
 
                 <TextView
-                    android:id="@+id/rttpgh07epdp"
+                    android:id="@+id/emailsetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="119dp"
-                    android:text="dimahaj1@gmail.com"
                     android:textColor="#FFFEFE"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -198,7 +197,7 @@
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rml93g0j2i7r"
+                android:id="@+id/resetPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="23dp"
@@ -287,7 +286,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/rpvnco9srnsq"
+                android:id="@+id/logoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"

@@ -24,4 +24,7 @@ public interface RegisterUserDao {
 
     @Query("SELECT * FROM register_users")
     List<RegisterUser> getAllUsers();
+
+    @Query("SELECT * FROM register_users WHERE id = :id")
+    RegisterUser getUserById(String id);
 }
