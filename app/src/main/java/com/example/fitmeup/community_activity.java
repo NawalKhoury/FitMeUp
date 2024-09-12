@@ -69,9 +69,8 @@ public class community_activity extends AppCompatActivity {
     private void setupToolbarButtons() {
         home.setOnClickListener(v -> startActivity(new Intent(community_activity.this, HomePage.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(community_activity.this, community_activity.class)));
-        training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, Timer_activity.class))); // Correct reference
+        training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, WorkoutActivity.class))); // Correct reference
         profile.setOnClickListener(v -> startActivity(new Intent(community_activity.this, ProfilePageActivity.class)));
-        workout.setOnClickListener(v -> startActivity(new Intent(community_activity.this, WorkoutActivity.class))); // Fixed training -> workout
     }
 
     private void handlePostButtonClick() {
