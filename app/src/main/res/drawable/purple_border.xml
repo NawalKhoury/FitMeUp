@@ -1,0 +1,6 @@
+<!-- purple_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/> <!-- Background color -->
+    <stroke android:width="2dp" android:color="#03A9F4"/> <!-- Purple border -->
+    <corners android:radius="8dp"/> <!-- Rounded corners for the border -->
+</shape>

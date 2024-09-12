@@ -10,16 +10,16 @@ public class Reminder {
     private int id;
 
     private String title;
-    private String startTime;
-    private String endTime;
-    private String remindEvery;
+    private String chooseTime;  // For the selected time
+    private String remindEvery;  // For the "remind me every" field
+    private boolean isNotificationEnabled;  // To store the state of the notification switch
 
     // Constructor
-    public Reminder(String title, String startTime, String endTime, String remindEvery) {
+    public Reminder(String title, String chooseTime, String remindEvery, boolean isNotificationEnabled) {
         this.title = title;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.chooseTime = chooseTime;
         this.remindEvery = remindEvery;
+        this.isNotificationEnabled = isNotificationEnabled;
     }
 
     // Getters and setters
@@ -39,20 +39,12 @@ public class Reminder {
         this.title = title;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getChooseTime() {
+        return chooseTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setChooseTime(String chooseTime) {
+        this.chooseTime = chooseTime;
     }
 
     public String getRemindEvery() {
@@ -61,5 +53,13 @@ public class Reminder {
 
     public void setRemindEvery(String remindEvery) {
         this.remindEvery = remindEvery;
+    }
+
+    public boolean isNotificationEnabled() {
+        return isNotificationEnabled;
+    }
+
+    public void setNotificationEnabled(boolean notificationEnabled) {
+        isNotificationEnabled = notificationEnabled;
     }
 }

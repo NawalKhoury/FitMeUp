@@ -100,7 +100,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
      
 
-        reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
+        reminder.setOnClickListener(v -> startActivity(new Intent(this, Reminder3Activity.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));

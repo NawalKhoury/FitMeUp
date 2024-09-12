@@ -14,7 +14,6 @@ public class SnoozeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String title = intent.getStringExtra("title");
 
-        // Schedule the notification to fire after 2 minutes
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 2);
 

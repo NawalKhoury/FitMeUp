@@ -35,11 +35,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0") // Use the latest version available
     implementation("androidx.room:room-runtime:2.5.2")
     annotationProcessor("androidx.room:room-compiler:2.5.2")
-
-
     implementation ("com.google.android.material:material:1.4.0")  // Or the latest version
-
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -65,4 +61,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    on("androidx.test.espresso:espresso-core:3.5.1")}
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")}

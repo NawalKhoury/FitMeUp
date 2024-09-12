@@ -23,20 +23,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         // Create an intent for the OK action (dismiss notification)
         Intent okIntent = new Intent(context, DismissReceiver.class);
-        okIntent.putExtra("notificationId", 1); // Use 1 as the notification ID for simplicity
+        okIntent.putExtra("notificationId", 1);
         PendingIntent okPendingIntent = PendingIntent.getBroadcast(context, 1, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Reminder3Activity.CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification)
                 .setContentTitle(title)
-                .setContentText("It's time to drink water!")
+                .setContentText("It's time for your reminder!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .addAction(R.drawable.snooze, "Snooze 2 min", snoozePendingIntent)
                 .addAction(R.drawable.ok, "OK", okPendingIntent)
                 .setAutoCancel(true);
 
-        // Show the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(1, builder.build());
     }

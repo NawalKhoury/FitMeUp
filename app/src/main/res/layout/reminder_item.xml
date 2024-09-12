@@ -21,7 +21,7 @@
             android:paddingEnd="8dp" />
 
         <TextView
-            android:id="@+id/reminderTitle"
+            android:id="@+id/reminderTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reminder Title"
@@ -31,7 +31,7 @@
             android:paddingBottom="8dp" />
     </LinearLayout>
 
-    <!-- Start Time and End Time with icons -->
+    <!-- Choose Time Spinner -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,34 +51,13 @@
             android:id="@+id/startTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Time:"
+            android:text="Choose Time:"
             android:layout_gravity="center_vertical"
             android:paddingEnd="4dp"
             android:textSize="16sp" />
 
         <Spinner
-            android:id="@+id/startTimeSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/endTimeIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/time"
-       />
-
-        <TextView
-            android:id="@+id/endTimeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="End Time:"
-            android:layout_gravity="center_vertical"
-            android:paddingEnd="4dp"
-            android:textSize="16sp" />
-
-        <Spinner
-            android:id="@+id/endTimeSpinner"
+            android:id="@+id/chooseTimeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -121,14 +100,15 @@
         android:orientation="horizontal"
         android:paddingTop="8dp">
 
-        <!-- Edit and Delete icons -->
-
+        <!-- Reminder switch -->
         <Switch
             android:id="@+id/reminderSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="                                                 " />
+            android:text="Enable Reminder"
+            android:checked="false" />
 
+        <!-- Edit and Delete icons -->
         <ImageView
             android:id="@+id/editReminder"
             android:layout_width="wrap_content"
