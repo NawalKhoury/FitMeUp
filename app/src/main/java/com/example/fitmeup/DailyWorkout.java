@@ -10,28 +10,28 @@ public class DailyWorkout {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private Date date;
-    private int calories;
+    private int calory;
     private int stepsCounter;
-    private int distance;
+    private int distans;
     private int waterCups;
-    private int workoutTime;
-    private String Description;
+    private ArrayList<Workout> workoutDailyHistory;
+    private String description;
 
     // Empty constructor
-    public DailyWorkout() {}
-
-    // Parameterized constructor
-    public DailyWorkout(Date date, int calories, int stepsCounter, int distance, int waterCups, int workoutTime, String description) {
-        this.date = date;
-        this.calories = calories;
-        this.stepsCounter = stepsCounter;
-        this.distance = distance;
-        this.waterCups = waterCups;
-        this.workoutTime = workoutTime;
-        this.Description = description;
+    public DailyWorkout() {
     }
 
-    // Getters and setters
+    public DailyWorkout(int calory, Date date, int stepsCounter, int distans, int waterCups, ArrayList<Workout> workoutDailyHistory, String description) {
+        this.calory = calory;
+        this.date = date;
+        this.stepsCounter = stepsCounter;
+        this.distans = distans;
+        this.waterCups = waterCups;
+        this.workoutDailyHistory = workoutDailyHistory;
+        this.description = description;
+    }
+
+    // Getter and Setter for id
     public int getId() {
         return id;
     }
@@ -40,6 +40,7 @@ public class DailyWorkout {
         this.id = id;
     }
 
+    // Getters and Setters for other fields
     public Date getDate() {
         return date;
     }
@@ -48,12 +49,12 @@ public class DailyWorkout {
         this.date = date;
     }
 
-    public int getCalories() {
-        return calories;
+    public int getCalory() {
+        return calory;
     }
 
-    public void setCalories(int calories) {
-        this.calories = calories;
+    public void setCalory(int calory) {
+        this.calory = calory;
     }
 
     public int getStepsCounter() {
@@ -64,12 +65,20 @@ public class DailyWorkout {
         this.stepsCounter = stepsCounter;
     }
 
-    public int getDistance() {
-        return distance;
+    public int getDistans() {
+        return distans;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
+    public void setDistans(int distans) {
+        this.distans = distans;
+    }
+
+    public ArrayList<Workout> getWorkoutDailyHistory() {
+        return workoutDailyHistory;
+    }
+
+    public void setWorkoutDailyHistory(ArrayList<Workout> workoutDailyHistory) {
+        this.workoutDailyHistory = workoutDailyHistory;
     }
 
     public int getWaterCups() {
@@ -80,20 +89,12 @@ public class DailyWorkout {
         this.waterCups = waterCups;
     }
 
-    public int getWorkoutTime() {
-        return workoutTime;
-    }
-
-    public void setWorkoutTime(int workoutTime) {
-        this.workoutTime = workoutTime;
-    }
-
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        this.Description = description;
+        this.description = description;
     }
 
     @Override
@@ -101,12 +102,12 @@ public class DailyWorkout {
         return "DailyWorkout{" +
                 "id=" + id +
                 ", date=" + date +
-                ", calories=" + calories +
+                ", calory=" + calory +
                 ", stepsCounter=" + stepsCounter +
-                ", distance=" + distance +
+                ", distans=" + distans +
                 ", waterCups=" + waterCups +
-                ", workoutTime=" + workoutTime +
-                ", Description='" + Description + '\'' +
+                ", workoutDailyHistory=" + workoutDailyHistory +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
