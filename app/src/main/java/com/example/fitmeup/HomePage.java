@@ -129,11 +129,11 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private void setUpButtonListeners() {
         // Set up navigation button listeners
-        reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(this, Model_activity.class)));
+        reminder.setOnClickListener(v -> startActivity(new Intent(this, Reminder3Activity.class)));
 
 
 
