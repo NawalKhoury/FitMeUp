@@ -254,16 +254,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/rmqxblbyh7p"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginBottom="18dp"
-                        android:text="SCORE"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <TextView
                         android:id="@+id/rad15q8gsoih"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -273,7 +263,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/bmiStatusTextView"
+                        android:id="@+id/level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
@@ -294,12 +284,16 @@
                     android:clipChildren="false"
                     android:clipToPadding="false">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/r86k3c9i0tg"
-                        android:layout_width="117dp"
-                        android:layout_height="118dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/graphpie" />
+                    <ProgressBar
+                        android:id="@+id/circularProgressBarLevel"
+                        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true"
+                        android:max="9000"
+                        android:progress="0"
+                        android:indeterminate="false"
+                        android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
