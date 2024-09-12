@@ -5,38 +5,47 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class}, version = 3) // Updated version number
-@TypeConverters({Converters.class})
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class}, version = 2)
+@TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 
+    // Singleton instance
     private static RegisterUserDatabase instance;
 
+
+    // DAO for user registration
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Migration logic here
+            // For example, if you added a new column:
+            database.execSQL("ALTER TABLE reminder_table ADD COLUMN newColumn TEXT");
+        }
+    };
+    // DAOs
     public abstract RegisterUserDao registerUserDao();
+    public abstract ReminderDao reminderDao();
     public abstract DailyWorkoutDao dailyWorkoutDao();
     public abstract WorkoutDao WorkoutDao();
 
-    // Example migration from version 2 to 3
-    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-        @Override
-        public void migrate(SupportSQLiteDatabase database) {
-            // Add a new column to the workout table
-            // You can replace this with actual changes based on your schema changes
-            database.execSQL("ALTER TABLE workout ADD COLUMN new_column_name TEXT");
-        }
-    };
-
+    // Singleton instance of the database
     public static synchronized RegisterUserDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             RegisterUserDatabase.class, "fitmeup_database")
-                    // Add migrations to handle schema changes without data loss
-                    .addMigrations(MIGRATION_2_3)  // Add other migrations as needed
-                    // OR fallback to destructive migration if you don't need to preserve data
-                    .fallbackToDestructiveMigration()  // Deletes old data if version mismatch
+
+
+                    .fallbackToDestructiveMigration()  // Handle schema migrations
+
                     .build();
         }
         return instance;

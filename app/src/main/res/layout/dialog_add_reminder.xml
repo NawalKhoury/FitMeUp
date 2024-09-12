@@ -1,0 +1,100 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="12dp"
+    android:backgroundTint="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- EditText for Reminder Title -->
+        <EditText
+            android:id="@+id/reminderTitleEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Reminder Title"
+            android:inputType="text"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="12dp"
+            android:textColor="#00BCD4"
+            android:textColorHint="#00BCD4"
+            android:textSize="16sp" />
+
+        <!-- Choose Time Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Choose Time"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#00BCD4"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/chooseTimeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"/>
+
+        <!-- Remind me every Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Remind me every:"
+            android:textSize="16sp"
+            android:textColor="#00BCD4"/>
+
+        <Spinner
+            android:id="@+id/remindEverySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"/>
+
+        <!-- Edit Icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <!-- Edit Button -->
+            <ImageView
+                android:id="@+id/editReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Edit Reminder" />
+
+            <!-- Delete Button -->
+            <ImageView
+                android:id="@+id/deleteReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Delete Reminder" />
+        </LinearLayout>
+
+        <!-- Switch for Enabling/Disabling Notifications -->
+        <Switch
+            android:id="@+id/reminderSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable reminder notifications"
+            android:checked="false"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

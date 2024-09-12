@@ -1,3 +1,4 @@
+
 package com.example.fitmeup;
 
 import android.app.DatePickerDialog;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialize the DAO
+
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
 
         // Gender Spinner setup
@@ -167,7 +169,6 @@ public class RegisterActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(securityAnswer)) {
                 Toast.makeText(RegisterActivity.this, "Please provide an answer to the security question", Toast.LENGTH_SHORT).show();
             } else {
-                // Create a RegisterUser object
                 RegisterUser newUser = new RegisterUser(
                         username, email, confirmEmail, password, confirmPassword, birthDate,
                         selectedGender, selectedHealthProblems, selectedSecurityQuestion, securityAnswer, weight, height
@@ -180,17 +181,22 @@ public class RegisterActivity extends AppCompatActivity {
                 intent1.putExtra("USER_NAME", username);
                 startActivity(intent1);
 
-                // Insert the user into the database using a separate thread
+
+                Log.d("DB", "Inserting new user...");
                 new Thread(() -> {
-                    registerUserDao.insert(newUser);
-                    runOnUiThread(() -> {
-                        Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                        // Optionally, navigate to login or home activity
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    });
+                    try {
+                        registerUserDao.insert(newUser);
+                        runOnUiThread(() -> {
+                            Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        });
+                    } catch (Exception e) {
+                        Log.e("DB", "Error inserting new user", e);
+                    }
                 }).start();
+
             }
         });
     }

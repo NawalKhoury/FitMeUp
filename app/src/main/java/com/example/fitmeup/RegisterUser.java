@@ -20,6 +20,9 @@ public class RegisterUser {
     private String securityAnswer;
     private String weight;
     private String height;
+    public RegisterUser() {
+    }
+
 
     public RegisterUser(String username, String email, String confirmEmail, String password, String confirmPassword,
                         String birthDate, String gender, String healthProblemStatus, String securityQuestion,

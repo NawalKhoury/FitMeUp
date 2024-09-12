@@ -31,6 +31,8 @@
                 android:layout_marginStart="76dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/bagel_fat_one"
+
                 android:text="FitMeUp" />
 
             <LinearLayout
@@ -135,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="Login"
-                    android:background="@drawable/cr8b25cef4"
+                    android:backgroundTint="#03A9F4"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="20dp" />
             </LinearLayout>

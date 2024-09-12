@@ -1,5 +1,6 @@
 <resources>
 
+
     <string name="app_name">FitMeUp</string>
     <string-array name="gender_options">
 
@@ -14,9 +15,10 @@
         <item>What is the name of your first pet?</item>
     </string-array>
     <string-array name="health_problems_options">
-        <item>Select an option</item>
-        <item>I have health problems</item>
-        <item>I do not have health problems</item>
+        <item>Maintain a healthy lifestyle</item>
+        <item> Gain muscle mass</item>
+        <item> Lose weight</item>
+
     </string-array>
     <string name="toolbar_home_description">Home</string>
     <string name="toolbar_profile_description">Profile</string>
@@ -39,5 +41,17 @@
     <string name="front_body">front body</string>
     <string name="watch_video">Watch Video</string>
     <string name="exercise_name">Exercise Name</string>
+    <string-array name="time_options">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>3 Months</item>
+        <item>6 Months</item>
+        <item>Year</item>
 
+
+</string-array>
+    <string name="set_reminder">SET REMINDER</string>
+    <string name="sub_reminder">Keep focus on your health!</string>
+    <string name="add_new_reminder">Add a new reminder</string>
 </resources>
