@@ -98,5 +98,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".HelpSupportActivity" android:exported="false"/>
+        <activity android:name=".PrivacyPolicyActivity" android:exported="false"/>
+        <activity android:name=".ReviewPageActivity" android:exported="false"/>
+
+
+
+
     </application>
 </manifest>
