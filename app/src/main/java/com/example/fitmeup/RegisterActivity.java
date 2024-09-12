@@ -170,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Create a RegisterUser object
                 RegisterUser newUser = new RegisterUser(
                         username, email, confirmEmail, password, confirmPassword, birthDate,
-                        selectedGender, selectedHealthProblems, selectedSecurityQuestion, securityAnswer, weight, height
+                        selectedGender, selectedHealthProblems, selectedSecurityQuestion, securityAnswer, weight, height,1
                 );
 
                 Intent intent1 = new Intent(RegisterActivity.this, ProfilePageActivity.class);
