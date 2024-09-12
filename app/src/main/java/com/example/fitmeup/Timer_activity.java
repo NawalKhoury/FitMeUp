@@ -42,16 +42,16 @@ public class Timer_activity extends AppCompatActivity {
     private ImageView saveButton;
     private ImageView workoutImage;
 
-    private DailyWorkoutDao dailyWorkoutDao;
+    private WorkoutDao workoutDao;  // Correct DAO reference
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        // Initialize Room database and DailyWorkoutDao
+        // Initialize Room database and WorkoutDao
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
-        dailyWorkoutDao = db.dailyWorkoutDao();  // Get DailyWorkoutDao instance
+        workoutDao = db.WorkoutDao();  // Get WorkoutDao instance
 
         // Initialize toolbar buttons
         handshakeButton = findViewById(R.id.toolbar_handshake);
@@ -263,15 +263,11 @@ public class Timer_activity extends AppCompatActivity {
                 int selectedTotalSeconds = (selectedHours * 3600) + (selectedMinutes * 60);
                 int totalWorkoutSeconds = seconds + selectedTotalSeconds;
 
-                // Create a new DailyWorkout object
-                DailyWorkout workout = new DailyWorkout();
-                workout.workoutType = workoutType;
-                workout.date = new Date(); // Current date
-                workout.caloriesBurned = calculateCalories(workoutType, totalWorkoutSeconds); // Your calorie calculation method
-                workout.icon = "some_icon_name"; // You can modify this accordingly
+                // Create a new Workout object
+                Workout workout = new Workout(workoutType, new Date(), calculateCalories(workoutType, totalWorkoutSeconds), "some_icon_name");
 
-                // Insert the workout into the Room database
-                dailyWorkoutDao.insert(workout);
+                // Insert the workout into the Room database using the correct DAO instance
+                workoutDao.insert(workout);
 
                 // Use runOnUiThread to show a Toast on the main thread
                 runOnUiThread(() -> Toast.makeText(Timer_activity.this, "Workout saved to database!", Toast.LENGTH_SHORT).show());
