@@ -11,6 +11,7 @@
         android:name="android.hardware.camera.ar"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -47,7 +48,11 @@
             android:name=".ProfilePageActivity"
             android:exported="false" />
 
+
         <!-- ForgotPasswordActivity: Password recovery -->
+
+        <activity android:name=".WorkoutHistory" />
+
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />

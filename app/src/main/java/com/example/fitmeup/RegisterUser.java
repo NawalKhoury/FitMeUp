@@ -23,6 +23,9 @@ public class RegisterUser {
     public RegisterUser() {
     }
 
+    public RegisterUser() {
+    }
+
     public RegisterUser(String username, String email, String confirmEmail, String password, String confirmPassword,
                         String birthDate, String gender, String healthProblemStatus, String securityQuestion,
                         String securityAnswer, String weight, String height) {

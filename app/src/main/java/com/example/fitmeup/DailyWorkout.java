@@ -3,6 +3,7 @@ package com.example.fitmeup;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity(tableName = "daily_workouts")
@@ -14,24 +15,24 @@ public class DailyWorkout {
     private int stepsCounter;
     private int distans;
     private int waterCups;
-    private int workoutTime;
-    private String Description;
+    private ArrayList<Workout> workoutDailyHistory;
+    private String description;
 
     // Empty constructor
-    public DailyWorkout() {}
+    public DailyWorkout() {
+    }
 
-    // Parameterized constructor
-    public DailyWorkout(Date date, int calory, int stepsCounter, int distans, int waterCups, int workoutTime, String description) {
-        this.date = date;
+    public DailyWorkout(int calory, Date date, int stepsCounter, int distans, int waterCups, ArrayList<Workout> workoutDailyHistory, String description) {
         this.calory = calory;
+        this.date = date;
         this.stepsCounter = stepsCounter;
         this.distans = distans;
         this.waterCups = waterCups;
-        this.workoutTime = workoutTime;
-        this.Description = description;
+        this.workoutDailyHistory = workoutDailyHistory;
+        this.description = description;
     }
 
-    // Getters and setters
+    // Getter and Setter for id
     public int getId() {
         return id;
     }
@@ -40,6 +41,7 @@ public class DailyWorkout {
         this.id = id;
     }
 
+    // Getters and Setters for other fields
     public Date getDate() {
         return date;
     }
@@ -72,6 +74,14 @@ public class DailyWorkout {
         this.distans = distans;
     }
 
+    public ArrayList<Workout> getWorkoutDailyHistory() {
+        return workoutDailyHistory;
+    }
+
+    public void setWorkoutDailyHistory(ArrayList<Workout> workoutDailyHistory) {
+        this.workoutDailyHistory = workoutDailyHistory;
+    }
+
     public int getWaterCups() {
         return waterCups;
     }
@@ -80,20 +90,12 @@ public class DailyWorkout {
         this.waterCups = waterCups;
     }
 
-    public int getWorkoutTime() {
-        return workoutTime;
-    }
-
-    public void setWorkoutTime(int workoutTime) {
-        this.workoutTime = workoutTime;
-    }
-
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        this.Description = description;
+        this.description = description;
     }
 
     @Override
@@ -105,8 +107,8 @@ public class DailyWorkout {
                 ", stepsCounter=" + stepsCounter +
                 ", distans=" + distans +
                 ", waterCups=" + waterCups +
-                ", workoutTime=" + workoutTime +
-                ", Description='" + Description + '\'' +
+                ", workoutDailyHistory=" + workoutDailyHistory +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

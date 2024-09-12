@@ -1,10 +1,8 @@
 package com.example.fitmeup;
 
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,7 +12,6 @@ public class Model_activity extends AppCompatActivity {
     private LinearLayout indicatorLayout;
     private ImageView[] dots;
     private BodyPagerAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
