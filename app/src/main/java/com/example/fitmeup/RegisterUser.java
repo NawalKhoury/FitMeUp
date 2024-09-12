@@ -20,13 +20,12 @@ public class RegisterUser {
     private String securityAnswer;
     private String weight;
     private String height;
+    private int level;
 
-    public RegisterUser(String username, String email, String confirmEmail, String password, String confirmPassword,
-                        String birthDate, String gender, String healthProblemStatus, String securityQuestion,
-                        String securityAnswer, String weight, String height) {
+    public RegisterUser(String username, String confirmEmail, String email, String password, String confirmPassword, String birthDate, String gender, String healthProblemStatus, String securityQuestion, String securityAnswer, String weight, String height, int level) {
         this.username = username;
-        this.email = email;
         this.confirmEmail = confirmEmail;
+        this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.birthDate = birthDate;
@@ -36,6 +35,7 @@ public class RegisterUser {
         this.securityAnswer = securityAnswer;
         this.weight = weight;
         this.height = height;
+        this.level = level;
     }
 
     // Getters and setters for each field
@@ -142,4 +142,13 @@ public class RegisterUser {
     public void setHeight(String height) {
         this.height = height;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
 }
