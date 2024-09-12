@@ -82,8 +82,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         waterText=findViewById(R.id.waterText);
         Name=findViewById(R.id.Name);
 
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", null);
 
         if (username != null) {
             Name.setText("Hello, " + username);
