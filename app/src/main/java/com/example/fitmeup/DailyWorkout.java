@@ -1,8 +1,10 @@
 package com.example.fitmeup;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity(tableName = "daily_workouts")
@@ -97,6 +99,7 @@ public class DailyWorkout {
         this.description = description;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "DailyWorkout{" +

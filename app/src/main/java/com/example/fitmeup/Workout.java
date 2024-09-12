@@ -1,6 +1,7 @@
 package com.example.fitmeup;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class Workout {
         this.icon = icon;
     }
 
+    @Ignore
     public Workout() {}
 
     // Getters and setters

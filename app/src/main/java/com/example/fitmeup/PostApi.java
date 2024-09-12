@@ -17,7 +17,7 @@ public interface PostApi {
     Call<Void> createPost(@Body Post post);
 
     @GET("/api/posts/{id}")
-    Call<Post> getPostById(@Path("id") int id);
+    Call<Post> getPostById(@Path("id") long id);
 
     @GET("/api/posts")
     Call<List<Post>> getAllPosts();
@@ -26,7 +26,7 @@ public interface PostApi {
     Call<Void> updatePost(@Body Post post);
 
     @DELETE("/api/posts/{id}")
-    Call<Void> deletePost(@Path("id") int id);
+    Call<Void> deletePost(@Path("id") long id);
 
     @GET("/api/posts/search")
     Call<List<Post>> getPostsByKeyword(@Query("keyword") String keyword);

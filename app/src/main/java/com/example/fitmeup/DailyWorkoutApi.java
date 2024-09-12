@@ -18,7 +18,7 @@ public interface DailyWorkoutApi {
     Call<Void> createDailyWorkout(@Body DailyWorkout dailyWorkout);
 
     @GET("/api/daily-workouts/{id}")
-    Call<DailyWorkout> getWorkoutById(@Path("id") int id);
+    Call<DailyWorkout> getWorkoutById(@Path("id") long id);
 
     @GET("/api/daily-workouts")
     Call<List<DailyWorkout>> getAllWorkouts();
@@ -27,7 +27,7 @@ public interface DailyWorkoutApi {
     Call<Void> updateDailyWorkout(@Body DailyWorkout dailyWorkout);
 
     @DELETE("/api/daily-workouts/{id}")
-    Call<Void> deleteDailyWorkout(@Path("id") int id);
+    Call<Void> deleteDailyWorkout(@Path("id") long id);
 
     @GET("/api/daily-workouts/date")
     Call<DailyWorkout> getWorkoutByDate(@Query("date") Date date);
