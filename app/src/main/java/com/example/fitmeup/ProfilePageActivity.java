@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,12 +41,12 @@ public class ProfilePageActivity extends AppCompatActivity {
     private ImageButton targetButton;
     private ImageButton exerciseButton;
     private ImageButton handshakeButton;
+    private ProgressBar circularProgressBarProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-
 
         // Initialize toolbar buttons
         homeScreenButton = findViewById(R.id.toolbar_home);
@@ -59,10 +61,12 @@ public class ProfilePageActivity extends AppCompatActivity {
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, WorkoutActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, Model_activity.class)));
 
-
+        // Initialize views and CircularProgressBar for BMI
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
-
         initViews();
+
+        // Initialize CircularProgressBar
+        circularProgressBarProfile = findViewById(R.id.circularProgressBarProfile);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", null);
@@ -122,6 +126,9 @@ public class ProfilePageActivity extends AppCompatActivity {
                     // Update BMI and BMI status in TextViews
                     bmiTextView.setText(String.format(Locale.getDefault(), "%.1f", bmi));  // Set BMI to 1 decimal place
                     bmiStatusTextView.setText(bmiStatus);                                // Set BMI status
+
+                    // Set CircularProgressBar progress according to BMI
+                    updateBmiProgressBar(bmi);
                 } catch (NumberFormatException e) {
                     bmiTextView.setText("N/A"); // Set as not available if error
                     bmiStatusTextView.setText("Unknown");
@@ -142,6 +149,28 @@ public class ProfilePageActivity extends AppCompatActivity {
             int score = calculateScore(registerUser);
             scoreTextView.setText(String.format(Locale.getDefault(), "%d%%", score));  // Set score in percentage format
         });
+    }
+
+    private void updateBmiProgressBar(double bmi) {
+        int progress;
+
+        // Define the minimum and maximum BMI values for the "normal" range
+        double minBmi = 18.5;  // Lower bound of healthy weight
+        double maxBmi = 24.9;  // Upper bound of healthy weight
+
+        // Convert BMI range to progress (0 to 100)
+        if (bmi < minBmi) {
+            progress = 0;
+        } else if (bmi > maxBmi) {
+            progress = 100;
+        } else {
+            // Map BMI (18.5 - 24.9) to progress (0 - 100)
+            progress = (int) (((bmi - minBmi) / (maxBmi - minBmi)) * 100);
+        }
+
+        // Set the progress on the circular progress bar
+        circularProgressBarProfile.setMax(100);  // Set max value to 100
+        circularProgressBarProfile.setProgress(progress);  // Set current progress
     }
 
     // Method to calculate age based on the birthday
@@ -204,6 +233,5 @@ public class ProfilePageActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profile_image_view);
         scoreTextView = findViewById(R.id.scoreset);  // Assuming this is the ID for the score TextView
     }
-
 
 }
