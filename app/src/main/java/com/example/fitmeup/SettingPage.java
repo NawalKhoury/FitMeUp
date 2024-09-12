@@ -32,6 +32,7 @@ public class SettingPage extends AppCompatActivity {
     private LinearLayout reviewButton, helpSupportButton;
     private LinearLayout logoutButton;
     private TextView nameSetting, emailSetting;
+    private LinearLayout resetPassword;
 
     private RegisterUserDao registerUserDao;
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -52,7 +53,8 @@ public class SettingPage extends AppCompatActivity {
         helpSupportButton = findViewById(R.id.helpsupportbutton);
         logoutButton = findViewById(R.id.logoutButton);
         nameSetting = findViewById(R.id.namesetting);  // TextView for displaying the name
-        emailSetting = findViewById(R.id.emailsetting); // TextView for displaying the email
+        emailSetting = findViewById(R.id.emailsetting);
+        resetPassword = findViewById(R.id.resetPassword);
 
         // Load user's name and email from the database using userId
         loadUserInfo();
@@ -102,6 +104,12 @@ public class SettingPage extends AppCompatActivity {
             Intent intent = new Intent(SettingPage.this, LoginActivity.class);
             startActivity(intent);
         });
+
+        resetPassword.setOnClickListener(view -> {
+            Intent intent = new Intent(SettingPage.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+                }
+                );
 
         reviewButton.setOnClickListener(v -> {
             Intent intent = new Intent(SettingPage.this, ReviewPageActivity.class);

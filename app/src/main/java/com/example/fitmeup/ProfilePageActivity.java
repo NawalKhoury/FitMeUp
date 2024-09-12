@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,11 +34,31 @@ public class ProfilePageActivity extends AppCompatActivity {
     private RegisterUserDao registerUserDao;
     private RegisterUser registerUser;
     private Executor executor = Executors.newSingleThreadExecutor();
+    private ImageButton homeScreenButton;
+    private ImageButton profileButton;
+    private ImageButton targetButton;
+    private ImageButton exerciseButton;
+    private ImageButton handshakeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+
+        // Initialize toolbar buttons
+        homeScreenButton = findViewById(R.id.toolbar_home);
+        profileButton = findViewById(R.id.toolbar_profile);
+        targetButton = findViewById(R.id.toolbar_target);
+        exerciseButton = findViewById(R.id.toolbar_exercise);
+        handshakeButton = findViewById(R.id.toolbar_handshake);
+
+        // Set click listeners for toolbar buttons
+        handshakeButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
+        homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, HomePage.class)));
+        exerciseButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, WorkoutActivity.class)));
+        targetButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, Model_activity.class)));
+
 
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
 
@@ -183,4 +204,6 @@ public class ProfilePageActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profile_image_view);
         scoreTextView = findViewById(R.id.scoreset);  // Assuming this is the ID for the score TextView
     }
+
+
 }
