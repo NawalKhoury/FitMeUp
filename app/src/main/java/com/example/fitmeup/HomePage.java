@@ -1,14 +1,9 @@
 package com.example.fitmeup;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
-
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -16,6 +11,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import android.widget.ProgressBar;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,13 +30,18 @@ import java.util.Locale;
 public class HomePage extends AppCompatActivity implements SensorEventListener {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length
+
     private SensorManager sensorManager;
     private Sensor stepCounterSensor;
+
     private TextView stepCountTextView;
     private TextView distanceTextView;
+    private TextView dateTextView;
+    private TextView dateYearTextView;
+
     private int stepCount = 0;
 
-    private static final float STEP_LENGTH_IN_METERS = 0.762f; // Average step length (in meters) - adjust as needed
 
     private ImageButton handshakeButton;
     private ImageButton home;
@@ -43,7 +49,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private ImageButton profile;
     private ImageButton training;
     private ImageButton reminder;
-    private TextView dateTextView;
+    private ImageView historyIcon;
     private TextView date_year;
     private ProgressBar progressBar;
     private ImageButton increaseWater;
@@ -52,19 +58,22 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private  TextView Name;
     int waterCount = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // Initialize UI components
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
         targetButton = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
         reminder = findViewById(R.id.reminderButton);
+        historyIcon = findViewById(R.id.historyic);
         stepCountTextView = findViewById(R.id.steps_counter);
-        distanceTextView = findViewById(R.id.rot6kqp9h3a9); // Ensure this id matches your layout
+        distanceTextView = findViewById(R.id.rot6kqp9h3a9); // Ensure this matches your layout ID
         dateTextView = findViewById(R.id.Date);
         date_year = findViewById(R.id.dateText);
          progressBar = findViewById(R.id.circularProgressBar);
@@ -97,17 +106,37 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             // Update the waterText TextView with the new count
             waterText.setText(waterCount + " Cups");
         });
+        dateYearTextView = findViewById(R.id.dateText);
 
-     
+        // Set up button click listeners
+        setUpButtonListeners();
 
+        // Set the current date and year text views
+        setCurrentDateAndYear();
+
+        // Initialize step counter sensor
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        }
+
+        // Check and request activity recognition permission if necessary
+        checkAndRequestPermissions();
+
+        // Display last workout details from SharedPreferences
+        displayLastWorkoutDetails();
+    }
+
+    private void setUpButtonListeners() {
+        // Set up navigation button listeners
         reminder.setOnClickListener(v -> startActivity(new Intent(this, ReminderPage.class)));
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(this, Model_activity.class)));
-      
 
-      
+
+
         // Fetch the last workout type and time from SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
         String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
@@ -116,28 +145,23 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         // Find and set the text in the record workout section
         TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
         recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+        historyIcon.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutHistory.class)));
+    }
 
-
-        // Get the current date
-        Calendar calendar1 = Calendar.getInstance();
+    private void setCurrentDateAndYear() {
+        // Set formatted date and year/month in the UI
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("E, d MMM yyyy", Locale.getDefault());
-        String currentDate = dateFormat1.format(calendar1.getTime());
-
-        // Set the formatted date to the TextView
+        String currentDate = dateFormat1.format(calendar.getTime());
         dateTextView.setText(currentDate);
 
-        Calendar calendar2 = Calendar.getInstance();
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        String currentYearMonth = dateFormat2.format(calendar2.getTime());
+        String currentYearMonth = dateFormat2.format(calendar.getTime());
+        dateYearTextView.setText(currentYearMonth);
+    }
 
-        // Set the formatted year and month to the TextView
-        date_year.setText(currentYearMonth);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager != null) {
-            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        }
-
-        // Request permission if not granted
+    private void checkAndRequestPermissions() {
+        // Check for activity recognition permission, request if not granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, PERMISSION_REQUEST_CODE);
         } else {
@@ -145,18 +169,28 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
     }
 
-@Override
-public void onSensorChanged(SensorEvent event) {
-    if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-        stepCount = (int) event.values[0];
-        stepCountTextView.setText(stepCount+"/90000");
+private void displayLastWorkoutDetails() {
+        // Fetch and display the last workout details from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+
+        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // Handle sensor changes for step counter
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            stepCount = (int) event.values[0];
+            stepCountTextView.setText(stepCount+"/90000");
 
         String stepText = stepCount + "/90000";
         stepCountTextView.setText(stepText);
         progressBar.setProgress(stepCount);
 
-
-        // Calculate distance in kilometers
+        // Calculate and display distance in kilometers
         float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
         float distanceInKilometers = distanceInMeters / 1000;
         distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
@@ -166,6 +200,7 @@ public void onSensorChanged(SensorEvent event) {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // No need to implement for step counter
     }
 
     @Override
@@ -183,12 +218,14 @@ public void onSensorChanged(SensorEvent event) {
     }
 
     private void registerStepCounterSensor() {
+        // Register the step counter sensor listener
         if (stepCounterSensor != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
     private void unregisterStepCounterSensor() {
+        // Unregister the step counter sensor listener
         if (stepCounterSensor != null) {
             sensorManager.unregisterListener(this, stepCounterSensor);
         }
@@ -196,6 +233,7 @@ public void onSensorChanged(SensorEvent event) {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // Handle permission request results
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
