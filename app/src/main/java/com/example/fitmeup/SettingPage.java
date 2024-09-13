@@ -22,9 +22,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SettingPage extends AppCompatActivity {
 
+    private ImageDao imageDao;
     private ImageView profileImageView;
     private ImageView selectProfileImageButton;
     private ImageView backtoprofile1;
@@ -44,6 +46,10 @@ public class SettingPage extends AppCompatActivity {
         setContentView(R.layout.activity_setting_page);
 
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
+        // Initialize Room database and WorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+        imageDao = db.imageDao();
+
 
         profileImageView = findViewById(R.id.default_profile_image);
         selectProfileImageButton = findViewById(R.id.select_profile_image_button);
@@ -86,16 +92,20 @@ public class SettingPage extends AppCompatActivity {
 
     private void loadProfileImage() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String imageUriString = sharedPreferences.getString("profileImageUri", null);
+        String username = sharedPreferences.getString("username", null);
 
-        if (imageUriString != null) {
-            Uri imageUri = Uri.parse(imageUriString);
-            Glide.with(this).load(imageUri).into(profileImageView);
-        } else {
-            // Load default image
-            profileImageView.setImageResource(R.drawable.default_profile_image);
-        }
+        imageDao.getImageById(username).observe(this, imageUriString -> {
+            if (imageUriString != null) {
+                Uri imageUri = Uri.parse(imageUriString);
+                Glide.with(this).load(imageUri).into(profileImageView);
+            } else {
+                // Load default image
+                profileImageView.setImageResource(R.drawable.default_profile_image);
+            }
+        });
     }
+
+
 
     private void setupListeners() {
         backtoprofile1.setOnClickListener(v -> {
@@ -145,7 +155,17 @@ public class SettingPage extends AppCompatActivity {
 
                 // Save the image URI in SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+               SharedPreferences.Editor editor = sharedPreferences.edit();
+                String username = sharedPreferences.getString("username", null);
+
+                executor.execute(() -> {
+
+                            ImageEntity imageEntity = new ImageEntity();
+                            imageEntity.setImageUrl(selectedImageUri.toString());
+                            imageEntity.setUserId(username);
+                            imageDao.insert(imageEntity);
+                        });
+
                 editor.putString("profileImageUri", selectedImageUri.toString());
                 editor.apply();
             }

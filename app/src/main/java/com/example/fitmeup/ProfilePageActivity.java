@@ -37,12 +37,18 @@ public class ProfilePageActivity extends AppCompatActivity {
     private ImageButton targetButton;
     private ImageButton exerciseButton;
     private ImageButton handshakeButton;
-    private ProgressBar circularProgressBarProfile, circularProgressBarLevel, circularProgressBarBMI;  // Add BMI ProgressBar
+    private ProgressBar circularProgressBarProfile, circularProgressBarLevel, circularProgressBarBMI;
+    private ImageDao imageDao;
+    // Add BMI ProgressBar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+        // Initialize Room database and WorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+         imageDao = db.imageDao();
 
         homeScreenButton = findViewById(R.id.toolbar_home);
         profileButton = findViewById(R.id.toolbar_profile);
@@ -84,14 +90,17 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     private void loadProfileImage() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String imageUriString = sharedPreferences.getString("profileImageUri", null);
+        String username = sharedPreferences.getString("username", null);
 
-        if (imageUriString != null) {
-            Uri imageUri = Uri.parse(imageUriString);
-            Glide.with(this).load(imageUri).into(profileImageView);
-        } else {
-            profileImageView.setImageResource(R.drawable.default_profile_image);  // Load the default image
-        }
+        imageDao.getImageById(username).observe(this, imageUriString -> {
+            if (imageUriString != null) {
+                Uri imageUri = Uri.parse(imageUriString);
+                Glide.with(this).load(imageUri).into(profileImageView);
+            } else {
+                // Load default image
+                profileImageView.setImageResource(R.drawable.default_profile_image);
+            }
+        });
     }
 
     private void initViews() {
