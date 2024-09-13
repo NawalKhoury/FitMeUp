@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,15 +23,13 @@ public class SettingPage extends AppCompatActivity {
 
     private ImageView profileImageView;
     private ImageView selectProfileImageButton;
+    private ImageView backtoprofile1; // Declare the backtoprofile1 ImageView
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri selectedImageUri;
-    private ImageView backtoprofile;
-    private LinearLayout privacyPolicyLayout;
-    private LinearLayout reviewButton, helpSupportButton;
-    private LinearLayout logoutButton;
+
+    private LinearLayout privacyPolicyLayout, reviewButton, helpSupportButton, logoutButton, resetPassword;
     private TextView nameSetting, emailSetting;
-    private LinearLayout resetPassword;
 
     private RegisterUserDao registerUserDao;
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -40,140 +37,133 @@ public class SettingPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_page); //settings layout XML
+        setContentView(R.layout.activity_setting_page); // Settings layout XML
 
         // Initialize database DAO
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
 
-        backtoprofile = findViewById(R.id.backtoprofile1);
-        selectProfileImageButton = findViewById(R.id.select_profile_image_button);
+        // Initialize Views
         profileImageView = findViewById(R.id.settings_profile_image_view);
+        selectProfileImageButton = findViewById(R.id.select_profile_image_button);
+        backtoprofile1 = findViewById(R.id.backtoprofile1); // Initialize backtoprofile1
         privacyPolicyLayout = findViewById(R.id.privacypolicylayout);
         reviewButton = findViewById(R.id.reviewbutton);
         helpSupportButton = findViewById(R.id.helpsupportbutton);
         logoutButton = findViewById(R.id.logoutButton);
-        nameSetting = findViewById(R.id.namesetting);  // TextView for displaying the name
+        nameSetting = findViewById(R.id.namesetting);
         emailSetting = findViewById(R.id.emailsetting);
         resetPassword = findViewById(R.id.resetPassword);
 
         // Load user's name and email from the database using userId
         loadUserInfo();
 
-        // Set up listeners for buttons, image selectors, etc.
+        // Set up listeners for buttons and image selector
         setupListeners();
     }
 
-    // Load the user's name and email from the database using userId from SharedPreferences
+    // Load user information from shared preferences and database
     private void loadUserInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String userId = sharedPreferences.getString("userId", ""); // Get userId from SharedPreferences
+        String userId = sharedPreferences.getString("userId", "");
 
         if (!userId.isEmpty()) {
-            // Fetch user details using the userId from the database
             executor.execute(() -> {
                 RegisterUser registerUser = registerUserDao.getUserById(userId);
-                if (registerUser != null) {
-                    // Update the UI on the main thread after fetching the data
-                    runOnUiThread(() -> {
-                        nameSetting.setText("Hey, "+ registerUser.getUsername());
+                runOnUiThread(() -> {
+                    if (registerUser != null) {
+                        nameSetting.setText("Hey, " + registerUser.getUsername());
                         emailSetting.setText(registerUser.getEmail());
-                    });
-                } else {
-                    // Handle case where the user is not found
-                    runOnUiThread(() -> {
+                    } else {
                         nameSetting.setText("User not found");
                         emailSetting.setText("No email available");
-                    });
-                }
+                    }
+                });
             });
         } else {
-            // Handle case where userId is not available in SharedPreferences
             nameSetting.setText("User not found");
             emailSetting.setText("No email available");
         }
     }
 
-    // Setup listeners for different buttons and actions
+    // Setup listeners for various UI elements
     private void setupListeners() {
-        helpSupportButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, HelpSupportActivity.class);
+        // Back to profile button listener
+        backtoprofile1.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingPage.this, ProfilePageActivity.class); // Go back to ProfilePageActivity
             startActivity(intent);
         });
 
-        logoutButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, LoginActivity.class);
-            startActivity(intent);
-        });
+        // Help and Support
+        helpSupportButton.setOnClickListener(v -> startActivity(new Intent(this, HelpSupportActivity.class)));
 
-        resetPassword.setOnClickListener(view -> {
-            Intent intent = new Intent(SettingPage.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-                }
-                );
+        // Logout Button
+        logoutButton.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
 
-        reviewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, ReviewPageActivity.class);
-            startActivity(intent);
-        });
+        // Reset Password Button
+        resetPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
 
-        privacyPolicyLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, PrivacyPolicyActivity.class);
-            startActivity(intent);
-        });
+        // Review Button
+        reviewButton.setOnClickListener(v -> startActivity(new Intent(this, ReviewPageActivity.class)));
 
-        // Image selection button click listener
+        // Privacy Policy Button
+        privacyPolicyLayout.setOnClickListener(v -> startActivity(new Intent(this, PrivacyPolicyActivity.class)));
+
+        // Profile Image Button (Select Image)
         selectProfileImageButton.setOnClickListener(v -> {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(SettingPage.this, android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(SettingPage.this, new String[]{android.Manifest.permission.READ_MEDIA_IMAGES}, PERMISSION_REQUEST_CODE);
-                } else {
-                    openGallery();
-                }
-            } else {
-                if (ContextCompat.checkSelfPermission(SettingPage.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(SettingPage.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                } else {
-                    openGallery();
-                }
-            }
-        });
-
-        backtoprofile.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, ProfilePageActivity.class);
-            startActivity(intent);
+            checkAndRequestPermission(); // Check permission before accessing gallery
         });
     }
 
-    // Method to open the gallery
+    // Check for the necessary permissions (based on Android version) and open the gallery
+    private void checkAndRequestPermission() {
+        String permission;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            // For Android 13 and above
+            permission = android.Manifest.permission.READ_MEDIA_IMAGES;
+        } else {
+            // For Android 12 and below
+            permission = android.Manifest.permission.READ_EXTERNAL_STORAGE;
+        }
+
+        // If permission is not granted, request it
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
+        } else {
+            // Permission granted, open gallery
+            openGallery();
+        }
+    }
+
+    // Open the device's gallery for selecting an image
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    // Handle the result from permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, open gallery
                 openGallery();
             } else {
+                // Permission denied
                 Toast.makeText(this, "Permission denied to access media", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    // Handle the result from the gallery intent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            // Get selected image URI and display it in the profileImageView
             selectedImageUri = data.getData();
-            // Display the selected image in the profileImageView in the settings page
-            profileImageView.setImageURI(selectedImageUri);
-
-            // Pass the image URI to the ProfilePageActivity
-            Intent intent = new Intent(SettingPage.this, ProfilePageActivity.class);
-            intent.putExtra("PROFILE_IMAGE_URI", selectedImageUri.toString()); // Pass the URI as a string
-            startActivity(intent);
+            profileImageView.setImageURI(selectedImageUri); // Display the selected image
         }
     }
 }
