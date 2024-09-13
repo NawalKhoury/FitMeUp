@@ -1,10 +1,12 @@
 package com.example.fitmeup;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -23,7 +27,7 @@ public class SettingPage extends AppCompatActivity {
 
     private ImageView profileImageView;
     private ImageView selectProfileImageButton;
-    private ImageView backtoprofile1; // Declare the backtoprofile1 ImageView
+    private ImageView backtoprofile1;
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri selectedImageUri;
@@ -37,15 +41,13 @@ public class SettingPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_page); // Settings layout XML
+        setContentView(R.layout.activity_setting_page);
 
-        // Initialize database DAO
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
 
-        // Initialize Views
-        profileImageView = findViewById(R.id.settings_profile_image_view);
+        profileImageView = findViewById(R.id.default_profile_image);
         selectProfileImageButton = findViewById(R.id.select_profile_image_button);
-        backtoprofile1 = findViewById(R.id.backtoprofile1); // Initialize backtoprofile1
+        backtoprofile1 = findViewById(R.id.backtoprofile1);
         privacyPolicyLayout = findViewById(R.id.privacypolicylayout);
         reviewButton = findViewById(R.id.reviewbutton);
         helpSupportButton = findViewById(R.id.helpsupportbutton);
@@ -54,14 +56,11 @@ public class SettingPage extends AppCompatActivity {
         emailSetting = findViewById(R.id.emailsetting);
         resetPassword = findViewById(R.id.resetPassword);
 
-        // Load user's name and email from the database using userId
         loadUserInfo();
-
-        // Set up listeners for buttons and image selector
+       loadProfileImage();
         setupListeners();
     }
 
-    // Load user information from shared preferences and database
     private void loadUserInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
@@ -85,85 +84,82 @@ public class SettingPage extends AppCompatActivity {
         }
     }
 
-    // Setup listeners for various UI elements
+    private void loadProfileImage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String imageUriString = sharedPreferences.getString("profileImageUri", null);
+
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            Glide.with(this).load(imageUri).into(profileImageView);
+        } else {
+            // Load default image
+            profileImageView.setImageResource(R.drawable.default_profile_image);
+        }
+    }
+
     private void setupListeners() {
-        // Back to profile button listener
         backtoprofile1.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingPage.this, ProfilePageActivity.class); // Go back to ProfilePageActivity
+            Intent intent = new Intent(SettingPage.this, ProfilePageActivity.class);
             startActivity(intent);
         });
 
-        // Help and Support
         helpSupportButton.setOnClickListener(v -> startActivity(new Intent(this, HelpSupportActivity.class)));
-
-        // Logout Button
         logoutButton.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
-
-        // Reset Password Button
         resetPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
-
-        // Review Button
         reviewButton.setOnClickListener(v -> startActivity(new Intent(this, ReviewPageActivity.class)));
-
-        // Privacy Policy Button
         privacyPolicyLayout.setOnClickListener(v -> startActivity(new Intent(this, PrivacyPolicyActivity.class)));
 
-        // Profile Image Button (Select Image)
-        selectProfileImageButton.setOnClickListener(v -> {
-            checkAndRequestPermission(); // Check permission before accessing gallery
-        });
+        selectProfileImageButton.setOnClickListener(v -> checkAndRequestPermission());
     }
 
-    // Check for the necessary permissions (based on Android version) and open the gallery
     private void checkAndRequestPermission() {
         String permission;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            // For Android 13 and above
-            permission = android.Manifest.permission.READ_MEDIA_IMAGES;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission = Manifest.permission.READ_MEDIA_IMAGES;
         } else {
-            // For Android 12 and below
-            permission = android.Manifest.permission.READ_EXTERNAL_STORAGE;
+            permission = Manifest.permission.READ_EXTERNAL_STORAGE;
         }
 
-        // If permission is not granted, request it
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
         } else {
-            // Permission granted, open gallery
             openGallery();
         }
     }
 
-    // Open the device's gallery for selecting an image
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    // Handle the result from permission request
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, open gallery
-                openGallery();
-            } else {
-                // Permission denied
-                Toast.makeText(this, "Permission denied to access media", Toast.LENGTH_SHORT).show();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+
+            if (selectedImageUri != null) {
+                Glide.with(this).load(selectedImageUri).into(profileImageView);
+
+                // Save the image URI in SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("profileImageUri", selectedImageUri.toString());
+                editor.apply();
             }
         }
     }
 
-    // Handle the result from the gallery intent
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            // Get selected image URI and display it in the profileImageView
-            selectedImageUri = data.getData();
-            profileImageView.setImageURI(selectedImageUri); // Display the selected image
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
+        } else {
+            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
     }
 }
