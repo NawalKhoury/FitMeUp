@@ -6,15 +6,17 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- For Android 13 (API 33) and above -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <!-- For Android 12 (API 31) and below -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- ARCore feature -->
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+    <!--Request Permission to Access Storage (For Android 6.0 and above)-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
@@ -28,88 +30,83 @@
         android:theme="@style/Theme.FitMeUp"
         tools:targetApi="31">
 
-        <!-- MainActivity: Entry point of the app -->
+        <activity
+            android:name=".ViewPagerAdapter"
+            android:exported="false" />
+
+        <activity
+            android:name=".Timer_activity"
+            android:exported="false" />
+        <activity android:name=".RegisterActivity$Timer_activity">
+            <!-- If needed, add intent-filters here -->
+        </activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" /> <!-- HomeActivity -->
+
+        <activity
+            android:name=".HomePage"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".WorkoutActivity"
+            android:exported="false" />
+       <!-- ForgotPasswordActivity -->
+        <activity
+            android:name=".ReminderActivity"
+            android:exported="false" /> <!-- MainActivity is the entry point of the application -->
+
+        <activity android:name=".ProfilePageActivity"
+            android:exported="false"
+        />
+
+        <activity
+            android:name=".SettingPage"
+            android:exported="false"/>
+        <activity
+            android:name=".community_activity"
+            android:exported="false" />
+        <activity android:name=".Model_activity"
+            android:exported="false"/>
+
+
+
+        <activity android:name=".WorkoutHistory"
+            android:exported="false" />
+
+        <activity
+            android:name=".Reminder3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ReviewPageActivity"
+            android:exported="false"  />
+        <activity android:name=".HelpSupportActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- RegisterActivity: User registration -->
+        </activity> <!-- LoginActivity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" /> <!-- RegisterActivity -->
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
-        <activity android:name=".SettingPage"
-            android:exported="false">
-
-        </activity>
-        <!-- LoginActivity: User login -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-
-        <!-- ProfilePageActivity: User profile -->
-        <activity
-            android:name=".ProfilePageActivity"
-            android:exported="false" />
-
-
-        <!-- ForgotPasswordActivity: Password recovery -->
-
-        <activity android:name=".WorkoutHistory" />
-
-        <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" />
-
-        <!-- ReminderActivity: Reminder management -->
-        <activity
-            android:name=".Reminder3Activity"
-            android:exported="false" />
-
-        <!-- TimerActivity: Activity related to timers -->
-        <activity
-            android:name=".Timer_activity"
-            android:exported="false" />
-
-        <!-- CommunityActivity: Community page -->
-        <activity
-            android:name=".community_activity"
-            android:exported="false" />
-
-        <!-- Additional activities, if needed -->
-        <activity
-            android:name=".ViewPagerAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".WorkoutActivity"
-            android:exported="false" />
-
-        <activity
-
-            android:name=".HomePage"
-            android:exported="false" />
-         <activity
-             android:name=".Model_activity"
-             android:exported="false">
-
-         </activity>
-
-        <!-- Metadata for preloaded fonts -->
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <activity android:name=".HelpSupportActivity" android:exported="false"/>
-        <activity android:name=".PrivacyPolicyActivity" android:exported="false"/>
-        <activity android:name=".ReviewPageActivity" android:exported="false"/>
 
 
 
 
     </application>
+
 </manifest>

@@ -85,8 +85,9 @@
                     android:id="@+id/namesetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="98dp"
+                    android:layout_marginStart="140dp"
                     android:layout_marginBottom="2dp"
+
                     android:text="Hey, "
                     android:textColor="#FFFFFF"
                     android:textSize="30sp" />
@@ -95,7 +96,7 @@
                     android:id="@+id/emailsetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="119dp"
+                    android:layout_marginStart="155dp"
                     android:textColor="#FFFEFE"
                     android:textSize="15sp" />
             </LinearLayout>
