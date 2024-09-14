@@ -14,13 +14,15 @@ public class Workout {
     private Date date;
     private int caloriesBurned;
     private String icon;
+    private int userId;
 
     // Constructors
-    public Workout(String workoutType, Date date, int caloriesBurned, String icon) {
+    public Workout(String workoutType, Date date, int caloriesBurned, String icon, int userId) {
         this.workoutType = workoutType;
         this.date = date;
         this.caloriesBurned = caloriesBurned;
         this.icon = icon;
+        this.userId = userId;
     }
 
     @Ignore
@@ -65,6 +67,14 @@ public class Workout {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override

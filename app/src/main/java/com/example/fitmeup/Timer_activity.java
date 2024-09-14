@@ -245,6 +245,13 @@ public class Timer_activity extends AppCompatActivity {
         // Create a background executor
         Executor executor = Executors.newSingleThreadExecutor();
 
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        int userId = Integer.parseInt(sharedPref.getString("userId", null));  // Fetch userId from SharedPreferences
+
+
+
         // Execute the database insertion on a background thread
         executor.execute(() -> {
             int currentPage = viewPager.getCurrentItem();
@@ -264,7 +271,7 @@ public class Timer_activity extends AppCompatActivity {
                 int totalWorkoutSeconds = seconds + selectedTotalSeconds;
 
                 // Create a new Workout object
-                Workout workout = new Workout(workoutType, new Date(), calculateCalories(workoutType, totalWorkoutSeconds), "some_icon_name");
+                Workout workout = new Workout(workoutType, new Date(), calculateCalories(workoutType, totalWorkoutSeconds), "some_icon_name", userId);
 
                 // Insert the workout into the Room database using the correct DAO instance
                 workoutDao.insert(workout);

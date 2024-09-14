@@ -14,7 +14,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class}, version = 3)
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class}, version = 4)
 @TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 
@@ -31,6 +31,15 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE reminder_table ADD COLUMN newColumn TEXT");
         }
     };
+
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Example: Add a new column
+            database.execSQL("ALTER TABLE daily_workouts ADD COLUMN newColumn TEXT");
+        }
+    };
+
     // DAOs
     public abstract RegisterUserDao registerUserDao();
     public abstract ReminderDao reminderDao();
@@ -43,6 +52,8 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             RegisterUserDatabase.class, "fitmeup_database")
+
+                    .addMigrations(MIGRATION_1_2, MIGRATION_3_4)  // Add migrations
 
 
                     .fallbackToDestructiveMigration()  // Handle schema migrations

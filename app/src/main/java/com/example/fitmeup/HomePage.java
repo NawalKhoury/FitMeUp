@@ -136,17 +136,25 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         targetButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Model_activity.class)));
         reminder.setOnClickListener(v -> startActivity(new Intent(this, Reminder3Activity.class)));
 
-
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+       int userId = Integer.parseInt(sharedPref.getString("userId", null));
 
         // Fetch the last workout type and time from SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        SharedPreferences workoutPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
         String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
         String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
 
         // Find and set the text in the record workout section
         TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
         recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
-        historyIcon.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutHistory.class)));
+
+        // Start WorkoutHistory and pass userId
+        historyIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePage.this, WorkoutHistory.class);
+            intent.putExtra("userId", userId);  // Pass the userId to WorkoutHistory
+            startActivity(intent);
+        });
     }
 
     private void setCurrentDateAndYear() {
