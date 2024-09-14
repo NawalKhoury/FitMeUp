@@ -71,6 +71,8 @@ public class community_activity extends AppCompatActivity {
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(community_activity.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, WorkoutActivity.class))); // Correct reference
         profile.setOnClickListener(v -> startActivity(new Intent(community_activity.this, ProfilePageActivity.class)));
+        workout.setOnClickListener(v -> startActivity(new Intent(community_activity.this, Model_activity.class)));
+
     }
 
     private void handlePostButtonClick() {
