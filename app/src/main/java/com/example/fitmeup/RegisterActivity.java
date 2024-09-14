@@ -182,6 +182,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent1);
 
 
+
+
                 Log.d("DB", "Inserting new user...");
                 new Thread(() -> {
                     try {
