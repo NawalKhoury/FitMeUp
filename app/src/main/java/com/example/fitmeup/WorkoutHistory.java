@@ -1,22 +1,31 @@
 package com.example.fitmeup;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WorkoutHistory extends AppCompatActivity {
 
@@ -35,7 +44,29 @@ public class WorkoutHistory extends AppCompatActivity {
         workoutDao = db.WorkoutDao();
         loadWorkoutHistory();
         saveWorkoutWithCurrentDate();
+
+        Workout workout = new Workout();
+        WorkoutApi workoutApi= ApiClient.getClient().create(WorkoutApi.class);
+        Call<Workout> call = workoutApi.createWorkout(workout);
+        call.enqueue(new Callback<Workout>() {
+            @Override
+            public void onResponse(Call<Workout> call, Response<Workout> response) {
+                if (response.isSuccessful()){
+                    Log.d(TAG,"created workout");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Workout> call, Throwable t) {
+
+                    Log.e(TAG,"created workout failed");
+                    Log.e(TAG, t.toString());
+
+            }
+        });
     }
+
 
     private void loadWorkoutHistory() {
         workoutDao.getAllWorkouts().observe(this, new Observer<List<Workout>>() {
