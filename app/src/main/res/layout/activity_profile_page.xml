@@ -73,7 +73,7 @@
                     android:layout_height="118dp"
                     android:layout_marginEnd="30dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/profileframe"
+                    android:src="@drawable/default_profile_image"
                     android:visibility="visible"
                     app:shapeAppearanceOverlay="@style/cr29" />
 
@@ -428,7 +428,7 @@
     </LinearLayout>
     <!-- Community Join Section -->
     <LinearLayout
-        android:id="@+id/rbeidnvkzs2c"
+        android:id="@+id/joinButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="39dp"

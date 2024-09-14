@@ -35,14 +35,18 @@ public class WorkoutHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_workout_history);
+        EdgeToEdge.enable(this);  // Enable edge-to-edge if needed
+        setContentView(R.layout.activity_workout_history);  // Set the correct layout
 
-        workoutListContainer = findViewById(R.id.workout_list_container);
+        workoutListContainer = findViewById(R.id.workout_list_container);  // Initialize the container
 
+        // Initialize the database and DAO
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
         workoutDao = db.WorkoutDao();
+
+        // Load workout history and save a new workout with the current date
         loadWorkoutHistory();
+
         saveWorkoutWithCurrentDate();
 
         Workout workout = new Workout();
@@ -65,15 +69,19 @@ public class WorkoutHistory extends AppCompatActivity {
 
             }
         });
+
     }
 
 
     private void loadWorkoutHistory() {
+        // Observe the workout history LiveData from the database
         workoutDao.getAllWorkouts().observe(this, new Observer<List<Workout>>() {
             @Override
             public void onChanged(List<Workout> workoutList) {
+                // Clear the container before adding new data
                 workoutListContainer.removeAllViews();
 
+                // Check if the workout list is empty or null
                 if (workoutList == null || workoutList.isEmpty()) {
                     TextView noWorkoutsTextView = new TextView(WorkoutHistory.this);
                     noWorkoutsTextView.setText("No workout history available.");
@@ -81,21 +89,31 @@ public class WorkoutHistory extends AppCompatActivity {
                     return;
                 }
 
+                // Layout inflater to inflate workout cards dynamically
                 LayoutInflater inflater = LayoutInflater.from(WorkoutHistory.this);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
 
+                // Loop through each workout in the list
                 for (Workout workout : workoutList) {
                     View workoutCard = inflater.inflate(R.layout.workout_card, workoutListContainer, false);
 
-                    TextView workoutType = workoutCard.findViewById(R.id.workout_type);
-                    workoutType.setText(workout.getWorkoutType());
+                    // Format the workout date
+                    Date workoutDate = workout.getDate();
+                    String formattedDate = dateFormat.format(workoutDate);
 
+                    // Find and set the date view (make sure your layout has this TextView)
+                    TextView workoutDateView = workoutCard.findViewById(R.id.workout_type);
+                    workoutDateView.setText(formattedDate);
+
+                    // Set the calories burned
                     TextView caloriesInfo = workoutCard.findViewById(R.id.calories_info);
                     caloriesInfo.setText(String.format(Locale.getDefault(), "%d Cal", workout.getCaloriesBurned()));
 
+                    // Set the workout icon
                     ImageView workoutIcon = workoutCard.findViewById(R.id.workout_icon);
-                    workoutIcon.setImageResource(getWorkoutIcon(workout.getIcon()));
+                    workoutIcon.setImageResource(getWorkoutIcon(workout.getWorkoutType()));
 
+                    // Add the workout card to the container
                     workoutListContainer.addView(workoutCard);
                 }
             }
@@ -103,14 +121,35 @@ public class WorkoutHistory extends AppCompatActivity {
     }
 
     private void saveWorkoutWithCurrentDate() {
+        // Use an executor to run database operations off the main thread
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+            // Get the current date
+            Date currentDate = new Date();
 
+            // Example workout details - you can replace these with actual user inputs
+            String workoutType = "running";  // Change as needed
+            int caloriesBurned = 300;        // Example value
+            String icon = "running";         // Match the workout type with the correct icon
+
+            // Create a new Workout object
+            Workout newWorkout = new Workout(workoutType, currentDate, caloriesBurned, icon);
+
+            // Insert the workout into the database using the DAO
+            workoutDao.insert(newWorkout);
         });
     }
 
+    // Helper method to get the corresponding workout icon based on the workout type
     private int getWorkoutIcon(String workoutType) {
-        switch (workoutType.toLowerCase()) {
+        // Normalize the workoutType string to avoid mismatches
+        if (workoutType == null) {
+            return R.drawable.run; // Default icon
+        }
+        workoutType = workoutType.trim().toLowerCase();
+
+        // Switch case to return the correct icon based on the workout type
+        switch (workoutType) {
             case "running":
                 return R.drawable.run;
             case "core training":
@@ -124,7 +163,7 @@ public class WorkoutHistory extends AppCompatActivity {
             case "cycling":
                 return R.drawable.bike;
             default:
-                return R.drawable.run;  // Fallback icon
+                return R.drawable.run;  // Fallback to the running icon if type is unknown
         }
     }
 }
