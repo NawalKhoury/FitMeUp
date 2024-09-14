@@ -1,5 +1,6 @@
 package com.example.fitmeup;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,7 +14,9 @@ public class Model_activity extends AppCompatActivity {
     private LinearLayout indicatorLayout;
     private ImageView[] dots;
     private BodyPagerAdapter adapter;
+    private ImageButton backButton;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,9 @@ public class Model_activity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         indicatorLayout = findViewById(R.id.indicatorLayout);
         setupViewPagerAndDots();
+
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
 
         ImageButton homeButton = findViewById(R.id.toolbar_home);
         ImageButton communityButton = findViewById(R.id.toolbar_handshake); // Assuming ID from your description
