@@ -39,6 +39,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     private ImageButton handshakeButton;
     private ProgressBar circularProgressBarProfile, circularProgressBarLevel, circularProgressBarBMI;
     private ImageDao imageDao;
+    private LinearLayout joinButton;
     // Add BMI ProgressBar
 
     @Override
@@ -55,6 +56,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         targetButton = findViewById(R.id.toolbar_target);
         exerciseButton = findViewById(R.id.toolbar_exercise);
         handshakeButton = findViewById(R.id.toolbar_handshake);
+        joinButton = findViewById(R.id.joinButton);
+
+        joinButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
         homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, HomePage.class)));

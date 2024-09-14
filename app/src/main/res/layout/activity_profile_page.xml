@@ -428,7 +428,7 @@
     </LinearLayout>
     <!-- Community Join Section -->
     <LinearLayout
-        android:id="@+id/rbeidnvkzs2c"
+        android:id="@+id/joinButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="39dp"
