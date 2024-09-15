@@ -14,7 +14,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class}, version = 4)
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class}, version = 5)
 @TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 

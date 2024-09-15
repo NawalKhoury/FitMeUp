@@ -149,7 +149,7 @@ public class WorkoutHistory extends AppCompatActivity {
             String icon = "running";         // Match the workout type with the correct icon
 
             // Create a new Workout object with the correct userId
-            Workout newWorkout = new Workout(workoutType, currentDate, caloriesBurned, icon, userId);
+            Workout newWorkout = new Workout(workoutType, currentDate, caloriesBurned, icon,0,userId);
 
             // Insert the workout into the database using the DAO
             workoutDao.insert(newWorkout);

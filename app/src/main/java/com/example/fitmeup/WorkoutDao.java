@@ -40,5 +40,9 @@
         @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC")
         LiveData<List<Workout>> getAllWorkoutsForUser(int userId);
 
+        @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC LIMIT 1")
+        LiveData<Workout> getLastWorkoutForUser(int userId);
+
+
 
     }

@@ -729,19 +729,19 @@
                         android:layout_marginEnd="75dp"
                         android:layout_marginBottom="23dp"
                         android:text="Record Workout"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
 
                     <ImageView
                         android:id="@+id/historyic"
-                        android:layout_width="25dp"
-                        android:layout_height="27dp"
+                        android:layout_width="27dp"
+                        android:layout_height="20dp"
                         android:layout_alignStart="@+id/record_workout"
                         android:layout_alignBottom="@+id/record_workout"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="316dp"
+                        android:layout_marginStart="326dp"
                         android:layout_marginEnd="18dp"
-                        android:layout_marginBottom="63dp"
+                        android:layout_marginBottom="70dp"
                         android:src="@drawable/history"
                         app:tint="#9C82C9" />
 
