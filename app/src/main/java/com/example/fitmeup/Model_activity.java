@@ -1,6 +1,8 @@
 package com.example.fitmeup;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,9 @@ public class Model_activity extends AppCompatActivity {
     private LinearLayout indicatorLayout;
     private ImageView[] dots;
     private BodyPagerAdapter adapter;
+    private ImageButton backButton;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,21 +25,32 @@ public class Model_activity extends AppCompatActivity {
         // Initialize ViewPager, indicator layout, and toolbar buttons
         viewPager = findViewById(R.id.viewPager);
         indicatorLayout = findViewById(R.id.indicatorLayout);
+        setupViewPagerAndDots();
 
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
 
-        // Set up adapter for ViewPager
+        ImageButton homeButton = findViewById(R.id.toolbar_home);
+        ImageButton communityButton = findViewById(R.id.toolbar_handshake); // Assuming ID from your description
+        ImageButton workoutButton = findViewById(R.id.toolbar_exercise);
+        ImageButton modelButton = findViewById(R.id.toolbar_target);
+        ImageButton profileButton = findViewById(R.id.toolbar_profile);
+
+        homeButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
+        communityButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
+        workoutButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
+        modelButton.setOnClickListener(v -> ToolBarService.navigateToModelScreen(this));
+        profileButton.setOnClickListener(v -> ToolBarService.navigateToProfileScreen(this));
+    }
+
+    private void setupViewPagerAndDots() {
         adapter = new BodyPagerAdapter(this);
         viewPager.setAdapter(adapter);
-
-        // Set up indicator dots
         setupIndicatorDots(adapter.getCount());
 
-        // ViewPager page change listener to update dots
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // Not used
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -43,22 +58,10 @@ public class Model_activity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-                // Not used
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
-
-        ToolBarService.navigateToHomeScreen(this);
-        ToolBarService.navigateToCommunityScreen(this);
-        ToolBarService.navigateToWorkoutScreen(this);
-        ToolBarService.navigateToModelScreen(this);
-        ToolBarService.navigateToProfileScreen(this);
-
-
-
     }
 
-    // Method to initialize the indicator dots
     private void setupIndicatorDots(int count) {
         dots = new ImageView[count];
         indicatorLayout.removeAllViews(); // Clear previous dots if any
@@ -69,24 +72,18 @@ public class Model_activity extends AppCompatActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(8, 0, 8, 0); // Spacing between dots
+            params.setMargins(8, 0, 8, 0);
             indicatorLayout.addView(dots[i], params);
         }
 
-        // Set the first dot as active initially
         if (dots.length > 0) {
-            dots[0].setImageResource(R.drawable.indicator_active); // Active dot drawable
+            dots[0].setImageResource(R.drawable.indicator_active);
         }
     }
 
-    // Method to update the active dot
     private void updateIndicatorDots(int position) {
         for (int i = 0; i < dots.length; i++) {
-            if (i == position) {
-                dots[i].setImageResource(R.drawable.indicator_active); // Active dot drawable
-            } else {
-                dots[i].setImageResource(R.drawable.indicator_inactive); // Inactive dot drawable
-            }
+            dots[i].setImageResource(i == position ? R.drawable.indicator_active : R.drawable.indicator_inactive);
         }
     }
 }

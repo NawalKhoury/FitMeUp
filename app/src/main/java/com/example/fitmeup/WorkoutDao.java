@@ -35,4 +35,5 @@
         // Query to get a workout by id
         @Query("SELECT * FROM workout WHERE id = :id LIMIT 1")
         Workout getWorkoutById(int id);
+
     }

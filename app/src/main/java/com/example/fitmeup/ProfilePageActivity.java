@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.imageview.ShapeableImageView;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +26,8 @@ import java.util.concurrent.Executors;
 
 public class ProfilePageActivity extends AppCompatActivity {
 
-    private TextView nameTextView, ageTextView, weightTextView, heightTextView, bmiTextView, bmiStatusTextView, scoreTextView;
+    private TextView nameTextView, ageTextView, weightTextView, heightTextView, bmiTextView, levelTextView, scoreTextView;
     private ImageView settingsIcon, profileImageView;
-    private ShapeableImageView shapeableImageView2, shapeableImageView3;
     private LinearLayout settingsIcon2;
     private RegisterUserDao registerUserDao;
     private RegisterUser registerUser;
@@ -41,35 +37,41 @@ public class ProfilePageActivity extends AppCompatActivity {
     private ImageButton targetButton;
     private ImageButton exerciseButton;
     private ImageButton handshakeButton;
-    private ProgressBar circularProgressBarProfile;
+    private ProgressBar circularProgressBarProfile, circularProgressBarLevel, circularProgressBarBMI;
+    private ImageDao imageDao;
+    private LinearLayout joinButton;
+    // Add BMI ProgressBar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        // Initialize toolbar buttons
+        // Initialize Room database and WorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+         imageDao = db.imageDao();
+
         homeScreenButton = findViewById(R.id.toolbar_home);
         profileButton = findViewById(R.id.toolbar_profile);
         targetButton = findViewById(R.id.toolbar_target);
         exerciseButton = findViewById(R.id.toolbar_exercise);
         handshakeButton = findViewById(R.id.toolbar_handshake);
+        joinButton = findViewById(R.id.joinButton);
 
-        // Set click listeners for toolbar buttons
+        joinButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
+
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
         homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, HomePage.class)));
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, WorkoutActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, Model_activity.class)));
 
-        // Initialize views and CircularProgressBar for BMI
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
         initViews();
-
-        // Initialize CircularProgressBar
-        circularProgressBarProfile = findViewById(R.id.circularProgressBarProfile);
+        loadProfileImage();
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", null);
+
         if (userId != null) {
             executor.execute(() -> {
                 registerUser = registerUserDao.getUserById(userId);
@@ -77,31 +79,48 @@ public class ProfilePageActivity extends AppCompatActivity {
                     updateUserProfileInfo(registerUser);
                 }
             });
+        } else {
+            Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfilePageActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
-        // Set click listener for settings icon
-        settingsIcon.setOnClickListener(v -> {
-            Toast.makeText(ProfilePageActivity.this, "Settings icon clicked", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(ProfilePageActivity.this, SettingPage.class);
-            startActivity(intent);
+        settingsIcon.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, SettingPage.class)));
+        settingsIcon2.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, SettingPage.class)));
+
+        initUserLevel();
+    }
+
+    private void loadProfileImage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", null);
+
+        imageDao.getImageById(username).observe(this, imageUriString -> {
+            if (imageUriString != null) {
+                Uri imageUri = Uri.parse(imageUriString);
+                Glide.with(this).load(imageUri).into(profileImageView);
+            } else {
+                // Load default image
+                profileImageView.setImageResource(R.drawable.default_profile_image);
+            }
         });
+    }
 
-        // Set click listener for the second settings icon
-        settingsIcon2.setOnClickListener(v -> {
-            Toast.makeText(ProfilePageActivity.this, "Settings icon 2 clicked", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(ProfilePageActivity.this, SettingPage.class);
-            startActivity(intent);
-        });
+    private void initViews() {
+        nameTextView = findViewById(R.id.usernameTextView);
+        ageTextView = findViewById(R.id.ageTextView);
+        weightTextView = findViewById(R.id.weightTextView);
+        heightTextView = findViewById(R.id.heightTextView);
+        bmiTextView = findViewById(R.id.bmiTextView);
+        levelTextView = findViewById(R.id.level);
+        settingsIcon = findViewById(R.id.three_dots);
+        settingsIcon2 = findViewById(R.id.behind_three_dots);
+        profileImageView = findViewById(R.id.profile_image_view);
+        scoreTextView = findViewById(R.id.scoreset);
 
-        // Retrieve profile image from Intent
-        Intent intent = getIntent();
-        String imageUriString = intent.getStringExtra("PROFILE_IMAGE_URI");
-
-        // Set profile image if available
-        if (imageUriString != null && !imageUriString.isEmpty()) {
-            Uri imageUri = Uri.parse(imageUriString);
-            Glide.with(this).load(imageUri).into(profileImageView); // Load image with Glide
-        }
+        circularProgressBarLevel = findViewById(R.id.circularProgressBarLevel);
+        circularProgressBarBMI = findViewById(R.id.circularProgressBarProfile);  // Initialize BMI ProgressBar
     }
 
     private void updateUserProfileInfo(RegisterUser registerUser) {
@@ -115,123 +134,107 @@ public class ProfilePageActivity extends AppCompatActivity {
             if (height != null && weight != null) {
                 heightTextView.setText(height);
                 weightTextView.setText(weight);
-
-                // Calculate BMI
-                try {
-                    double heightInMeters = Double.parseDouble(height) / 100;  // Convert height to meters
-                    double weightInKg = Double.parseDouble(weight);             // Parse weight
-                    double bmi = weightInKg / (heightInMeters * heightInMeters); // Calculate BMI
-                    String bmiStatus = getBMIStatus(bmi);                      // Get BMI status
-
-                    // Update BMI and BMI status in TextViews
-                    bmiTextView.setText(String.format(Locale.getDefault(), "%.1f", bmi));  // Set BMI to 1 decimal place
-                    bmiStatusTextView.setText(bmiStatus);                                // Set BMI status
-
-                    // Set CircularProgressBar progress according to BMI
-                    updateBmiProgressBar(bmi);
-                } catch (NumberFormatException e) {
-                    bmiTextView.setText("N/A"); // Set as not available if error
-                    bmiStatusTextView.setText("Unknown");
-                }
+                calculateAndSetBMI(height, weight);
             }
 
-            // Set age if birthday is available
             if (birthday != null) {
                 int age = calculateAge(birthday);
-                if (age > 0) {
-                    ageTextView.setText(String.valueOf(age));
-                } else {
-                    ageTextView.setText("Unknown");
-                }
+                ageTextView.setText(age > 0 ? String.valueOf(age) : "Unknown");
             }
-
-            // Calculate and update score
-            int score = calculateScore(registerUser);
-            scoreTextView.setText(String.format(Locale.getDefault(), "%d%%", score));  // Set score in percentage format
         });
     }
 
-    private void updateBmiProgressBar(double bmi) {
-        int progress;
+    private void calculateAndSetBMI(String height, String weight) {
+        try {
+            double heightInMeters = Double.parseDouble(height) / 100;
+            double weightInKg = Double.parseDouble(weight);
+            double bmi = weightInKg / (heightInMeters * heightInMeters);
+            bmiTextView.setText(String.format(Locale.getDefault(), "%.1f", bmi));
 
-        // Define the minimum and maximum BMI values for the "normal" range
-        double minBmi = 18.5;  // Lower bound of healthy weight
-        double maxBmi = 24.9;  // Upper bound of healthy weight
-
-        // Convert BMI range to progress (0 to 100)
-        if (bmi < minBmi) {
-            progress = 0;
-        } else if (bmi > maxBmi) {
-            progress = 100;
-        } else {
-            // Map BMI (18.5 - 24.9) to progress (0 - 100)
-            progress = (int) (((bmi - minBmi) / (maxBmi - minBmi)) * 100);
+            // Update the BMI progress bar
+            updateBMIProgressBar(bmi);
+        } catch (NumberFormatException e) {
+            bmiTextView.setText("N/A");
         }
-
-        // Set the progress on the circular progress bar
-        circularProgressBarProfile.setMax(100);  // Set max value to 100
-        circularProgressBarProfile.setProgress(progress);  // Set current progress
     }
 
-    // Method to calculate age based on the birthday
+    private void updateBMIProgressBar(double bmi) {
+        circularProgressBarBMI.setMax(40);  // Assume the maximum BMI is 40
+        circularProgressBarBMI.setProgress((int) bmi);  // Set progress to the calculated BMI value
+    }
+
     private int calculateAge(String birthday) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date birthDate = null;
         try {
-            birthDate = sdf.parse(birthday);
+            // Parse the birth date
+            Date birthDate = sdf.parse(birthday);
+            Calendar birthDay = Calendar.getInstance();
+            birthDay.setTime(birthDate);
+            Calendar today = Calendar.getInstance();
+
+            // Calculate the age
+            int age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR);
+
+            if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+                age--; // Adjust age if the birthday hasn't occurred yet this year
+            }
+
+            return age;
         } catch (ParseException e) {
-            e.printStackTrace(); // Handle exception
-        }
-
-        if (birthDate == null) return 0; // Return 0 if parsing fails
-
-        Calendar birthDay = Calendar.getInstance();
-        birthDay.setTime(birthDate);
-        Calendar today = Calendar.getInstance();
-
-        int age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
-            age--;
-        }
-        return age;
-    }
-
-    // Method to return the BMI status based on the BMI value
-    private String getBMIStatus(double bmi) {
-        if (bmi < 18.5) {
-            return "Below Average";
-        } else if (bmi >= 18.5 && bmi <= 24.9) {
-            return "On Average";
-        } else {
-            return "Higher than Average";
+            e.printStackTrace();
+            return 0; // Return 0 if there's an error
         }
     }
 
-    // Method to calculate score based on user's performance or other data
-    private int calculateScore(RegisterUser registerUser) {
-        // Example logic to calculate a score percentage
-        // Adjust this logic to match your actual scoring system
+    private void initUserLevel() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String firstUseDate = sharedPreferences.getString("firstUseDate", null);
 
-        // Assuming you are scoring based on user activity or performance
-        int totalPossibleScore = 100;  // Example total score
-        int userScore = 85;            // Example user score
+        if (firstUseDate == null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String currentDate = getCurrentDate();
+            editor.putString("firstUseDate", currentDate);
+            editor.apply();
+            firstUseDate = currentDate;
+        }
 
-        // Calculate score percentage
-        return (userScore * 100) / totalPossibleScore;
+        int daysUsed = calculateDaysSince(firstUseDate);
+        int userLevel = calculateUserLevel(daysUsed);
+
+        levelTextView.setText(String.format(Locale.getDefault(), "Level %d", userLevel));
+        updateLevelProgressBar(daysUsed);
     }
 
-    // Initialize all views in the activity
-    private void initViews() {
-        nameTextView = findViewById(R.id.usernameTextView);
-        ageTextView = findViewById(R.id.ageTextView);
-        weightTextView = findViewById(R.id.weightTextView);
-        heightTextView = findViewById(R.id.heightTextView);
-        bmiTextView = findViewById(R.id.bmiTextView);
-        bmiStatusTextView = findViewById(R.id.bmiStatusTextView);
-        settingsIcon = findViewById(R.id.three_dots);
-        settingsIcon2 = findViewById(R.id.behind_three_dots);
-        profileImageView = findViewById(R.id.profile_image_view);
-        scoreTextView = findViewById(R.id.scoreset);  // Assuming this is the ID for the score TextView
+    private int calculateDaysSince(String firstUseDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            // Parse the first use date
+            Date firstUse = sdf.parse(firstUseDate);
+            Calendar firstUseCal = Calendar.getInstance();
+            firstUseCal.setTime(firstUse);
+            Calendar today = Calendar.getInstance();
+
+            long diffInMillis = today.getTimeInMillis() - firstUseCal.getTimeInMillis();
+            return (int) (diffInMillis / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Return 0 if there's an error
+        }
     }
 
+    private int calculateUserLevel(int daysUsed) {
+        return (daysUsed / 7) + 1;  // Simple logic to increase the level every 7 days of use
+    }
+
+    private void updateLevelProgressBar(int daysUsed) {
+        int progress = (daysUsed % 7) * 100 / 7;
+        circularProgressBarLevel.setMax(100); // Ensure the progress bar max is 100
+        circularProgressBarLevel.setProgress(progress);
+        scoreTextView.setText(String.format(Locale.getDefault(), "%d%%", progress));
+    }
+
+    private String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(new Date());
+    }
 }
