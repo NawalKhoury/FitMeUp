@@ -48,14 +48,13 @@
             android:name=".HomePage"
             android:exported="false" />
 
-<<<<<<< Nawal
-=======
+
         <activity android:name=".SettingPage"
             android:exported="false">
 
         </activity>
         <!-- LoginActivity: User login -->
->>>>>>> master
+
         <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
