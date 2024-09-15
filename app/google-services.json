@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "834870392727",
+    "project_id": "fitmeup-ac66c",
+    "storage_bucket": "fitmeup-ac66c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834870392727:android:92f6cccbcd7791bb4db6d2",
+        "android_client_info": {
+          "package_name": "com.example.fitmeup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBAQ6_06cD-w5BrDs4sLBSVddDUOLAN10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

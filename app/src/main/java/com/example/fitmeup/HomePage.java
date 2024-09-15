@@ -57,12 +57,22 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private  TextView waterText;
     private  TextView Name;
     int waterCount = 0;
+    private WorkoutDao workoutDao;
+    private int userId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+
+        // Initialize WorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+        workoutDao = db.WorkoutDao();
 
         // Initialize UI components
         handshakeButton = findViewById(R.id.toolbar_handshake);
@@ -83,8 +93,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         Name=findViewById(R.id.Name);
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", null);
+        String username = sharedPref.getString("username", null);
 
         if (username != null) {
             Name.setText("Hello, " + username);
@@ -136,17 +145,25 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         targetButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Model_activity.class)));
         reminder.setOnClickListener(v -> startActivity(new Intent(this, Reminder3Activity.class)));
 
-
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+       int userId = Integer.parseInt(sharedPref.getString("userId", null));
 
         // Fetch the last workout type and time from SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        SharedPreferences workoutPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
         String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
         String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
 
         // Find and set the text in the record workout section
         TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
         recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
-        historyIcon.setOnClickListener(v -> startActivity(new Intent(HomePage.this, WorkoutHistory.class)));
+
+        // Start WorkoutHistory and pass userId
+        historyIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePage.this, WorkoutHistory.class);
+            intent.putExtra("userId", userId);  // Pass the userId to WorkoutHistory
+            startActivity(intent);
+        });
     }
 
     private void setCurrentDateAndYear() {
@@ -171,13 +188,18 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     }
 
 private void displayLastWorkoutDetails() {
-        // Fetch and display the last workout details from SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
-        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
-        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
 
-        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
-        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+    workoutDao.getLastWorkoutForUser(userId).observe(this, workout -> {
+        if(workout != null) {
+            // Fetch and display the last workout details from SharedPreferences
+            SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+            String lastWorkoutType = workout.getWorkoutType() != null ? workout.getWorkoutType() : "No workout recorded";
+            String lastWorkoutTime = TimeFormatUtil.formatTime(workout.getTotalNumberOfSeconds());
+
+            TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+            recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+        }
+    });
     }
 
     @Override
