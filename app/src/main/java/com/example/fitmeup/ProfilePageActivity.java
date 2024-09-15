@@ -1,10 +1,14 @@
 package com.example.fitmeup;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +68,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, HomePage.class)));
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, WorkoutActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, Model_activity.class)));
+        profileButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, ProfilePageActivity.class)));
 
         registerUserDao = RegisterUserDatabase.getInstance(this).registerUserDao();
         initViews();
@@ -90,6 +95,13 @@ public class ProfilePageActivity extends AppCompatActivity {
         settingsIcon2.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, SettingPage.class)));
 
         initUserLevel();
+
+        Button editWeightButton = findViewById(R.id.editWeightButton);
+        editWeightButton.setOnClickListener(v -> showEditWeightDialog());
+
+        Button editheightButton = findViewById(R.id.editheightButton);
+        editheightButton.setOnClickListener(v -> showEditheightDialog());
+
     }
 
     private void loadProfileImage() {
@@ -237,4 +249,85 @@ public class ProfilePageActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(new Date());
     }
+
+    private void showEditWeightDialog() {
+        // Create a dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edit Weight");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String newWeight = input.getText().toString();
+            if (!newWeight.isEmpty()) {
+                updateWeightInDatabase(newWeight);
+            } else {
+                Toast.makeText(ProfilePageActivity.this, "Weight cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+    private void updateWeightInDatabase(String newWeight) {
+        if (registerUser != null) {
+            executor.execute(() -> {
+                // Update the weight in the database using the DAO method
+                registerUserDao.updateUserWeight(registerUser.getId(), newWeight);
+                registerUser.setWeight(newWeight);
+
+                runOnUiThread(() -> {
+                    // Update the weight in the UI
+                    weightTextView.setText(newWeight);
+                    calculateAndSetBMI(registerUser.getHeight(), newWeight);
+                    Toast.makeText(ProfilePageActivity.this, "Weight updated", Toast.LENGTH_SHORT).show();
+                });
+            });
+        }
+    }
+
+        private void showEditheightDialog() {
+            // Create a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Edit Height");
+
+            // Set up the input
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            builder.setView(input);
+
+            // Set up the buttons
+            builder.setPositiveButton("Save", (dialog, which) -> {
+                String newHeight = input.getText().toString();
+                if (!newHeight.isEmpty()) {
+                    updateHeightInDatabase(newHeight);
+                } else {
+                    Toast.makeText(ProfilePageActivity.this, "Height cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
+        }
+        private void updateHeightInDatabase(String newHeight){
+            if (registerUser != null) {
+                executor.execute(() -> {
+                    // Update the height in the database using the DAO method
+                    registerUserDao.updateUserHeight(registerUser.getId(), newHeight);
+                    registerUser.setHeight(newHeight);
+
+                    runOnUiThread(() -> {
+                        // Update the weight in the UI
+                        heightTextView.setText(newHeight);
+                        calculateAndSetBMI(registerUser.getHeight(), newHeight);
+                        Toast.makeText(ProfilePageActivity.this, "Height updated", Toast.LENGTH_SHORT).show();
+                    });
+                });
+            }
+        }
+
 }

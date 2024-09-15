@@ -151,7 +151,7 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:orientation="vertical"
-                    android:paddingHorizontal="39dp"
+                    android:paddingHorizontal="25dp"
                     android:paddingTop="19dp"
                     android:paddingBottom="33dp">
 
@@ -164,6 +164,8 @@
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
+
+
                     <!-- Input for Weight -->
                     <TextView
                         android:id="@+id/weightTextView"
@@ -172,14 +174,39 @@
                         android:textColor="#000000"
                         android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/rnkf9jwzaohq"
-                        android:layout_width="30dp"
-                        android:layout_height="25dp"
-                        android:gravity="center"
-                        android:text="kg"
-                        android:textColor="#000000"
-                        android:textSize="13sp" />
+                    <!-- Horizontal LinearLayout to contain "kg" TextView and Edit Button -->
+                    <LinearLayout
+                        android:layout_width="99dp"
+                        android:layout_height="37dp"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/rnkf9jwzaohq"
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:text="kg"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+
+                        <!-- Edit Weight Button -->
+                        <Button
+                            android:id="@+id/editWeightButton"
+                            android:layout_width="29dp"
+                            android:layout_height="37dp"
+                            android:layout_marginStart="30dp"
+                            android:backgroundTint="#E2AEAEB1"
+                            android:contentDescription="@string/pen"
+                            android:padding="6dp"
+                            android:src="@drawable/pen"
+                            android:textSize="5sp"
+                            app:icon="@drawable/pen"
+                            app:iconTint="#FFFFFF"
+                            app:rippleColor="#8A8484"
+                            tools:ignore="SmallSp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Spacer -->
@@ -218,14 +245,40 @@
                         android:textColor="#000000"
                         android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/r3dsa2swxqgc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="CM"
-                        android:textColor="#000000"
-                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/r3dsa2swxqgc"
+                            android:layout_width="30dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:text="CM"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            tools:ignore="HardcodedText" />
+
+
+                        <Button
+                            android:id="@+id/editheightButton"
+                            android:layout_width="29dp"
+                            android:layout_height="37dp"
+                            android:layout_marginStart="30dp"
+                            android:backgroundTint="#E2AEAEB1"
+                            android:contentDescription="@string/pen"
+                            android:padding="6dp"
+                            android:src="@drawable/pen"
+                            android:textSize="5sp"
+                            app:icon="@drawable/pen"
+                            app:iconTint="#FFFFFF"
+                            app:rippleColor="#8A8484"
+                            tools:ignore="SmallSp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
