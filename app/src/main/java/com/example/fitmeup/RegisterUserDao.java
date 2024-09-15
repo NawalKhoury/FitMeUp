@@ -28,5 +28,11 @@ public interface RegisterUserDao {
     @Query("SELECT * FROM register_users WHERE id = :id")
     RegisterUser getUserById(String id);
 
+    @Query("UPDATE register_users SET weight = :newWeight WHERE id = :userId")
+    void updateUserWeight(int userId, String newWeight);
+
+    @Query("UPDATE register_users SET height = :newHeight WHERE id = :userId")
+    void updateUserHeight(int userId, String newHeight);
+
 
 }

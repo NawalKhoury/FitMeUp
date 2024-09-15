@@ -67,4 +67,5 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
         }
         return instance;
     }
+
 }
