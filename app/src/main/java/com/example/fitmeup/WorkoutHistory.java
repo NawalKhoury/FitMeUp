@@ -61,7 +61,6 @@ public class WorkoutHistory extends AppCompatActivity {
         // Load workout history and save a new workout with the current date
         loadWorkoutHistory();
 
-        saveWorkoutWithCurrentDate();
 
         Workout workout = new Workout();
         WorkoutApi workoutApi= ApiClient.getClient().create(WorkoutApi.class);
@@ -85,6 +84,7 @@ public class WorkoutHistory extends AppCompatActivity {
         });
 
     }
+
 
 
     private void loadWorkoutHistory() {
@@ -136,6 +136,7 @@ public class WorkoutHistory extends AppCompatActivity {
 
 
     private void saveWorkoutWithCurrentDate() {
+
         // Use an executor to run database operations off the main thread
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
