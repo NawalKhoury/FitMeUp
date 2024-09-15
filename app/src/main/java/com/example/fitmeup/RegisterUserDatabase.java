@@ -14,7 +14,9 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class}, version = 3)
+
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class, Post.class}, version = 3)
+
 @TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 
@@ -36,15 +38,17 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
     public abstract ReminderDao reminderDao();
     public abstract DailyWorkoutDao dailyWorkoutDao();
     public abstract WorkoutDao WorkoutDao();
+
     public abstract ImageDao imageDao();
+
+    public abstract PostDao PostDao();
+
 
     // Singleton instance of the database
     public static synchronized RegisterUserDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             RegisterUserDatabase.class, "fitmeup_database")
-
-
                     .fallbackToDestructiveMigration()  // Handle schema migrations
 
                     .build();
