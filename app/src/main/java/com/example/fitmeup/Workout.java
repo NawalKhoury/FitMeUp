@@ -14,13 +14,17 @@ public class Workout {
     private Date date;
     private int caloriesBurned;
     private String icon;
+    private int userId;
+    private int totalNumberOfSeconds;
 
     // Constructors
-    public Workout(String workoutType, Date date, int caloriesBurned, String icon) {
+    public Workout(String workoutType, Date date, int caloriesBurned, String icon,int totalNumberOfSeconds ,int userId) {
         this.workoutType = workoutType;
         this.date = date;
         this.caloriesBurned = caloriesBurned;
         this.icon = icon;
+        this.userId = userId;
+        this.totalNumberOfSeconds = totalNumberOfSeconds;
     }
 
     @Ignore
@@ -65,6 +69,22 @@ public class Workout {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTotalNumberOfSeconds() {
+        return totalNumberOfSeconds;
+    }
+
+    public void setTotalNumberOfSeconds(int totalNumberOfSeconds) {
+        this.totalNumberOfSeconds = totalNumberOfSeconds;
     }
 
     @Override

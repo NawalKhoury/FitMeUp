@@ -224,11 +224,7 @@ public class Timer_activity extends AppCompatActivity {
             int selectedTotalSeconds = (selectedHours * 3600) + (selectedMinutes * 60);
             int totalWorkoutSeconds = seconds + selectedTotalSeconds;
 
-            int totalHours = totalWorkoutSeconds / 3600;
-            int totalMinutes = (totalWorkoutSeconds % 3600) / 60;
-            int totalSeconds = totalWorkoutSeconds % 60;
-
-            String totalTime = String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds);
+            String totalTime = TimeFormatUtil.formatTime(totalWorkoutSeconds);
 
             SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -244,6 +240,13 @@ public class Timer_activity extends AppCompatActivity {
     private void saveWorkoutToDatabase(String workoutType) {
         // Create a background executor
         Executor executor = Executors.newSingleThreadExecutor();
+
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        int userId = Integer.parseInt(sharedPref.getString("userId", null));  // Fetch userId from SharedPreferences
+
+
 
         // Execute the database insertion on a background thread
         executor.execute(() -> {
@@ -264,7 +267,7 @@ public class Timer_activity extends AppCompatActivity {
                 int totalWorkoutSeconds = seconds + selectedTotalSeconds;
 
                 // Create a new Workout object
-                Workout workout = new Workout(workoutType, new Date(), calculateCalories(workoutType, totalWorkoutSeconds), "some_icon_name");
+                Workout workout = new Workout(workoutType, new Date(), calculateCalories(workoutType, totalWorkoutSeconds), "some_icon_name",totalWorkoutSeconds, userId);
 
                 // Insert the workout into the Room database using the correct DAO instance
                 workoutDao.insert(workout);
