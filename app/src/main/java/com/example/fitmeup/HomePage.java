@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,10 @@ import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class HomePage extends AppCompatActivity implements SensorEventListener {
 
@@ -59,6 +63,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     int waterCount = 0;
     private WorkoutDao workoutDao;
     private int userId;
+    private ImageButton deleteWorkoutButton;
 
 
     @Override
@@ -91,6 +96,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         dicreaseWater=findViewById(R.id.waterImageLeft);
         waterText=findViewById(R.id.waterText);
         Name=findViewById(R.id.Name);
+        deleteWorkoutButton = findViewById(R.id.delete_workout_button);
 
 
         String username = sharedPref.getString("username", null);
@@ -135,7 +141,53 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
         // Display last workout details from SharedPreferences
         displayLastWorkoutDetails();
+
+        deleteWorkoutButton.setOnClickListener(v -> deleteLastWorkout());
     }
+    private void deleteLastWorkout() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            // Get the number of workouts for the user
+            List<Workout> workouts = workoutDao.getAllWorkoutsForUserBlocking(userId); // Use blocking query method to get the list
+            if (workouts != null && !workouts.isEmpty()) {
+                Workout lastWorkout = workouts.get(0); // Get the most recent workout (first in the ordered list)
+
+                // Delete the workout
+                workoutDao.delete(lastWorkout);
+
+                if (workouts.size() == 1) {
+                    // This was the only workout, update SharedPreferences to show "No workout recorded"
+                    SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("LAST_WORKOUT_TYPE", "No workout recorded");
+                    editor.putString("LAST_WORKOUT_TIME", "00:00:00");
+                    editor.apply();
+                } else {
+                    // More workouts remain, update SharedPreferences with the next most recent workout
+                    Workout nextWorkout = workouts.get(1); // Get the next workout after deleting the latest one
+                    SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("LAST_WORKOUT_TYPE", nextWorkout.getWorkoutType());
+                    editor.putString("LAST_WORKOUT_TIME", TimeFormatUtil.formatTime(nextWorkout.getTotalNumberOfSeconds()));
+                    editor.apply();
+                }
+
+                // Update UI on the main thread
+                runOnUiThread(() -> {
+                    Toast.makeText(HomePage.this, "Last workout deleted", Toast.LENGTH_SHORT).show();
+                    // Reload the workout history to reflect the deletion
+                    displayLastWorkoutDetails();
+                });
+            } else {
+                // No workout found to delete
+                runOnUiThread(() -> Toast.makeText(HomePage.this, "No workout to delete", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+
+
+
 
     private void setUpButtonListeners() {
         // Set up navigation button listeners
