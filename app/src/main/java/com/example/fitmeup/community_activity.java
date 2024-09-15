@@ -82,7 +82,6 @@ public class community_activity extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
-        reminder = findViewById(R.id.reminderButton);
 
         // Show keyboard when EditText is clicked
         input.setOnClickListener(v -> showKeyboard(input));
