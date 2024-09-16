@@ -706,16 +706,6 @@
                         android:background="@drawable/barbel_purple"
                         android:scaleType="fitXY" />
 
-                    <ImageButton
-                        android:id="@+id/delete_workout_button"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignEnd="@+id/record_workout"
-                        android:layout_alignBottom="@+id/record_workout"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/delete"
-                        android:contentDescription="Delete Workout" />
 
                     <!-- EditText for Notes -->
                     <EditText
