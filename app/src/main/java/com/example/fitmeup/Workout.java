@@ -16,6 +16,8 @@ public class Workout {
     private String icon;
     private int userId;
     private int totalNumberOfSeconds;
+    private int steps;
+
 
     // Constructors
     public Workout(String workoutType, Date date, int caloriesBurned, String icon,int totalNumberOfSeconds ,int userId) {
@@ -26,6 +28,15 @@ public class Workout {
         this.userId = userId;
         this.totalNumberOfSeconds = totalNumberOfSeconds;
     }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
+
 
     @Ignore
     public Workout() {}

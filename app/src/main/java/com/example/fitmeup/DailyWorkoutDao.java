@@ -28,4 +28,8 @@ public interface DailyWorkoutDao {
 
     @Query("SELECT * FROM daily_workouts WHERE date = :date")
     List<DailyWorkout> getWorkoutsByDate(Date date);
+
+    @Query("SELECT * FROM daily_workouts WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
+    List<DailyWorkout> getWorkoutsForWeek(Date startDate, Date endDate);
+
 }

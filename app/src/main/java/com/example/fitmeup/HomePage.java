@@ -25,6 +25,8 @@ import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class HomePage extends AppCompatActivity implements SensorEventListener {
@@ -59,6 +61,12 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     int waterCount = 0;
     private WorkoutDao workoutDao;
     private int userId;
+
+
+    private ProgressBar[] dailyProgressBars = new ProgressBar[7];  // Array to hold 7 progress bars for each day of the week
+    private ProgressBar circularProgressBar;
+    private static final int MAX_STEPS = 10000;  // Assuming the step goal is 10,000 per day
+
 
 
     @Override
@@ -130,12 +138,101 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         }
 
-        // Check and request activity recognition permission if necessary
         checkAndRequestPermissions();
-
-        // Display last workout details from SharedPreferences
         displayLastWorkoutDetails();
+
+
+        dailyProgressBars[0] = findViewById(R.id.progressBar1);
+        dailyProgressBars[1] = findViewById(R.id.progressBar2);
+        dailyProgressBars[2] = findViewById(R.id.progressBar3);
+        dailyProgressBars[3] = findViewById(R.id.progressBar4);
+        dailyProgressBars[4] = findViewById(R.id.progressBar5);
+        dailyProgressBars[5] = findViewById(R.id.progressBar6);
+        dailyProgressBars[6] = findViewById(R.id.progressBar7);
+
+        dailyProgressBars[0].setProgress(1000);
+
+        circularProgressBar = findViewById(R.id.circularProgressBar);
+
+        // Initialize step counter sensor (no redeclaration here)
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        }
+
+        loadWeeklyWorkoutData();
     }
+
+    private void loadWeeklyWorkoutData() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        Date startOfWeek = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_WEEK, 6);
+        Date endOfWeek = calendar.getTime();
+
+        // Fetch workouts for the current user
+        new Thread(() -> {
+            List<Workout> workouts = workoutDao.getWorkoutsForWeek(userId, startOfWeek, endOfWeek);
+
+            if (workouts != null && !workouts.isEmpty()) {
+                // Pass the fetched workouts to the UI thread to update the progress bars
+                runOnUiThread(() -> updateProgressBars(workouts));
+            } else {
+                // If no workouts, ensure progress bars are reset or set to zero
+                runOnUiThread(() -> resetProgressBars());
+            }
+        }).start();
+    }
+
+    private void resetProgressBars() {
+        for (ProgressBar progressBar : dailyProgressBars) {
+            progressBar.setProgress(0);
+        }
+    }
+
+
+
+
+    private void updateProgressBars(List<Workout> workouts) {
+        // Get today's date and day of the week (Sunday = 0, Monday = 1, etc.)
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Use 0-based index (0 = Sunday)
+
+        // Reset progress for all days (set progress to 0)
+        for (int i = 0; i < dailyProgressBars.length; i++) {
+            dailyProgressBars[i].setMax(MAX_STEPS);
+            dailyProgressBars[i].setProgress(0);  // Reset all progress bars to 0
+        }
+
+        // Loop through the workouts and update the corresponding ProgressBar for past days and today
+        for (Workout workout : workouts) {
+            calendar.setTime(workout.getDate());
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Get the day of the week (0 = Sunday)
+
+            if (dayOfWeek <= today) {  // Only update for past days or today
+                int steps = workout.getSteps();
+                dailyProgressBars[dayOfWeek].setProgress(steps);  // Set the progress for the past days or today
+            }
+        }
+
+        updateCurrentDayProgress();
+    }
+
+
+
+
+    private void updateCurrentDayProgress() {
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        dailyProgressBars[today].setMax(MAX_STEPS);
+        dailyProgressBars[today].setProgress(stepCount);
+
+        circularProgressBar.setMax(MAX_STEPS);
+        circularProgressBar.setProgress(stepCount);
+    }
+
+
 
     private void setUpButtonListeners() {
         // Set up navigation button listeners
