@@ -49,8 +49,8 @@ public class Model_activity extends AppCompatActivity {
         ImageButton profileButton = findViewById(R.id.toolbar_profile);
 
         homeButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
-        //communityButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
-        //workoutButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
+        communityButton.setOnClickListener(v -> ToolBarService.navigateToCommunityScreen(this));
+        workoutButton.setOnClickListener(v -> ToolBarService.navigateToWorkoutScreen(this));
         modelButton.setOnClickListener(v -> ToolBarService.navigateToModelScreen(this));
         profileButton.setOnClickListener(v -> ToolBarService.navigateToProfileScreen(this));
     }

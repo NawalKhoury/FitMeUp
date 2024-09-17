@@ -214,6 +214,7 @@ public class Timer_activity extends AppCompatActivity {
         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(currentPage);
 
         if (viewHolder != null) {
+
             View pageView = viewHolder.itemView;
             NumberPicker numberPicker1 = pageView.findViewById(R.id.numberPicker1);
             NumberPicker numberPicker2 = pageView.findViewById(R.id.numberPicker2);
@@ -226,6 +227,7 @@ public class Timer_activity extends AppCompatActivity {
 
             String totalTime = TimeFormatUtil.formatTime(totalWorkoutSeconds);
 
+            // Calculate calories burned during the workout
             // Calculate calories burned during the workout
             int caloriesBurned = calculateCalories(workoutType, totalWorkoutSeconds);
 
@@ -240,10 +242,8 @@ public class Timer_activity extends AppCompatActivity {
             int updatedCalories = previousCalories + caloriesBurned;
             // Save the updated total calories burned
             editor.putInt("caloriesBurned", updatedCalories);
-
             editor.apply();
 
-            Toast.makeText(this, "Workout and calories saved successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 
