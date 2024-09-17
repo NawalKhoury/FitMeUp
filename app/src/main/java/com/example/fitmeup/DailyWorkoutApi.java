@@ -1,6 +1,5 @@
 package com.example.fitmeup;
 
-
 import java.util.Date;
 import java.util.List;
 

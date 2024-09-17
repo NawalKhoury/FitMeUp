@@ -62,10 +62,7 @@ public class community_activity extends AppCompatActivity {
         postDao = db.PostDao();
 
         // Initialize Retrofit for API interaction
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.0.27:8080/") // Set your API base URL
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = ApiClient.getClient();
         postApi = retrofit.create(PostApi.class);
 
         // Load posts from local DB and remote API
@@ -112,7 +109,7 @@ public class community_activity extends AppCompatActivity {
         if (newPost.isEmpty()) {
             Toast.makeText(this, "Post cannot be empty", Toast.LENGTH_SHORT).show();
         } else {
-            Post post = new Post(newPost, new Date());
+            Post post = new Post(newPost, new Date().getTime());
 
             // Save post locally and sync with server
             addNewPost(post);
@@ -122,79 +119,97 @@ public class community_activity extends AppCompatActivity {
     private void addNewPost(Post post) {
         // Run database insertion in a background thread
         new Thread(() -> {
-            // Add to local database
+            // Add to the local database
             postDao.insert(post);
 
             // After inserting, update the UI on the main thread
             runOnUiThread(() -> {
-                // Add to local view
-                posts.add(post.getDescription());
-                adapter.notifyDataSetChanged();
-                input.setText(""); // Clear input field
-                listView.smoothScrollToPosition(posts.size() - 1); // Scroll to latest post
-                hideKeyboard(input); // Hide keyboard after posting
+                // Add to the local view, ensure the post description is not null
+                if (post.getDescription() != null && !post.getDescription().isEmpty()) {
+                    posts.add(post.getDescription());
+                    adapter.notifyDataSetChanged();
+                    input.setText(""); // Clear the input field
+                    listView.smoothScrollToPosition(posts.size() - 1); // Scroll to the latest post
+                    hideKeyboard(input); // Hide keyboard after posting
+                } else {
+                    Toast.makeText(community_activity.this, "Invalid post description", Toast.LENGTH_SHORT).show();
+                }
             });
         }).start();
+        addpost(post);
+    }
 
-        // Sync with server (optional)
-        postApi.createPost(post).enqueue(new Callback<Void>() {
+    // Sync with server (optional)
+//        postApi.createPost(post).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(community_activity.this, "Post synced with server", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(community_activity.this, "Failed to sync post with server", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+//                Toast.makeText(community_activity.this, "Network error while syncing post", Toast.LENGTH_SHORT).show();
+//                Log.e("RetrofitError", "Error: " + t.getMessage(), t);
+//            }
+//
+//        });
+
+    public void addpost(Post post) {
+        Call<Void> call = postApi.createPost(post);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
                 if (response.isSuccessful()) {
                     Toast.makeText(community_activity.this, "Post synced with server", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(community_activity.this, "Failed to sync post with server", Toast.LENGTH_SHORT).show();
+                    Log.e("API Error", "Response was unsuccessful or empty.");
+                    Log.e("API ERROR", response.toString());
+                    Log.e("API ERROR", call.request().toString());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(community_activity.this, "Network error while syncing post", Toast.LENGTH_SHORT).show();
                 Log.e("RetrofitError", "Error: " + t.getMessage(), t);
             }
-
         });
     }
 
 
     private void loadPosts() {
-        // Use a background thread for database operations
-        new Thread(() -> {
-            List<Post> localPosts = postDao.getAllPosts();
-            runOnUiThread(() -> {
-                for (Post post : localPosts) {
-                    posts.add(post.getDescription());
-                }
-                adapter.notifyDataSetChanged();
-            });
-        }).start();
-
         // Optionally load posts from server using Retrofit
         postApi.getAllPosts().enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     List<Post> remotePosts = response.body();
-                    if (remotePosts != null) {
-                        for (Post post : remotePosts) {
-                            if (!posts.contains(post.getDescription())) {
-                                posts.add(post.getDescription());
-                                postDao.insert(post); // Save remote posts locally
-                            }
+                    for (Post post : remotePosts) {
+                        if (post.getDescription() != null && !posts.contains(post.getDescription())) {
+                            posts.add(post.getDescription());
                         }
-                        adapter.notifyDataSetChanged();
                     }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(community_activity.this, "Failed to load posts from server", Toast.LENGTH_SHORT).show();
+                    Log.e("API Error", "Response was unsuccessful or empty.");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
-                Toast.makeText(community_activity.this, "Network error while syncing post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(community_activity.this, "Network error while syncing posts", Toast.LENGTH_SHORT).show();
                 Log.e("RetrofitError", "Error: " + t.getMessage(), t);
             }
-
         });
     }
+
 
 
     private void showKeyboard(View view) {
