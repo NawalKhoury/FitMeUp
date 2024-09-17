@@ -2,6 +2,7 @@ package com.example.fitmeup;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -15,7 +16,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class, Post.class}, version = 8)
+
+
+
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class, Post.class}, version =11)
 @TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 
@@ -33,6 +37,14 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
         }
     };
 
+
+//    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+//        @Override
+//        public void migrate(@NonNull SupportSQLiteDatabase database) {
+//            database.execSQL("ALTER TABLE register_users ADD COLUMN fitnessGoal INTEGER DEFAULT 0 NOT NULL");
+//        }
+//    };
+
     static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -40,6 +52,7 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE daily_workouts ADD COLUMN newColumn TEXT");
         }
     };
+
 
 
     // DAOs
@@ -58,6 +71,7 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             RegisterUserDatabase.class, "fitmeup_database")
+
 
                     .addMigrations(MIGRATION_1_2, MIGRATION_3_4)  // Add migrations
 

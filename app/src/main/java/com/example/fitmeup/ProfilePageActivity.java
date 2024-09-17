@@ -62,7 +62,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         handshakeButton = findViewById(R.id.toolbar_handshake);
         joinButton = findViewById(R.id.joinButton);
 
-        joinButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
+       joinButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
 
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, community_activity.class)));
         homeScreenButton.setOnClickListener(v -> startActivity(new Intent(ProfilePageActivity.this, HomePage.class)));
