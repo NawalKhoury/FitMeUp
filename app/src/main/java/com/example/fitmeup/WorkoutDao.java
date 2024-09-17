@@ -7,6 +7,7 @@
     import androidx.room.Query;
     import androidx.room.Update;
 
+    import java.util.Date;
     import java.util.List;
 
     @Dao
@@ -35,5 +36,17 @@
         // Query to get a workout by id
         @Query("SELECT * FROM workout WHERE id = :id LIMIT 1")
         Workout getWorkoutById(int id);
+
+        // Query to get all workouts for a specific user, ordered by date in descending order
+        @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC")
+        LiveData<List<Workout>> getAllWorkoutsForUser(int userId);
+
+        @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC LIMIT 1")
+        LiveData<Workout> getLastWorkoutForUser(int userId);
+
+        @Query("SELECT * FROM workout WHERE date BETWEEN :startDate AND :endDate AND userId = :userId ORDER BY date ASC")
+        List<Workout> getWorkoutsForWeek(int userId, Date startDate, Date endDate);
+
+
 
     }

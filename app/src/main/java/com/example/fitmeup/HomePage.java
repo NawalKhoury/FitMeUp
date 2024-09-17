@@ -9,6 +9,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import java.util.concurrent.Executors;
+
+import android.os.Handler;
 import android.widget.ProgressBar;
 
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +27,19 @@ import androidx.core.content.ContextCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class HomePage extends AppCompatActivity implements SensorEventListener {
 
@@ -67,11 +79,29 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private ImageButton decreaseWater;
     private TextView Name;
     private  String fitnessGoal;
+    private ImageButton dicreaseWater;
+    private  TextView waterText;
+    private  TextView Name;
+    int waterCount = 0;
+    private WorkoutDao workoutDao;
+    private DailyWorkoutDao dailyWorkoutDao;
+    private int userId;
+
+    private Executor executor = Executors.newSingleThreadExecutor();
+
+
+    private ProgressBar[] dailyProgressBars = new ProgressBar[7];  // Array to hold 7 progress bars for each day of the week
+    private ProgressBar circularProgressBar;
+    private static final int MAX_STEPS = 10000;  // Assuming the step goal is 10,000 per day
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
 
         initializeUIComponents();
 
@@ -179,6 +209,18 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     }
 
     private void initializeUIComponents() {
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+
+        // Initialize WorkoutDao
+        workoutDao = db.WorkoutDao();
+        dailyWorkoutDao = db.dailyWorkoutDao();
+
+
+        // Initialize UI components
+
         handshakeButton = findViewById(R.id.toolbar_handshake);
         home = findViewById(R.id.toolbar_home);
         targetButton = findViewById(R.id.toolbar_target);
@@ -202,6 +244,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         String username = sharedPreferences.getString("username", null);
         waterCount = sharedPreferences.getInt("waterCount", 0);  // Default to 0 if not set
         predictedWaterIntakeGoalCups = sharedPreferences.getFloat("predictedWaterGoal", 0);  // Load saved predicted goal
+
 
 
         if (username != null) {
@@ -279,6 +322,97 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
     }
 
+        // Check and request activity recognition permission if necessary
+        checkAndRequestPermissions();
+        displayLastWorkoutDetails();
+
+
+        dailyProgressBars[0] = findViewById(R.id.progressBar1);
+        dailyProgressBars[1] = findViewById(R.id.progressBar2);
+        dailyProgressBars[2] = findViewById(R.id.progressBar3);
+        dailyProgressBars[3] = findViewById(R.id.progressBar4);
+        dailyProgressBars[4] = findViewById(R.id.progressBar5);
+        dailyProgressBars[5] = findViewById(R.id.progressBar6);
+        dailyProgressBars[6] = findViewById(R.id.progressBar7);
+
+        circularProgressBar = findViewById(R.id.circularProgressBar);
+
+        // Initialize step counter sensor (no redeclaration here)
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        }
+
+        loadWeeklyWorkoutData();
+
+    }
+
+
+    private void loadWeeklyWorkoutData() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        Date startOfWeek = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_WEEK, 6);
+        Date endOfWeek = calendar.getTime();
+
+        // Fetch workouts for the current user
+        new Thread(() -> {
+            List<DailyWorkout> workouts = dailyWorkoutDao.getWorkoutsForWeek(userId, startOfWeek.getTime(), endOfWeek.getTime());
+
+            if (workouts != null && !workouts.isEmpty()) {
+                // Pass the fetched workouts to the UI thread to update the progress bars
+                runOnUiThread(() -> updateProgressBars(workouts));
+            } else {
+                // If no workouts, ensure progress bars are reset or set to zero
+                runOnUiThread(() -> resetProgressBars());
+            }
+        }).start();
+    }
+
+    private void resetProgressBars() {
+        for (ProgressBar progressBar : dailyProgressBars) {
+            progressBar.setProgress(0);
+        }
+    }
+
+
+
+
+    private void updateProgressBars(List<DailyWorkout> workouts) {
+        // Get today's date and day of the week (Sunday = 0, Monday = 1, etc.)
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Use 0-based index (0 = Sunday)
+
+        // Reset progress for all days (set progress to 0)
+        for (int i = 0; i < dailyProgressBars.length; i++) {
+            dailyProgressBars[i].setMax(MAX_STEPS);
+            dailyProgressBars[i].setProgress(0);  // Reset all progress bars to 0
+        }
+
+        // Loop through the workouts and update the corresponding ProgressBar for past days and today
+        for (DailyWorkout workout : workouts) {
+            calendar.setTime(workout.getDate());
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Get the day of the week (0 = Sunday)
+
+            if (dayOfWeek <= today) {  // Only update for past days or today
+                int steps = workout.getStepsCounter();
+                dailyProgressBars[dayOfWeek].setProgress(steps);  // Set the progress for the past days or today
+            }
+        }
+
+        updateCurrentDayProgress();
+    }
+
+    private void updateCurrentDayProgress() {
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        dailyProgressBars[today].setMax(MAX_STEPS);
+        dailyProgressBars[today].setProgress(stepCount);
+
+        circularProgressBar.setMax(MAX_STEPS);
+        circularProgressBar.setProgress(stepCount);
+    }
 
 
     private void setUpButtonListeners() {
@@ -287,6 +421,28 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         profile.setOnClickListener(v -> startActivity(new Intent(HomePage.this, ProfilePageActivity.class)));
         targetButton.setOnClickListener(v -> startActivity(new Intent(HomePage.this, Model_activity.class)));
         reminder.setOnClickListener(v -> startActivity(new Intent(this, Reminder3Activity.class)));
+
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+       int userId = Integer.parseInt(sharedPref.getString("userId", null));
+
+        // Fetch the last workout type and time from SharedPreferences
+        SharedPreferences workoutPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+
+        // Find and set the text in the record workout section
+        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+
+        // Start WorkoutHistory and pass userId
+        historyIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePage.this, WorkoutHistory.class);
+            intent.putExtra("userId", userId);  // Pass the userId to WorkoutHistory
+            startActivity(intent);
+        });
+
     }
 
     private void setCurrentDateAndYear() {
@@ -307,15 +463,30 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             registerStepCounterSensor();
         }
     }
-    private void displayLastWorkoutDetails() {
-        // Fetch and display the last workout details from SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
-        String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
-        String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
+//     private void displayLastWorkoutDetails() {
+//         // Fetch and display the last workout details from SharedPreferences
+//         SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+//         String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
+//         String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
 
-        TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
-        recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+
+private void displayLastWorkoutDetails() {
+
+
+    workoutDao.getLastWorkoutForUser(userId).observe(this, workout -> {
+        if(workout != null) {
+            // Fetch and display the last workout details from SharedPreferences
+            SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+            String lastWorkoutType = workout.getWorkoutType() != null ? workout.getWorkoutType() : "No workout recorded";
+            String lastWorkoutTime = TimeFormatUtil.formatTime(workout.getTotalNumberOfSeconds());
+
+            TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+            recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+        }
+    });
     }
+
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -324,14 +495,20 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             stepCount = (int) event.values[0];
             stepCountTextView.setText(stepCount+"/90000");
 
+
         String stepText = stepCount + "/90000";
         stepCountTextView.setText(stepText);
         progressBar.setProgress(stepCount);
+
+        updateCurrentDayProgress();
 
         // Calculate and display distance in kilometers
         float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
         float distanceInKilometers = distanceInMeters / 1000;
         distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
+        executor.execute(() -> {
+            dailyWorkoutDao.insert(new DailyWorkout(stepCount, new Date(), stepCount, (int) distanceInKilometers, 0, null, "", userId));
+        });
     }
 }
 

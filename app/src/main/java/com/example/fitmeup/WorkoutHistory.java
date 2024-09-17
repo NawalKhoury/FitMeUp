@@ -2,10 +2,13 @@ package com.example.fitmeup;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ public class WorkoutHistory extends AppCompatActivity {
 
     private LinearLayout workoutListContainer;
     private WorkoutDao workoutDao;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,17 @@ public class WorkoutHistory extends AppCompatActivity {
         setContentView(R.layout.activity_workout_history);  // Set the correct layout
 
         workoutListContainer = findViewById(R.id.workout_list_container);  // Initialize the container
+        // Assume that userId is passed when the user logs in
+        userId = getIntent().getIntExtra("userId", -1);  // Get userId from the intent or session
+        if (userId == -1) {
+            // Handle error: no userId
+            return;
+        }
+
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+         userId = Integer.parseInt(sharedPref.getString("userId", null));
+
 
         // Initialize the database and DAO
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
@@ -47,7 +62,6 @@ public class WorkoutHistory extends AppCompatActivity {
         // Load workout history and save a new workout with the current date
         loadWorkoutHistory();
 
-        saveWorkoutWithCurrentDate();
 
         Workout workout = new Workout();
         WorkoutApi workoutApi= ApiClient.getClient().create(WorkoutApi.class);
@@ -73,9 +87,10 @@ public class WorkoutHistory extends AppCompatActivity {
     }
 
 
+
     private void loadWorkoutHistory() {
-        // Observe the workout history LiveData from the database
-        workoutDao.getAllWorkouts().observe(this, new Observer<List<Workout>>() {
+        // Observe the workout history LiveData for the current user
+        workoutDao.getAllWorkoutsForUser(userId).observe(this, new Observer<List<Workout>>() {
             @Override
             public void onChanged(List<Workout> workoutList) {
                 // Clear the container before adding new data
@@ -101,7 +116,7 @@ public class WorkoutHistory extends AppCompatActivity {
                     Date workoutDate = workout.getDate();
                     String formattedDate = dateFormat.format(workoutDate);
 
-                    // Find and set the date view (make sure your layout has this TextView)
+                    // Set the date view (use correct TextView ID from your layout)
                     TextView workoutDateView = workoutCard.findViewById(R.id.workout_type);
                     workoutDateView.setText(formattedDate);
 
@@ -113,14 +128,38 @@ public class WorkoutHistory extends AppCompatActivity {
                     ImageView workoutIcon = workoutCard.findViewById(R.id.workout_icon);
                     workoutIcon.setImageResource(getWorkoutIcon(workout.getWorkoutType()));
 
+                    // Set up the delete button
+                    ImageButton deleteButton = workoutCard.findViewById(R.id.delete_workout_button);
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteWorkout(workout);
+                        }
+                    });
+
                     // Add the workout card to the container
                     workoutListContainer.addView(workoutCard);
                 }
             }
         });
     }
+    private void deleteWorkout(Workout workout) {
+        // Use an executor to run database operations off the main thread
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            // Delete the workout from the database
+            workoutDao.delete(workout);
+
+            // Optional: Run on UI thread to show a toast message
+            runOnUiThread(() -> Toast.makeText(WorkoutHistory.this, "Workout deleted", Toast.LENGTH_SHORT).show());
+        });
+    }
+
+
+
 
     private void saveWorkoutWithCurrentDate() {
+
         // Use an executor to run database operations off the main thread
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -132,8 +171,8 @@ public class WorkoutHistory extends AppCompatActivity {
             int caloriesBurned = 300;        // Example value
             String icon = "running";         // Match the workout type with the correct icon
 
-            // Create a new Workout object
-            Workout newWorkout = new Workout(workoutType, currentDate, caloriesBurned, icon);
+            // Create a new Workout object with the correct userId
+            Workout newWorkout = new Workout(workoutType, currentDate, caloriesBurned, icon,0,userId);
 
             // Insert the workout into the database using the DAO
             workoutDao.insert(newWorkout);

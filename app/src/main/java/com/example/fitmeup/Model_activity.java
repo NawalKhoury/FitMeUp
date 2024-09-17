@@ -15,6 +15,7 @@ public class Model_activity extends AppCompatActivity {
     private ImageView[] dots;
     private BodyPagerAdapter adapter;
     private ImageButton backButton;
+    private ExerciseDao exerciseDao; // Use ExerciseDao
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -22,16 +23,27 @@ public class Model_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_model);
 
+        // Initialize ExerciseDao from ExerciseDatabase instead of FitMeUpDatabase
+        exerciseDao = ExerciseDatabase.getInstance(this).exerciseDao();
+
         // Initialize ViewPager, indicator layout, and toolbar buttons
         viewPager = findViewById(R.id.viewPager);
         indicatorLayout = findViewById(R.id.indicatorLayout);
-        setupViewPagerAndDots();
 
+        setupViewPagerAndDots(); // Set up the ViewPager and dots
+
+        // Set up the back button
         backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> ToolBarService.navigateToHomeScreen(this));
 
+        // Set up toolbar buttons and their click listeners
+        setupToolbarButtons();
+    }
+
+    // Method to set up the toolbar buttons
+    private void setupToolbarButtons() {
         ImageButton homeButton = findViewById(R.id.toolbar_home);
-        ImageButton communityButton = findViewById(R.id.toolbar_handshake); // Assuming ID from your description
+        ImageButton communityButton = findViewById(R.id.toolbar_handshake);
         ImageButton workoutButton = findViewById(R.id.toolbar_exercise);
         ImageButton modelButton = findViewById(R.id.toolbar_target);
         ImageButton profileButton = findViewById(R.id.toolbar_profile);
@@ -43,11 +55,14 @@ public class Model_activity extends AppCompatActivity {
         profileButton.setOnClickListener(v -> ToolBarService.navigateToProfileScreen(this));
     }
 
+    // Method to set up the ViewPager and the dots indicator
     private void setupViewPagerAndDots() {
-        adapter = new BodyPagerAdapter(this);
+        // Initialize the adapter and pass exerciseDao to it
+        adapter = new BodyPagerAdapter(this, exerciseDao);
         viewPager.setAdapter(adapter);
         setupIndicatorDots(adapter.getCount());
 
+        // Add a page change listener to update dots when the page changes
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -62,6 +77,7 @@ public class Model_activity extends AppCompatActivity {
         });
     }
 
+    // Method to set up the indicator dots
     private void setupIndicatorDots(int count) {
         dots = new ImageView[count];
         indicatorLayout.removeAllViews(); // Clear previous dots if any
@@ -76,11 +92,13 @@ public class Model_activity extends AppCompatActivity {
             indicatorLayout.addView(dots[i], params);
         }
 
+        // Activate the first dot by default
         if (dots.length > 0) {
             dots[0].setImageResource(R.drawable.indicator_active);
         }
     }
 
+    // Method to update the indicator dots when the page changes
     private void updateIndicatorDots(int position) {
         for (int i = 0; i < dots.length; i++) {
             dots[i].setImageResource(i == position ? R.drawable.indicator_active : R.drawable.indicator_inactive);

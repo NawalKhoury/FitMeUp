@@ -18,12 +18,13 @@ public class DailyWorkout {
     private int waterCups;
     private ArrayList<Workout> workoutDailyHistory;
     private String description;
+    private int userId;
 
     // Empty constructor
     public DailyWorkout() {
     }
 
-    public DailyWorkout(int calory, Date date, int stepsCounter, int distans, int waterCups, ArrayList<Workout> workoutDailyHistory, String description) {
+    public DailyWorkout(int calory, Date date, int stepsCounter, int distans, int waterCups, ArrayList<Workout> workoutDailyHistory, String description, int userId) {
         this.calory = calory;
         this.date = date;
         this.stepsCounter = stepsCounter;
@@ -31,6 +32,7 @@ public class DailyWorkout {
         this.waterCups = waterCups;
         this.workoutDailyHistory = workoutDailyHistory;
         this.description = description;
+        this.userId = userId;
     }
 
     // Getter and Setter for id
@@ -81,6 +83,14 @@ public class DailyWorkout {
 
     public void setWorkoutDailyHistory(ArrayList<Workout> workoutDailyHistory) {
         this.workoutDailyHistory = workoutDailyHistory;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getWaterCups() {

@@ -26,6 +26,23 @@ public interface DailyWorkoutDao {
     @Query("SELECT * FROM daily_workouts ORDER BY date DESC")
     List<DailyWorkout> getAllWorkouts();
 
-    @Query("SELECT * FROM daily_workouts WHERE date = :date")
-    List<DailyWorkout> getWorkoutsByDate(Date date);
+    @Query("SELECT * FROM daily_workouts WHERE date = :date And userId = :userId ORDER BY date DESC")
+    List<DailyWorkout> getWorkoutsByDate(Date date, String userId);
+
+    @Query("SELECT * FROM daily_workouts WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
+    List<DailyWorkout> getWorkoutsForWeek(Date startDate, Date endDate);
+
+    @Query("SELECT dw.* FROM daily_workouts AS dw " +
+            "INNER JOIN ( " +
+            "    SELECT MAX(date) AS maxDate, strftime('%Y-%m-%d', date / 1000, 'unixepoch') AS workoutDay " +
+            "    FROM daily_workouts " +
+            "    WHERE userId = :userId AND date BETWEEN :startDate AND :endDate " +
+            "    GROUP BY workoutDay " +
+            ") AS latest_workouts " +
+            "ON strftime('%Y-%m-%d', dw.date / 1000, 'unixepoch') = latest_workouts.workoutDay AND dw.date = latest_workouts.maxDate " +
+            "WHERE dw.userId = :userId " +
+            "ORDER BY dw.date ASC")
+    List<DailyWorkout> getWorkoutsForWeek(int userId, long startDate, long endDate);
+
+
 }

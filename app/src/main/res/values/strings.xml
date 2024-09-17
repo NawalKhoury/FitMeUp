@@ -54,4 +54,5 @@
     <string name="sub_reminder">Keep focus on your health!</string>
     <string name="add_new_reminder">Add a new reminder</string>
     <string name="back_button_description">back_to_homePage</string>
+    <string name="pen">\"pen\"</string>
 </resources>
