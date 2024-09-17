@@ -49,12 +49,12 @@ public class RegisterActivity extends AppCompatActivity {
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(genderAdapter);
 
-        // Health Problems Spinner setup
-        Spinner healthProblemsSpinner = findViewById(R.id.health_problems_spinner);
-        ArrayAdapter<CharSequence> healthProblemsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.health_problems_options, android.R.layout.simple_spinner_item);
-        healthProblemsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        healthProblemsSpinner.setAdapter(healthProblemsAdapter);
+        // fitness goal Spin ner setup
+        Spinner fitnessGoalSpinner = findViewById(R.id.fitness_goal_spinner);
+        ArrayAdapter<CharSequence> fitnessGoalAdapter = ArrayAdapter.createFromResource(this,
+                R.array.fitness_goal_options, android.R.layout.simple_spinner_item);
+        fitnessGoalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fitnessGoalSpinner.setAdapter(fitnessGoalAdapter);
 
         // Security Question Spinner setup
         Spinner securityQuestionSpinner = findViewById(R.id.security_question_spinner);
@@ -139,7 +139,17 @@ public class RegisterActivity extends AppCompatActivity {
             String securityAnswer = securityAnswerInput.getText().toString().trim();
             String selectedGender = genderSpinner.getSelectedItem().toString();
             String selectedSecurityQuestion = securityQuestionSpinner.getSelectedItem().toString();
-            String selectedHealthProblems = healthProblemsSpinner.getSelectedItem().toString();
+            String selectedFitnessGoal = fitnessGoalSpinner.getSelectedItem().toString();
+
+            // Map the selected fitness goal to a numeric value
+            int fitnessGoalNumeric = 0; // Default to "maintain weight"
+            if (selectedFitnessGoal.equals("Lose Weight")) {
+                fitnessGoalNumeric = -1;
+            } else if (selectedFitnessGoal.equals("Gain Weight")) {
+                fitnessGoalNumeric = 1;
+            }
+
+            String fitnessGoal = selectedFitnessGoal;  // Pass string directly
 
             // Validate inputs
             if (TextUtils.isEmpty(username)) {
@@ -156,8 +166,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             } else if (selectedGender.equals("Select Gender")) {
                 Toast.makeText(RegisterActivity.this, "Please select your gender", Toast.LENGTH_SHORT).show();
-            } else if (selectedHealthProblems.equals("Select an option")) {
-                Toast.makeText(RegisterActivity.this, "Please specify if you have health problems", Toast.LENGTH_SHORT).show();
+            } else if (selectedFitnessGoal.equals("Select your goal")) {
+                Toast.makeText(RegisterActivity.this, "Please select a fitness goal", Toast.LENGTH_SHORT).show();
             } else if (selectedSecurityQuestion.equals("Select a security question")) {
                 Toast.makeText(RegisterActivity.this, "Please select a security question", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(birthDate)) {
@@ -169,22 +179,20 @@ public class RegisterActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(securityAnswer)) {
                 Toast.makeText(RegisterActivity.this, "Please provide an answer to the security question", Toast.LENGTH_SHORT).show();
             } else {
+                // Register the user
                 RegisterUser newUser = new RegisterUser(
                         username, email, confirmEmail, password, confirmPassword, birthDate,
-                        selectedGender, selectedHealthProblems, selectedSecurityQuestion, securityAnswer, weight, height
+                        selectedGender, fitnessGoal, selectedSecurityQuestion, securityAnswer, weight, height
                 );
+                System.out.println("username: " + newUser.getUsername());
+                System.out.println("email: "+ newUser.getEmail());
+                System.out.println("password: " + newUser   .getPassword());
+                System.out.println("birthdate: " + newUser.getBirthDate());
+                System.out.println("weight: " + newUser.getWeight());
+                System.out.println("height: " + newUser .getHeight());
+                System.out.println("slectedFitnessGoal: " + newUser.getFitnessGoal());
 
-                Intent intent1 = new Intent(RegisterActivity.this, ProfilePageActivity.class);
-                intent1.putExtra("USER_HEIGHT", height);
-                intent1.putExtra("USER_WEIGHT", weight);
-                intent1.putExtra("USER_BIRTHDAY", birthDate);
-                intent1.putExtra("USER_NAME", username);
-                startActivity(intent1);
-
-
-
-
-                Log.d("DB", "Inserting new user...");
+                // Insert the user into the database
                 new Thread(() -> {
                     try {
                         registerUserDao.insert(newUser);
@@ -198,8 +206,14 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.e("DB", "Error inserting new user", e);
                     }
                 }).start();
-
             }
+
+                Intent intent1 = new Intent(RegisterActivity.this, ProfilePageActivity.class);
+                intent1.putExtra("USER_HEIGHT", height);
+                intent1.putExtra("USER_WEIGHT", weight);
+                intent1.putExtra("USER_BIRTHDAY", birthDate);
+                intent1.putExtra("USER_NAME", username);
+                startActivity(intent1);
         });
     }
 
