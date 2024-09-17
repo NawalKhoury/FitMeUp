@@ -99,6 +99,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         setCurrentDateAndYear();
         checkAndRequestPermissions();
         displayLastWorkoutDetails();
+        loadCaloriesBurned();
 
     }
 
@@ -283,13 +284,26 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
 
         private void loadCaloriesBurned() {
-        SharedPreferences sharedPreferences = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
 
-        // Load the total calories burned from SharedPreferences
-        int totalCaloriesBurned = sharedPreferences.getInt("caloriesBurned", 0);
+            // Get the last saved date
+            String lastWorkoutDate = sharedPreferences.getString("lastWorkoutDate", "");
+            String currentDate = String.valueOf(new Date());
 
-        // Update the calories burned text view
-        calorieCounterView.setText(totalCaloriesBurned + " CAL");
+            // Check if the current date is different from the last saved date
+            if (!currentDate.equals(lastWorkoutDate)) {
+                // It's a new day, so reset the calories burned
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("caloriesBurned", 0); // Reset to 0 for a new day
+                editor.putString("lastWorkoutDate", currentDate); // Save the current date
+                editor.apply();
+            }
+
+            // Load the total calories burned
+            int totalCaloriesBurned = sharedPreferences.getInt("caloriesBurned", 0);
+
+            // Update the calories burned text view
+            calorieCounterView.setText(totalCaloriesBurned + " CAL");
     }
 
 
