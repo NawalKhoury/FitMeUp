@@ -28,7 +28,7 @@ public class Timer_activity extends AppCompatActivity {
     private ImageButton workout;
     private ImageButton profile;
     private ImageButton training;
-
+    private int CaloriesBurned=0;
     private Handler handler = new Handler();
     private int seconds = 0;
     private boolean isRunning = false;
@@ -228,7 +228,6 @@ public class Timer_activity extends AppCompatActivity {
             String totalTime = TimeFormatUtil.formatTime(totalWorkoutSeconds);
 
             // Calculate calories burned during the workout
-            // Calculate calories burned during the workout
             int caloriesBurned = calculateCalories(workoutType, totalWorkoutSeconds);
 
             SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
@@ -238,10 +237,9 @@ public class Timer_activity extends AppCompatActivity {
             editor.putString("LAST_WORKOUT_TIME", totalTime);
 
             // Load the previously saved calories burned and add the new calories
-            int previousCalories = sharedPref.getInt("caloriesBurned", 0);
-            int updatedCalories = previousCalories + caloriesBurned;
+
             // Save the updated total calories burned
-            editor.putInt("caloriesBurned", updatedCalories);
+            editor.putInt("caloriesBurned", CaloriesBurned);
             editor.apply();
 
         }
