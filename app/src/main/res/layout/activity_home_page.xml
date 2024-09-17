@@ -553,7 +553,7 @@
                                 android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/rhwnd7b5uhvs"
+                                android:id="@+id/CaloriesTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"

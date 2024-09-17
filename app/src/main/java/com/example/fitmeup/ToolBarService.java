@@ -17,17 +17,17 @@ public class ToolBarService {
         context.startActivity(intent);
     }
 
-    public static void navigateToWorkoutScreen(Context context) {
-        // Create an Intent to navigate to the TargetActivity
-        Intent intent = new Intent(context, WorkoutActivity.class);
-        context.startActivity(intent);
-    }
+//    public static void navigateToWorkoutScreen(Context context) {
+//        // Create an Intent to navigate to the TargetActivity
+//        Intent intent = new Intent(context, WorkoutActivity.class);
+//        context.startActivity(intent);
+//    }
 //2
-    public static void navigateToCommunityScreen(Context context) {
+    //public static void navigateToCommunityScreen(Context context) {
         // Create an Intent to navigate to the CommunityActivity
-        Intent intent = new Intent(context, community_activity.class);
-        context.startActivity(intent);
-    }
+        //Intent intent = new Intent(context, community_activity.class);
+        //context.startActivity(intent);
+    //}
     public static void navigateToModelScreen(Context context) {
         // Create an Intent to navigate to the Model
         Intent intent = new Intent(context, Model_activity.class);

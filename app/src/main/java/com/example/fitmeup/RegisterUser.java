@@ -15,17 +15,15 @@ public class RegisterUser {
     private String confirmPassword;
     private String birthDate;
     private String gender;
-    private String healthProblemStatus;
+    private String fitnessGoal;
     private String securityQuestion;
     private String securityAnswer;
     private String weight;
     private String height;
-    public RegisterUser() {
-    }
 
 
     public RegisterUser(String username, String email, String confirmEmail, String password, String confirmPassword,
-                        String birthDate, String gender, String healthProblemStatus, String securityQuestion,
+                        String birthDate, String gender, String fitnessGoal, String securityQuestion,
                         String securityAnswer, String weight, String height) {
         this.username = username;
         this.email = email;
@@ -34,11 +32,24 @@ public class RegisterUser {
         this.confirmPassword = confirmPassword;
         this.birthDate = birthDate;
         this.gender = gender;
-        this.healthProblemStatus = healthProblemStatus;
+        this.fitnessGoal = fitnessGoal;
         this.securityQuestion = securityQuestion;
         this.securityAnswer = securityAnswer;
         this.weight = weight;
         this.height = height;
+
+    }
+
+    public RegisterUser() {
+    }
+
+    // Getters and setters for fitnessGoal
+    public String getFitnessGoal() {
+        return fitnessGoal;
+    }
+
+    public void setFitnessGoal(String fitnessGoal) {
+        this.fitnessGoal = fitnessGoal;
     }
 
     // Getters and setters for each field
@@ -104,14 +115,6 @@ public class RegisterUser {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getHealthProblemStatus() {
-        return healthProblemStatus;
-    }
-
-    public void setHealthProblemStatus(String healthProblemStatus) {
-        this.healthProblemStatus = healthProblemStatus;
     }
 
     public String getSecurityQuestion() {

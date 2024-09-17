@@ -16,17 +16,21 @@ public interface RegisterUserDao {
     @Query("SELECT * FROM register_users WHERE username = :username AND password = :password LIMIT 1")
     RegisterUser getUserByUsernameAndPassword(String username, String password);
 
+    @Query("SELECT * FROM register_users WHERE email = :email AND password = :password LIMIT 1")
+    RegisterUser getUserByEmailAndPassword(String email, String password);
+
+    @Query("SELECT * FROM register_users WHERE email = :email LIMIT 1")
+    RegisterUser getUserByEmail(String email);
+
     @Query("SELECT * FROM register_users WHERE securityQuestion = :securityQuestion AND securityAnswer = :securityAnswer LIMIT 1")
     RegisterUser getUserBySecurityQuestionAndAnswer(String securityQuestion, String securityAnswer);
 
     @Update
     void update(RegisterUser registerUser);
 
-    @Query("SELECT * FROM register_users")
-    List<RegisterUser> getAllUsers();
-
     @Query("SELECT * FROM register_users WHERE id = :id")
     RegisterUser getUserById(String id);
 
-
+    @Query("SELECT * FROM register_users")
+    List<RegisterUser> getAllUsers();
 }

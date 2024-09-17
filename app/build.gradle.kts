@@ -33,6 +33,9 @@ android {
 
 dependencies {
 
+    implementation("org.tensorflow:tensorflow-lite:2.9.0")  // TensorFlow Lite core library
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.0")  // Optional TensorFlow Lite support library
+
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
