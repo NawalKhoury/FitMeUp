@@ -80,14 +80,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private TextView Name;
     private  String fitnessGoal;
     private ImageButton dicreaseWater;
-    private  TextView waterText;
-    private  TextView Name;
-    int waterCount = 0;
     private WorkoutDao workoutDao;
     private DailyWorkoutDao dailyWorkoutDao;
     private int userId;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
 
 
     private ProgressBar[] dailyProgressBars = new ProgressBar[7];  // Array to hold 7 progress bars for each day of the week
@@ -102,11 +97,22 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+
+        // Initialize WorkoutDao
+        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
+        workoutDao = db.WorkoutDao();
+        dailyWorkoutDao = db.dailyWorkoutDao();
+
+        String username = sharedPref.getString("username", null);
+
+
+
 
         initializeUIComponents();
 
-        // Initialize DAO to retrieve user data from the database
-        RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
         registerUserDao = db.registerUserDao();
 
         // Load user details from the database in a background thread
@@ -125,6 +131,35 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         setUpButtonListeners();
         setCurrentDateAndYear();
         checkAndRequestPermissions();
+
+        // Initialize step counter sensor
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        }
+
+        // Check and request activity recognition permission if necessary
+        checkAndRequestPermissions();
+        displayLastWorkoutDetails();
+
+
+        dailyProgressBars[0] = findViewById(R.id.progressBar1);
+        dailyProgressBars[1] = findViewById(R.id.progressBar2);
+        dailyProgressBars[2] = findViewById(R.id.progressBar3);
+        dailyProgressBars[3] = findViewById(R.id.progressBar4);
+        dailyProgressBars[4] = findViewById(R.id.progressBar5);
+        dailyProgressBars[5] = findViewById(R.id.progressBar6);
+        dailyProgressBars[6] = findViewById(R.id.progressBar7);
+
+        circularProgressBar = findViewById(R.id.circularProgressBar);
+
+        // Initialize step counter sensor (no redeclaration here)
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        }
+
+        loadWeeklyWorkoutData();
     }
 
     // Method to handle AI model prediction
@@ -209,15 +244,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     }
 
     private void initializeUIComponents() {
-
-        // Fetch userId from SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
-
-        // Initialize WorkoutDao
-        workoutDao = db.WorkoutDao();
-        dailyWorkoutDao = db.dailyWorkoutDao();
-
 
         // Initialize UI components
 
@@ -322,30 +348,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
     }
 
-        // Check and request activity recognition permission if necessary
-        checkAndRequestPermissions();
-        displayLastWorkoutDetails();
-
-
-        dailyProgressBars[0] = findViewById(R.id.progressBar1);
-        dailyProgressBars[1] = findViewById(R.id.progressBar2);
-        dailyProgressBars[2] = findViewById(R.id.progressBar3);
-        dailyProgressBars[3] = findViewById(R.id.progressBar4);
-        dailyProgressBars[4] = findViewById(R.id.progressBar5);
-        dailyProgressBars[5] = findViewById(R.id.progressBar6);
-        dailyProgressBars[6] = findViewById(R.id.progressBar7);
-
-        circularProgressBar = findViewById(R.id.circularProgressBar);
-
-        // Initialize step counter sensor (no redeclaration here)
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager != null) {
-            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        }
-
-        loadWeeklyWorkoutData();
-
-    }
 
 
     private void loadWeeklyWorkoutData() {
@@ -425,7 +427,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
         // Fetch userId from SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-       int userId = Integer.parseInt(sharedPref.getString("userId", null));
+        int userId = Integer.parseInt(sharedPref.getString("userId", null));
 
         // Fetch the last workout type and time from SharedPreferences
         SharedPreferences workoutPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
@@ -463,27 +465,20 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             registerStepCounterSensor();
         }
     }
-//     private void displayLastWorkoutDetails() {
-//         // Fetch and display the last workout details from SharedPreferences
-//         SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
-//         String lastWorkoutType = sharedPref.getString("LAST_WORKOUT_TYPE", "No workout recorded");
-//         String lastWorkoutTime = sharedPref.getString("LAST_WORKOUT_TIME", "00:00:00");
 
+    private void displayLastWorkoutDetails() {
 
-private void displayLastWorkoutDetails() {
+        workoutDao.getLastWorkoutForUser(userId).observe(this, workout -> {
+            if(workout != null) {
+                // Fetch and display the last workout details from SharedPreferences
+                SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
+                String lastWorkoutType = workout.getWorkoutType() != null ? workout.getWorkoutType() : "No workout recorded";
+                String lastWorkoutTime = TimeFormatUtil.formatTime(workout.getTotalNumberOfSeconds());
 
-
-    workoutDao.getLastWorkoutForUser(userId).observe(this, workout -> {
-        if(workout != null) {
-            // Fetch and display the last workout details from SharedPreferences
-            SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", MODE_PRIVATE);
-            String lastWorkoutType = workout.getWorkoutType() != null ? workout.getWorkoutType() : "No workout recorded";
-            String lastWorkoutTime = TimeFormatUtil.formatTime(workout.getTotalNumberOfSeconds());
-
-            TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
-            recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
-        }
-    });
+                TextView recordWorkoutText = findViewById(R.id.textView2); // Assuming this is the "Record Workout" section
+                recordWorkoutText.setText(String.format("Last Workout: %s\nTime: %s", lastWorkoutType, lastWorkoutTime));
+            }
+        });
     }
 
 
