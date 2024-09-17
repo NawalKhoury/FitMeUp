@@ -61,6 +61,10 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    implementation("com.google.android.material:material:1.6.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+
     // Testing dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

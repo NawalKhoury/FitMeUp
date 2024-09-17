@@ -35,4 +35,3 @@ public interface PostDao {
     @Query("SELECT * FROM post WHERE description LIKE '%' || :keyword || '%' ORDER BY date DESC")
     List<Post> getPostsByKeyword(String keyword);
 }
-

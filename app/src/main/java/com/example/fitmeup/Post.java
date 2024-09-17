@@ -1,5 +1,7 @@
 package com.example.fitmeup;
 
+import android.content.SharedPreferences;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -12,6 +14,7 @@ public class Post {
     private int id;
     private Date date;
     private String description;
+
 
     public Post(String description, Date date) {
         this.description = description;
@@ -42,6 +45,9 @@ public class Post {
         this.date = date;
     }
 
+
+
+
     @Override
     public String toString() {
         return "Post{" +
@@ -50,4 +56,6 @@ public class Post {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+
 }

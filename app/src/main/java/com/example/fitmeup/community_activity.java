@@ -1,6 +1,7 @@
 package com.example.fitmeup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.graphics.Typeface;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,12 +45,15 @@ public class community_activity extends AppCompatActivity {
     private ImageButton profile;
     private ImageButton training;
     private ImageButton reminder;
+    private int userId;
+
 
     // Local Room database and DAO
     private PostDao postDao;
 
     // Retrofit API client
     private PostApi postApi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +67,6 @@ public class community_activity extends AppCompatActivity {
 
         // Initialize Room database
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
-
         postDao = db.PostDao();
 
         // Initialize Retrofit for API interaction
@@ -70,6 +78,8 @@ public class community_activity extends AppCompatActivity {
 
         // Load posts from local DB and remote API
         loadPosts();
+
+
     }
 
     private void initializeViews() {
@@ -108,6 +118,10 @@ public class community_activity extends AppCompatActivity {
     }
 
     private void handlePostButtonClick() {
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+        String username = sharedPref.getString("username", null);
         String newPost = input.getText().toString().trim();
         if (newPost.isEmpty()) {
             Toast.makeText(this, "Post cannot be empty", Toast.LENGTH_SHORT).show();
@@ -128,7 +142,19 @@ public class community_activity extends AppCompatActivity {
             // After inserting, update the UI on the main thread
             runOnUiThread(() -> {
                 // Add to local view
-                posts.add(post.getDescription());
+
+                // Fetch userId from SharedPreferences
+                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+                String username = sharedPref.getString("username", null);
+
+
+                if (username != null) {
+                    posts.add(post.getDate()+"\n "+username+":\n "+post.getDescription());
+                }else {
+                    posts.add(post.getDescription());
+                }
+
                 adapter.notifyDataSetChanged();
                 input.setText(""); // Clear input field
                 listView.smoothScrollToPosition(posts.size() - 1); // Scroll to latest post
@@ -158,12 +184,16 @@ public class community_activity extends AppCompatActivity {
 
 
     private void loadPosts() {
+        // Fetch userId from SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = Integer.parseInt(sharedPref.getString("userId", "0"));
+        String username = sharedPref.getString("username", null);
         // Use a background thread for database operations
         new Thread(() -> {
             List<Post> localPosts = postDao.getAllPosts();
             runOnUiThread(() -> {
                 for (Post post : localPosts) {
-                    posts.add(post.getDescription());
+                    posts.add(post.getDate()+"\n "+username+":\n "+post.getDescription());
                 }
                 adapter.notifyDataSetChanged();
             });
