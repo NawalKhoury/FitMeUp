@@ -15,7 +15,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.migration.Migration;
 
 
-@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class, Post.class}, version = 7)
+@Database(entities = {RegisterUser.class, DailyWorkout.class, Workout.class, Reminder.class, ImageEntity.class, Post.class}, version = 8)
 @TypeConverters({Converters.class}) // Include converters if needed
 public abstract class RegisterUserDatabase extends RoomDatabase {
 
@@ -40,6 +40,7 @@ public abstract class RegisterUserDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE daily_workouts ADD COLUMN newColumn TEXT");
         }
     };
+
 
     // DAOs
     public abstract RegisterUserDao registerUserDao();

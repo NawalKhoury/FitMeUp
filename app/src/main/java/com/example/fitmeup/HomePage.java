@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.os.Handler;
 import android.widget.ProgressBar;
 
 import android.content.SharedPreferences;
@@ -24,10 +25,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class HomePage extends AppCompatActivity implements SensorEventListener {
 
@@ -60,7 +66,10 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private  TextView Name;
     int waterCount = 0;
     private WorkoutDao workoutDao;
+    private DailyWorkoutDao dailyWorkoutDao;
     private int userId;
+
+    private Executor executor = Executors.newSingleThreadExecutor();
 
 
     private ProgressBar[] dailyProgressBars = new ProgressBar[7];  // Array to hold 7 progress bars for each day of the week
@@ -81,6 +90,8 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         // Initialize WorkoutDao
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
         workoutDao = db.WorkoutDao();
+        dailyWorkoutDao = db.dailyWorkoutDao();
+
 
         // Initialize UI components
         handshakeButton = findViewById(R.id.toolbar_handshake);
@@ -150,8 +161,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         dailyProgressBars[5] = findViewById(R.id.progressBar6);
         dailyProgressBars[6] = findViewById(R.id.progressBar7);
 
-        dailyProgressBars[0].setProgress(1000);
-
         circularProgressBar = findViewById(R.id.circularProgressBar);
 
         // Initialize step counter sensor (no redeclaration here)
@@ -161,7 +170,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
 
         loadWeeklyWorkoutData();
+
     }
+
 
     private void loadWeeklyWorkoutData() {
         Calendar calendar = Calendar.getInstance();
@@ -172,7 +183,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
         // Fetch workouts for the current user
         new Thread(() -> {
-            List<Workout> workouts = workoutDao.getWorkoutsForWeek(userId, startOfWeek, endOfWeek);
+            List<DailyWorkout> workouts = dailyWorkoutDao.getWorkoutsForWeek(userId, startOfWeek.getTime(), endOfWeek.getTime());
 
             if (workouts != null && !workouts.isEmpty()) {
                 // Pass the fetched workouts to the UI thread to update the progress bars
@@ -193,7 +204,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
 
 
-    private void updateProgressBars(List<Workout> workouts) {
+    private void updateProgressBars(List<DailyWorkout> workouts) {
         // Get today's date and day of the week (Sunday = 0, Monday = 1, etc.)
         Calendar calendar = Calendar.getInstance();
         int today = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Use 0-based index (0 = Sunday)
@@ -205,21 +216,18 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
 
         // Loop through the workouts and update the corresponding ProgressBar for past days and today
-        for (Workout workout : workouts) {
+        for (DailyWorkout workout : workouts) {
             calendar.setTime(workout.getDate());
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Get the day of the week (0 = Sunday)
 
             if (dayOfWeek <= today) {  // Only update for past days or today
-                int steps = workout.getSteps();
+                int steps = workout.getStepsCounter();
                 dailyProgressBars[dayOfWeek].setProgress(steps);  // Set the progress for the past days or today
             }
         }
 
         updateCurrentDayProgress();
     }
-
-
-
 
     private void updateCurrentDayProgress() {
         Calendar calendar = Calendar.getInstance();
@@ -231,7 +239,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         circularProgressBar.setMax(MAX_STEPS);
         circularProgressBar.setProgress(stepCount);
     }
-
 
 
     private void setUpButtonListeners() {
@@ -299,21 +306,29 @@ private void displayLastWorkoutDetails() {
     });
     }
 
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         // Handle sensor changes for step counter
-        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        if (event == null || event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             stepCount = (int) event.values[0];
             stepCountTextView.setText(stepCount+"/90000");
+
 
         String stepText = stepCount + "/90000";
         stepCountTextView.setText(stepText);
         progressBar.setProgress(stepCount);
 
+        updateCurrentDayProgress();
+
         // Calculate and display distance in kilometers
         float distanceInMeters = stepCount * STEP_LENGTH_IN_METERS;
         float distanceInKilometers = distanceInMeters / 1000;
         distanceTextView.setText(String.format("%.2f KM", distanceInKilometers));
+        executor.execute(() -> {
+            dailyWorkoutDao.insert(new DailyWorkout(stepCount, new Date(), stepCount, (int) distanceInKilometers, 0, null, "", userId));
+        });
     }
 }
 
