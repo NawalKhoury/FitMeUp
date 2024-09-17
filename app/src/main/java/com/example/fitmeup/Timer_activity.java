@@ -230,14 +230,24 @@ public class Timer_activity extends AppCompatActivity {
 
             String totalTime = String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds);
 
+            // Calculate calories burned during the workout
+            int caloriesBurned = calculateCalories(workoutType, totalWorkoutSeconds);
+
             SharedPreferences sharedPref = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
 
             editor.putString("LAST_WORKOUT_TYPE", workoutType);
             editor.putString("LAST_WORKOUT_TIME", totalTime);
+
+            // Load the previously saved calories burned and add the new calories
+            int previousCalories = sharedPref.getInt("caloriesBurned", 0);
+            int updatedCalories = previousCalories + caloriesBurned;
+            // Save the updated total calories burned
+            editor.putInt("caloriesBurned", updatedCalories);
+
             editor.apply();
 
-            Toast.makeText(this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Workout and calories saved successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -313,7 +323,6 @@ public class Timer_activity extends AppCompatActivity {
             }
         }
     };
-
     private void updateTime() {
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;

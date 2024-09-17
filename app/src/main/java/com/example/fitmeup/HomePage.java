@@ -45,7 +45,8 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     private int stepCount = 0;
     private int waterCount = 0;
     private float predictedStepCountGoal = 0;
-    private float predictedWaterIntakeGoalCups = 0;
+    private float predictedWaterIntakeGoalCups;
+    private int caloriesBurnedCount =0;
 
     private TextView stepsCounterView;
     private TextView calorieCounterView;
@@ -72,6 +73,8 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        initializeUIComponents();
+
         // Initialize DAO to retrieve user data from the database
         RegisterUserDatabase db = RegisterUserDatabase.getInstance(getApplicationContext());
         registerUserDao = db.registerUserDao();
@@ -89,8 +92,6 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             }
         });
 
-        // Initialize UI components
-        initializeUIComponents();
         setUpButtonListeners();
         setCurrentDateAndYear();
         checkAndRequestPermissions();
@@ -123,11 +124,11 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         // Get the predicted step count goal, calories, and water intake goal
         float predictedStepCountGoal = predictions[0];
         float predictedCalorieGoal = predictions[1];
-        float predictedWaterIntakeGoalLiters = predictions[2];
+        float predictedWaterIntakeGoalCups = predictions[2] / 12;
         // Convert predicted water intake goal from liters to cups
-        float predictedWaterIntakeGoalCups = predictedWaterIntakeGoalLiters / 12;
+        //float predictedWaterIntakeGoalCups = predictedWaterIntakeGoalLiters / 12; // convert it to cups
 
-// Apply different scaling depending on the user's fitness goal
+        // Apply different scaling depending on the user's fitness goal
         if (fitnessGoalNumeric == -1) {  // Lose weight
             predictedStepCountGoal = predictedStepCountGoal / 30;  // More steps to lose weight
             predictedCalorieGoal = predictedCalorieGoal / 30;      // Lower calorie goal for losing weight
@@ -139,10 +140,16 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 // Adjust based on age if user is older
         if (age >= 50) {
             // Reduce goals by 20% for users aged 60 or above
-            float ageReductionFactor = 0.8f;
+            float ageReductionFactor = 0.8f; // reduce  by 20% for older users
             predictedStepCountGoal *= ageReductionFactor;
             predictedCalorieGoal *= ageReductionFactor;
         }
+
+        // Save the predicted water intake goal to SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        savePredictedWaterGoal(sharedPreferences, predictedWaterIntakeGoalCups);  // Save predicted water goal
+
+
         // Update the UI with the predicted values
         updateUIWithPredictions(predictedStepCountGoal, predictedCalorieGoal, predictedWaterIntakeGoalCups);
 
@@ -160,8 +167,12 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         // Update steps counter
         stepCountTextView.setText(stepCount + "/" + Math.round(stepGoal));
 
+        // Load total calories burned from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
+        int totalCaloriesBurned = sharedPreferences.getInt("caloriesBurned", 0);  // Default to 0 if no data
+
         // Update calorie counter
-        calorieCounterView.setText("24/" + Math.round(calorieGoal) + " CAL");
+        calorieCounterView.setText(totalCaloriesBurned + "/" + Math.round(calorieGoal) + " CAL");
 
         // Update water intake goal (in cups)
         waterText.setText(waterCount + " / " + Math.round(waterGoalCups) + " Cups");
@@ -189,15 +200,21 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         // Set username from SharedPreferences if available
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
+        waterCount = sharedPreferences.getInt("waterCount", 0);  // Default to 0 if not set
+        predictedWaterIntakeGoalCups = sharedPreferences.getFloat("predictedWaterGoal", 0);  // Load saved predicted goal
+
 
         if (username != null) {
             Name.setText("Hello, " + username);
         }
 
         waterText.setText(waterCount + "/ " + Math.round(predictedWaterIntakeGoalCups) + " Cups");
+
         increaseWater.setOnClickListener(v -> {
             waterCount++;
             waterText.setText(waterCount + "/ " + Math.round(predictedWaterIntakeGoalCups) + " Cups");
+
+            saveWaterCount(sharedPreferences, waterCount);
         });
 
         decreaseWater.setOnClickListener(v -> {
@@ -205,7 +222,33 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
                 waterCount--;
             }
             waterText.setText(waterCount + "/ " + Math.round(predictedWaterIntakeGoalCups) + " Cups");
+            saveWaterCount(sharedPreferences, waterCount);
         });
+    }
+
+    private void loadCaloriesBurned() {
+        SharedPreferences sharedPreferences = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
+
+        // Load the total calories burned from SharedPreferences
+        int totalCaloriesBurned = sharedPreferences.getInt("caloriesBurned", 0);
+
+        // Update the calories burned text view
+        calorieCounterView.setText(totalCaloriesBurned + " CAL");
+    }
+
+
+    // Save water count to SharedPreferences in a separate method
+    private void saveWaterCount(SharedPreferences sharedPreferences, int waterCount) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("waterCount", waterCount);
+        editor.apply();
+    }
+
+    // Save the predicted water intake goal (when updated)
+    private void savePredictedWaterGoal(SharedPreferences sharedPreferences, float predictedWaterGoal) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("predictedWaterGoal", predictedWaterGoal);  // Save predicted goal
+        editor.apply();
     }
 
     private int calculateAge(String birthDate) {
