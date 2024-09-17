@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,8 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class HomePage extends AppCompatActivity implements SensorEventListener {
 
@@ -78,6 +82,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +115,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         dicreaseWater=findViewById(R.id.waterImageLeft);
         waterText=findViewById(R.id.waterText);
         Name=findViewById(R.id.Name);
+
 
 
         String username = sharedPref.getString("username", null);
@@ -149,6 +155,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
             stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         }
 
+        // Check and request activity recognition permission if necessary
         checkAndRequestPermissions();
         displayLastWorkoutDetails();
 
@@ -311,7 +318,7 @@ private void displayLastWorkoutDetails() {
     @Override
     public void onSensorChanged(SensorEvent event) {
         // Handle sensor changes for step counter
-        if (event == null || event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             stepCount = (int) event.values[0];
             stepCountTextView.setText(stepCount+"/90000");
 

@@ -82,7 +82,6 @@ public class community_activity extends AppCompatActivity {
         workout = findViewById(R.id.toolbar_target);
         profile = findViewById(R.id.toolbar_profile);
         training = findViewById(R.id.toolbar_exercise);
-        reminder = findViewById(R.id.reminderButton);
 
         // Show keyboard when EditText is clicked
         input.setOnClickListener(v -> showKeyboard(input));
@@ -104,6 +103,8 @@ public class community_activity extends AppCompatActivity {
         handshakeButton.setOnClickListener(v -> startActivity(new Intent(community_activity.this, community_activity.class)));
         training.setOnClickListener(v -> startActivity(new Intent(community_activity.this, WorkoutActivity.class))); // Correct reference
         profile.setOnClickListener(v -> startActivity(new Intent(community_activity.this, ProfilePageActivity.class)));
+        workout.setOnClickListener(v -> startActivity(new Intent(community_activity.this, Model_activity.class)));
+
     }
 
     private void handlePostButtonClick() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -127,12 +128,34 @@ public class WorkoutHistory extends AppCompatActivity {
                     ImageView workoutIcon = workoutCard.findViewById(R.id.workout_icon);
                     workoutIcon.setImageResource(getWorkoutIcon(workout.getWorkoutType()));
 
+                    // Set up the delete button
+                    ImageButton deleteButton = workoutCard.findViewById(R.id.delete_workout_button);
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteWorkout(workout);
+                        }
+                    });
+
                     // Add the workout card to the container
                     workoutListContainer.addView(workoutCard);
                 }
             }
         });
     }
+    private void deleteWorkout(Workout workout) {
+        // Use an executor to run database operations off the main thread
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            // Delete the workout from the database
+            workoutDao.delete(workout);
+
+            // Optional: Run on UI thread to show a toast message
+            runOnUiThread(() -> Toast.makeText(WorkoutHistory.this, "Workout deleted", Toast.LENGTH_SHORT).show());
+        });
+    }
+
+
 
 
     private void saveWorkoutWithCurrentDate() {
