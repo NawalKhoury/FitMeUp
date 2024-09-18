@@ -1,52 +1,56 @@
-    package com.example.fitmeup;
+package com.example.fitmeup;
 
-    import androidx.lifecycle.LiveData;
-    import androidx.room.Dao;
-    import androidx.room.Delete;
-    import androidx.room.Insert;
-    import androidx.room.Query;
-    import androidx.room.Update;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
 
-    import java.util.Date;
-    import java.util.List;
+import java.util.List;
 
-    @Dao
-    public interface WorkoutDao {
+@Dao
+public interface WorkoutDao {
 
-        // Insert a single workout
-        @Insert
-        void insert(Workout workout);
+    // Insert a single workout
+    @Insert
+    void insert(Workout workout);
 
-        // Insert multiple workouts
-        @Insert
-        void insertAll(List<Workout> workouts);
+    // Insert multiple workouts
+    @Insert
+    void insertAll(List<Workout> workouts);
 
-        // Update a workout
-        @Update
-        void update(Workout workout);
+    // Update a workout
+    @Update
+    void update(Workout workout);
 
-        // Delete a workout
-        @Delete
-        void delete(Workout workout);
+    // Delete a workout
+    @Delete
+    void delete(Workout workout);
 
-        // Query to get all workouts, ordered by date in descending order
-        @Query("SELECT * FROM workout ORDER BY date DESC")
-        LiveData<List<Workout>> getAllWorkouts();
+    // Query to get all workouts, ordered by date in descending order
+    @Query("SELECT * FROM workout ORDER BY date DESC")
+    LiveData<List<Workout>> getAllWorkouts();
 
-        // Query to get a workout by id
-        @Query("SELECT * FROM workout WHERE id = :id LIMIT 1")
-        Workout getWorkoutById(int id);
+    // Query to get a workout by id
+    @Query("SELECT * FROM workout WHERE id = :id LIMIT 1")
+    Workout getWorkoutById(int id);
 
-        // Query to get all workouts for a specific user, ordered by date in descending order
-        @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC")
-        LiveData<List<Workout>> getAllWorkoutsForUser(int userId);
+    // Query to get all workouts for a specific user, ordered by date in descending order
+    @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC")
+    LiveData<List<Workout>> getAllWorkoutsForUser(int userId);
 
-        @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC LIMIT 1")
-        LiveData<Workout> getLastWorkoutForUser(int userId);
+    @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC LIMIT 1")
+    LiveData<Workout> getLastWorkoutForUser(int userId);
 
-        @Query("SELECT * FROM workout WHERE date BETWEEN :startDate AND :endDate AND userId = :userId ORDER BY date ASC")
-        List<Workout> getWorkoutsForWeek(int userId, Date startDate, Date endDate);
+    @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC LIMIT 1")
+    Workout getLastWorkoutForUserBlocking(int userId);
 
+    @Query("SELECT * FROM workout WHERE userId = :userId ORDER BY date DESC")
+    List<Workout> getAllWorkoutsForUserBlocking(int userId);
 
+    // Query to sum up total calories burned by the user
+    @Query("SELECT SUM(caloriesBurned) FROM workout WHERE userId = :userId")
+    LiveData<Integer> getTotalCaloriesBurned(int userId);
 
-    }
+}

@@ -97,6 +97,10 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // Initialize Views
+        calorieCounterView = findViewById(R.id.CaloriesTextView);  // Your calories TextView
+
+
         // Fetch userId from SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userId = Integer.parseInt(sharedPref.getString("userId", "0"));
@@ -160,7 +164,9 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         }
 
         loadWeeklyWorkoutData();
+
     }
+
 
     // Method to handle AI model prediction
     private void handleAIModelPrediction(RegisterUser user) {
@@ -229,18 +235,27 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
     }
 
     private void updateUIWithPredictions(float stepGoal, float calorieGoal, float waterGoalCups) {
+
         // Update steps counter
         stepCountTextView.setText(stepCount + "/" + Math.round(stepGoal));
 
-        // Load total calories burned from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE);
-        int totalCaloriesBurned = sharedPreferences.getInt("caloriesBurned", 0);  // Default to 0 if no data
-
-        // Update calorie counter
-        calorieCounterView.setText(totalCaloriesBurned + "/" + Math.round(calorieGoal) + " CAL");
-
         // Update water intake goal (in cups)
         waterText.setText(waterCount + " / " + Math.round(waterGoalCups) + " Cups");
+
+        // Load and display total calories burned from the database along with the calorie goal
+        loadTotalCaloriesBurned(calorieGoal);
+    }
+
+
+    private void loadTotalCaloriesBurned(float calorieGoal) {
+        workoutDao.getTotalCaloriesBurned(userId).observe(this, totalCalories -> {
+            if (totalCalories != null) {
+                // Update the calories burned text view with the total calories and calorie goal
+                calorieCounterView.setText(totalCalories + "/" + Math.round(calorieGoal) + " CAL");
+            } else {
+                calorieCounterView.setText("0/" + Math.round(calorieGoal) + " CAL");
+            }
+        });
     }
 
     private void initializeUIComponents() {
@@ -506,6 +521,7 @@ public class HomePage extends AppCompatActivity implements SensorEventListener {
         });
     }
 }
+
 
 
     @Override
